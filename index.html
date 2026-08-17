@@ -16,38 +16,43 @@ content="Apotheke am Stadtpark in Münster – persönliche Beratung, E-Rezept, 
 
 <style>
 
-/* =========================================================
-   GRUNDLAGEN
-========================================================= */
+/* =====================================================
+   DESIGN SYSTEM
+===================================================== */
 
 :root {
 
     --green: #15966f;
-    --green-dark: #0e7557;
+    --green-dark: #0d7657;
 
     --blue: #102a43;
+
     --text: #263746;
     --muted: #71808c;
 
     --white: #ffffff;
     --gray: #f5f7f8;
-    --gray-dark: #e9eef1;
 
     --radius: 28px;
 
     --shadow:
-        0 20px 60px rgba(16,42,67,0.08);
+        0 20px 60px rgba(16,42,67,0.10);
 
 }
 
 * {
+
     margin: 0;
     padding: 0;
+
     box-sizing: border-box;
+
 }
 
 html {
+
     scroll-behavior: smooth;
+
 }
 
 body {
@@ -63,20 +68,20 @@ body {
 
     color: var(--text);
 
-    background: var(--white);
+    background: white;
 
     line-height: 1.6;
 
-}
+    overflow-x: hidden;
 
-img {
-    max-width: 100%;
-    display: block;
 }
 
 a {
+
     color: inherit;
+
     text-decoration: none;
+
 }
 
 .container {
@@ -88,9 +93,9 @@ a {
 }
 
 
-/* =========================================================
+/* =====================================================
    NAVIGATION
-========================================================= */
+===================================================== */
 
 header {
 
@@ -138,8 +143,6 @@ nav {
 
     font-weight: 700;
 
-    letter-spacing: -0.02em;
-
 }
 
 .logo-mark {
@@ -159,8 +162,6 @@ nav {
 
     font-size: 25px;
 
-    font-weight: 500;
-
 }
 
 .nav-links {
@@ -168,8 +169,6 @@ nav {
     display: flex;
 
     gap: 30px;
-
-    align-items: center;
 
 }
 
@@ -179,7 +178,7 @@ nav {
 
     font-size: 14px;
 
-    transition: 0.25s ease;
+    transition: 0.25s;
 
 }
 
@@ -203,22 +202,94 @@ nav {
 
     font-weight: 600;
 
-    transition: 0.25s ease;
+    transition: 0.25s;
 
 }
 
 .nav-cta:hover {
 
-    transform: scale(1.06);
+    transform: scale(1.07);
 
     background: var(--green);
 
 }
 
 
-/* =========================================================
+/* =====================================================
+   MOBILE MENU
+===================================================== */
+
+.menu-button {
+
+    display: none;
+
+    width: 44px;
+    height: 44px;
+
+    border: none;
+
+    background: var(--gray);
+
+    border-radius: 13px;
+
+    cursor: pointer;
+
+    font-size: 20px;
+
+}
+
+.mobile-menu {
+
+    position: fixed;
+
+    top: 76px;
+    left: 0;
+    right: 0;
+
+    background:
+        rgba(255,255,255,0.97);
+
+    backdrop-filter: blur(20px);
+
+    padding: 20px;
+
+    display: none;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    border-bottom:
+        1px solid #e7ecef;
+
+}
+
+.mobile-menu.active {
+
+    display: flex;
+
+}
+
+.mobile-menu a {
+
+    padding: 15px;
+
+    border-radius: 15px;
+
+    font-weight: 600;
+
+}
+
+.mobile-menu a:hover {
+
+    background: var(--gray);
+
+}
+
+
+/* =====================================================
    HERO
-========================================================= */
+===================================================== */
 
 .hero {
 
@@ -226,29 +297,56 @@ nav {
 
     padding-top: 150px;
 
-    padding-bottom: 80px;
+    padding-bottom: 100px;
 
     display: flex;
 
     align-items: center;
 
+    position: relative;
+
+    overflow: hidden;
+
+}
+
+
+/* Bild liegt jetzt sichtbar auf der rechten Seite */
+
+.hero::after {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    right: 0;
+
+    width: 58%;
+
+    height: 100%;
+
     background:
 
         linear-gradient(
             90deg,
-            rgba(255,255,255,0.98) 0%,
-            rgba(255,255,255,0.92) 40%,
-            rgba(255,255,255,0.25) 75%,
-            rgba(255,255,255,0.05) 100%
+            white 0%,
+            rgba(255,255,255,0.75) 15%,
+            rgba(255,255,255,0.05) 50%
         ),
 
         url("https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=1800&q=90")
 
-        center / cover no-repeat;
+        center / cover;
+
+    z-index: 0;
 
 }
 
 .hero-content {
+
+    position: relative;
+
+    z-index: 2;
 
     max-width: 670px;
 
@@ -262,7 +360,8 @@ nav {
 
     gap: 8px;
 
-    background: rgba(21,150,111,0.10);
+    background:
+        rgba(21,150,111,0.10);
 
     color: var(--green-dark);
 
@@ -292,7 +391,7 @@ nav {
 h1 {
 
     font-size:
-        clamp(3.2rem, 7vw, 6.4rem);
+        clamp(3.2rem, 7vw, 6.2rem);
 
     line-height: 0.98;
 
@@ -342,6 +441,10 @@ h1 {
 
     font-weight: 700;
 
+    border: none;
+
+    cursor: pointer;
+
     transition:
         transform 0.25s ease,
         box-shadow 0.25s ease,
@@ -362,20 +465,19 @@ h1 {
 
 .button-primary:hover {
 
-    transform: scale(1.05);
+    transform: scale(1.06);
 
     background: var(--green-dark);
-
-    box-shadow:
-        0 15px 35px rgba(21,150,111,0.35);
 
 }
 
 .button-secondary {
 
-    background: rgba(255,255,255,0.85);
+    background:
+        rgba(255,255,255,0.9);
 
-    border: 1px solid rgba(0,0,0,0.08);
+    border:
+        1px solid rgba(0,0,0,0.08);
 
     color: var(--blue);
 
@@ -383,24 +485,24 @@ h1 {
 
 .button-secondary:hover {
 
-    transform: scale(1.05);
+    transform: scale(1.06);
 
     box-shadow: var(--shadow);
 
 }
 
 
-/* =========================================================
+/* =====================================================
    QUICK INFO
-========================================================= */
+===================================================== */
 
 .quick-info {
 
     position: relative;
 
-    margin-top: -40px;
+    margin-top: -45px;
 
-    z-index: 5;
+    z-index: 10;
 
 }
 
@@ -411,7 +513,8 @@ h1 {
     grid-template-columns:
         repeat(3,1fr);
 
-    background: rgba(255,255,255,0.95);
+    background:
+        rgba(255,255,255,0.96);
 
     backdrop-filter: blur(20px);
 
@@ -430,7 +533,7 @@ h1 {
     border-right:
         1px solid #e8edef;
 
-    transition: 0.3s ease;
+    transition: 0.3s;
 
 }
 
@@ -458,8 +561,6 @@ h1 {
 
     color: var(--muted);
 
-    margin-bottom: 7px;
-
 }
 
 .quick-value {
@@ -471,9 +572,9 @@ h1 {
 }
 
 
-/* =========================================================
+/* =====================================================
    SECTIONS
-========================================================= */
+===================================================== */
 
 section {
 
@@ -525,9 +626,9 @@ section {
 }
 
 
-/* =========================================================
-   LEISTUNGEN
-========================================================= */
+/* =====================================================
+   SERVICES
+===================================================== */
 
 .services {
 
@@ -562,12 +663,9 @@ section {
 
     min-height: 250px;
 
-    border:
-        1px solid rgba(0,0,0,0.04);
-
     transition:
-        transform 0.35s ease,
-        box-shadow 0.35s ease;
+        transform 0.35s,
+        box-shadow 0.35s;
 
 }
 
@@ -575,10 +673,10 @@ section {
 
     transform:
         translateY(-10px)
-        scale(1.015);
+        scale(1.02);
 
     box-shadow:
-        0 25px 60px rgba(16,42,67,0.10);
+        0 25px 60px rgba(16,42,67,0.12);
 
 }
 
@@ -619,17 +717,15 @@ section {
 }
 
 
-/* =========================================================
+/* =====================================================
    E-REZEPT
-========================================================= */
+===================================================== */
 
 .erezept {
 
     background: var(--blue);
 
     color: white;
-
-    overflow: hidden;
 
 }
 
@@ -667,22 +763,19 @@ section {
     background:
 
         linear-gradient(
-            rgba(16,42,67,0.15),
-            rgba(16,42,67,0.3)
+            rgba(16,42,67,0.1),
+            rgba(16,42,67,0.15)
         ),
 
         url("https://images.unsplash.com/photo-1559757175-0eb30cd8c063?auto=format&fit=crop&w=1200&q=90")
 
         center / cover;
 
-    box-shadow:
-        0 30px 70px rgba(0,0,0,0.25);
-
 }
 
 .feature-list {
 
-    margin-top: 30px;
+    margin: 30px 0;
 
     display: grid;
 
@@ -697,8 +790,6 @@ section {
     align-items: center;
 
     gap: 12px;
-
-    color: #d8e5eb;
 
 }
 
@@ -715,14 +806,18 @@ section {
 
     place-items: center;
 
-    font-size: 13px;
+}
+
+.popup-button {
+
+    cursor: pointer;
 
 }
 
 
-/* =========================================================
-   ÜBER UNS
-========================================================= */
+/* =====================================================
+   ABOUT
+===================================================== */
 
 .about {
 
@@ -768,9 +863,9 @@ section {
 }
 
 
-/* =========================================================
+/* =====================================================
    TEAM
-========================================================= */
+===================================================== */
 
 .team {
 
@@ -815,24 +910,10 @@ section {
 
 }
 
-.team-overlay h3 {
 
-    color: var(--blue);
-
-    margin-bottom: 5px;
-
-}
-
-.team-overlay p {
-
-    color: var(--muted);
-
-}
-
-
-/* =========================================================
-   KONTAKT
-========================================================= */
+/* =====================================================
+   CONTACT
+===================================================== */
 
 .contact {
 
@@ -861,7 +942,7 @@ section {
 
     border-radius: var(--radius);
 
-    transition: 0.3s ease;
+    transition: 0.3s;
 
 }
 
@@ -870,14 +951,6 @@ section {
     transform: translateY(-6px);
 
     box-shadow: var(--shadow);
-
-}
-
-.contact-card h3 {
-
-    color: var(--blue);
-
-    margin-bottom: 25px;
 
 }
 
@@ -893,8 +966,6 @@ section {
 
     text-transform: uppercase;
 
-    letter-spacing: 0.08em;
-
     color: var(--muted);
 
 }
@@ -908,9 +979,9 @@ section {
 }
 
 
-/* =========================================================
+/* =====================================================
    FOOTER
-========================================================= */
+===================================================== */
 
 footer {
 
@@ -932,13 +1003,6 @@ footer {
     gap: 50px;
 
     padding-bottom: 50px;
-
-}
-
-footer h3,
-footer h4 {
-
-    margin-bottom: 15px;
 
 }
 
@@ -971,28 +1035,221 @@ footer a:hover {
 }
 
 
-/* =========================================================
+/* =====================================================
+   POPUP
+===================================================== */
+
+.modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(8,28,42,0.55);
+
+    backdrop-filter:
+        blur(10px);
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 3000;
+
+}
+
+.modal.active {
+
+    display: flex;
+
+}
+
+.modal-content {
+
+    background: white;
+
+    width: min(520px, 100%);
+
+    border-radius: 30px;
+
+    padding: 40px;
+
+    position: relative;
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,0.25);
+
+    animation:
+        modalIn 0.3s ease;
+
+}
+
+@keyframes modalIn {
+
+    from {
+
+        opacity: 0;
+
+        transform: scale(0.92)
+                   translateY(20px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: scale(1)
+                   translateY(0);
+
+    }
+
+}
+
+.close {
+
+    position: absolute;
+
+    top: 18px;
+    right: 18px;
+
+    width: 38px;
+    height: 38px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: var(--gray);
+
+    cursor: pointer;
+
+    font-size: 18px;
+
+}
+
+.modal h2 {
+
+    color: var(--blue);
+
+    font-size: 30px;
+
+    letter-spacing: -0.04em;
+
+    margin-bottom: 10px;
+
+}
+
+.modal p {
+
+    color: var(--muted);
+
+    margin-bottom: 25px;
+
+}
+
+.demo-box {
+
+    padding: 20px;
+
+    border-radius: 18px;
+
+    background: var(--gray);
+
+    margin-bottom: 20px;
+
+}
+
+.demo-box strong {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+}
+
+
+/* =====================================================
+   SCROLL ANIMATION
+===================================================== */
+
+.reveal {
+
+    opacity: 0;
+
+    transform:
+        translateY(30px);
+
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+
+}
+
+.reveal.visible {
+
+    opacity: 1;
+
+    transform:
+        translateY(0);
+
+}
+
+
+/* =====================================================
    MOBILE
-========================================================= */
+===================================================== */
 
 @media (max-width: 850px) {
 
-    .nav-links {
+    .nav-links,
+    .nav-cta {
 
         display: none;
 
     }
 
+    .menu-button {
+
+        display: grid;
+
+        place-items: center;
+
+    }
+
     .hero {
+
+        padding-top: 130px;
+
+        min-height: 850px;
+
+    }
+
+    .hero::after {
+
+        width: 100%;
+
+        height: 55%;
+
+        top: auto;
+
+        bottom: 0;
 
         background:
 
             linear-gradient(
-                rgba(255,255,255,0.90),
-                rgba(255,255,255,0.96)
+                0deg,
+                white 0%,
+                rgba(255,255,255,0.35) 40%,
+                rgba(255,255,255,0) 100%
             ),
 
-            url("https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=1400&q=85")
+            url("https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=1400&q=90")
 
             center / cover;
 
@@ -1019,12 +1276,7 @@ footer a:hover {
 
     }
 
-    .services-grid {
-
-        grid-template-columns: 1fr;
-
-    }
-
+    .services-grid,
     .erezept-grid,
     .about-grid,
     .contact-grid {
@@ -1053,43 +1305,24 @@ footer a:hover {
 
     }
 
-    section {
-
-        padding: 80px 0;
-
-    }
-
 }
 
 
-/* =========================================================
-   KLEINE ANIMATION
-========================================================= */
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
 
-@keyframes fadeUp {
+@media (prefers-reduced-motion: reduce) {
 
-    from {
+    * {
 
-        opacity: 0;
+        scroll-behavior: auto !important;
 
-        transform: translateY(20px);
+        animation: none !important;
 
-    }
-
-    to {
-
-        opacity: 1;
-
-        transform: translateY(0);
+        transition: none !important;
 
     }
-
-}
-
-.hero-content {
-
-    animation:
-        fadeUp 0.9s ease forwards;
 
 }
 
@@ -1156,11 +1389,52 @@ class="nav-cta"
 Anrufen
 </a>
 
+
+<button
+class="menu-button"
+id="menuButton"
+aria-label="Menü öffnen"
+>
+☰
+</button>
+
 </nav>
 
 </div>
 
 </header>
+
+
+<!-- =====================================================
+     MOBILE MENU
+===================================================== -->
+
+<div
+class="mobile-menu"
+id="mobileMenu"
+>
+
+<a href="#leistungen">
+Leistungen
+</a>
+
+<a href="#erezept">
+E-Rezept
+</a>
+
+<a href="#ueber-uns">
+Über uns
+</a>
+
+<a href="#team">
+Team
+</a>
+
+<a href="#kontakt">
+Kontakt
+</a>
+
+</div>
 
 
 
@@ -1172,7 +1446,7 @@ Anrufen
 
 <div class="container">
 
-<div class="hero-content">
+<div class="hero-content reveal">
 
 <div class="eyebrow">
 
@@ -1202,15 +1476,14 @@ auf den Sie sich verlassen können.
 
 <div class="hero-buttons">
 
-<a
-href="#erezept"
-class="button button-primary"
+<button
+class="button button-primary popup-button"
+onclick="openModal('erezeptModal')"
 >
 
-E-Rezept einlösen
-→
+E-Rezept einlösen →
 
-</a>
+</button>
 
 
 <a
@@ -1240,17 +1513,22 @@ Jetzt anrufen
 
 <div class="container">
 
-<div class="quick-grid">
+<div class="quick-grid reveal">
 
 
 <div class="quick-item">
 
 <div class="quick-label">
-Öffnungszeiten
+Status
 </div>
 
-<div class="quick-value">
-Mo – Fr · 08:00 – 18:30
+<div
+class="quick-value"
+id="openStatus"
+>
+
+Wird geprüft …
+
 </div>
 
 </div>
@@ -1302,7 +1580,7 @@ class="services"
 <div class="container">
 
 
-<div class="services-header">
+<div class="services-header reveal">
 
 <div class="section-label">
 Unsere Leistungen
@@ -1317,7 +1595,7 @@ Mehr als nur Medikamente.
 <p class="section-description">
 
 Wir verbinden persönliche Beratung mit modernen
-Gesundheitsleistungen – direkt vor Ort in Münster.
+Gesundheitsleistungen.
 
 </p>
 
@@ -1327,7 +1605,7 @@ Gesundheitsleistungen – direkt vor Ort in Münster.
 <div class="services-grid">
 
 
-<div class="service-card">
+<div class="service-card reveal">
 
 <div class="service-icon">
 💊
@@ -1339,13 +1617,13 @@ Arzneimittelberatung
 
 <p>
 Persönliche Beratung rund um Ihre Arzneimittel
-und deren richtige Anwendung.
+und deren Anwendung.
 </p>
 
 </div>
 
 
-<div class="service-card">
+<div class="service-card reveal">
 
 <div class="service-icon">
 📱
@@ -1363,7 +1641,7 @@ Medikamente vorbestellen.
 </div>
 
 
-<div class="service-card">
+<div class="service-card reveal">
 
 <div class="service-icon">
 🩺
@@ -1381,7 +1659,7 @@ weitere Gesundheitsleistungen.
 </div>
 
 
-<div class="service-card">
+<div class="service-card reveal">
 
 <div class="service-icon">
 🧦
@@ -1392,14 +1670,13 @@ Kompressionsversorgung
 </h3>
 
 <p>
-Individuelle Beratung und Versorgung mit
-Kompressionsprodukten.
+Individuelle Beratung und Versorgung.
 </p>
 
 </div>
 
 
-<div class="service-card">
+<div class="service-card reveal">
 
 <div class="service-icon">
 ✈️
@@ -1417,7 +1694,7 @@ Reiseapotheke.
 </div>
 
 
-<div class="service-card">
+<div class="service-card reveal">
 
 <div class="service-icon">
 🚲
@@ -1455,7 +1732,7 @@ class="erezept"
 <div class="container erezept-grid">
 
 
-<div>
+<div class="reveal">
 
 <div class="section-label">
 Digitaler Service
@@ -1470,9 +1747,8 @@ Einfach und bequem.
 
 <p class="section-description">
 
-Nutzen Sie moderne digitale Möglichkeiten und
-verbinden Sie diese mit persönlicher Beratung
-vor Ort.
+Digitale Möglichkeiten treffen auf persönliche
+Beratung vor Ort.
 
 </p>
 
@@ -1508,23 +1784,19 @@ Persönliche Beratung
 </div>
 
 
-<br>
-
-
-<a
-href="#kontakt"
+<button
 class="button button-primary"
+onclick="openModal('erezeptModal')"
 >
 
-Vorbestellung starten
-→
+E-Rezept starten →
 
-</a>
+</button>
 
 </div>
 
 
-<div class="erezept-image"></div>
+<div class="erezept-image reveal"></div>
 
 
 </div>
@@ -1545,10 +1817,10 @@ class="about"
 <div class="container about-grid">
 
 
-<div class="about-image"></div>
+<div class="about-image reveal"></div>
 
 
-<div>
+<div class="reveal">
 
 <div class="section-label">
 Über uns
@@ -1567,38 +1839,30 @@ Für Sie da.
 
 <p>
 
-Die Apotheke am Stadtpark steht für eine moderne
-Apotheke mit persönlicher Beratung.
+Die Apotheke am Stadtpark steht für moderne
+Apothekenleistungen mit persönlicher Beratung.
 
 </p>
 
 <p>
 
 Unser Team nimmt sich Zeit für Ihre Fragen und
-möchte Ihnen dabei helfen, Ihre Gesundheit im
-Alltag bestmöglich zu unterstützen.
-
-</p>
-
-<p>
-
-Dabei verbinden wir traditionelle pharmazeutische
-Kompetenz mit modernen digitalen Services.
+begleitet Sie bei Ihren Anliegen rund um Gesundheit
+und Wohlbefinden.
 
 </p>
 
 </div>
 
 
-<a
-href="#kontakt"
+<button
 class="button button-primary"
+onclick="openModal('teamModal')"
 >
 
-Unser Team kennenlernen
-→
+Unser Team kennenlernen →
 
-</a>
+</button>
 
 </div>
 
@@ -1621,11 +1885,11 @@ class="team"
 <div class="container">
 
 
-<div class="section-label">
+<div class="section-label reveal">
 Unser Team
 </div>
 
-<h2 class="section-title">
+<h2 class="section-title reveal">
 
 Menschen, die sich
 um Sie kümmern.
@@ -1633,7 +1897,7 @@ um Sie kümmern.
 </h2>
 
 
-<div class="team-card">
+<div class="team-card reveal">
 
 <div class="team-overlay">
 
@@ -1642,8 +1906,7 @@ Persönliche Beratung steht bei uns im Mittelpunkt.
 </h3>
 
 <p>
-Apothekerinnen, Apotheker und unser gesamtes
-Team sind gerne für Ihre Fragen da.
+Unser Team ist gerne für Ihre Fragen da.
 </p>
 
 </div>
@@ -1668,17 +1931,17 @@ class="contact"
 <div class="container">
 
 
-<div class="section-label">
+<div class="section-label reveal">
 Kontakt
 </div>
 
-<h2 class="section-title">
+<h2 class="section-title reveal">
 
 Wir sind für Sie da.
 
 </h2>
 
-<p class="section-description">
+<p class="section-description reveal">
 
 Besuchen Sie uns in Münster oder kontaktieren
 Sie uns telefonisch.
@@ -1689,7 +1952,7 @@ Sie uns telefonisch.
 <div class="contact-grid">
 
 
-<div class="contact-card">
+<div class="contact-card reveal">
 
 <h3>
 Apotheke am Stadtpark
@@ -1745,7 +2008,7 @@ info@apotheke-am-stadtpark.de
 
 
 
-<div class="contact-card">
+<div class="contact-card reveal">
 
 <h3>
 Öffnungszeiten
@@ -1797,8 +2060,7 @@ target="_blank"
 class="button button-primary"
 >
 
-Route planen
-→
+Route planen →
 
 </a>
 
@@ -1821,9 +2083,7 @@ Route planen
 
 <div class="container">
 
-
 <div class="footer-grid">
-
 
 <div>
 
@@ -1832,10 +2092,7 @@ Apotheke am Stadtpark
 </h3>
 
 <p>
-
-Ihre moderne Apotheke in Münster –
-persönlich, kompetent und nah.
-
+Ihre moderne Apotheke in Münster.
 </p>
 
 </div>
@@ -1856,12 +2113,6 @@ Leistungen
 <p>
 <a href="#erezept">
 E-Rezept
-</a>
-</p>
-
-<p>
-<a href="#ueber-uns">
-Über uns
 </a>
 </p>
 
@@ -1894,7 +2145,6 @@ Datenschutz
 
 </div>
 
-
 </div>
 
 
@@ -1904,11 +2154,354 @@ Datenschutz
 
 </div>
 
-
 </div>
 
 </footer>
 
+
+
+<!-- =====================================================
+     E-REZEPT POPUP
+===================================================== -->
+
+<div
+class="modal"
+id="erezeptModal"
+onclick="closeOutside(event,'erezeptModal')"
+>
+
+<div class="modal-content">
+
+<button
+class="close"
+onclick="closeModal('erezeptModal')"
+>
+×
+</button>
+
+
+<h2>
+E-Rezept
+</h2>
+
+<p>
+
+Hier würde bei einer echten Apotheke die
+sichere E-Rezept-Funktion integriert werden.
+
+</p>
+
+
+<div class="demo-box">
+
+<strong>
+Demo-Funktion
+</strong>
+
+Diese Version dient ausschließlich zu
+Lernzwecken und verarbeitet keine echten
+Gesundheitsdaten.
+
+</div>
+
+
+<button
+class="button button-primary"
+onclick="closeModal('erezeptModal')"
+>
+
+Verstanden
+
+</button>
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     TEAM POPUP
+===================================================== -->
+
+<div
+class="modal"
+id="teamModal"
+onclick="closeOutside(event,'teamModal')"
+>
+
+<div class="modal-content">
+
+<button
+class="close"
+onclick="closeModal('teamModal')"
+>
+×
+</button>
+
+
+<h2>
+Unser Team
+</h2>
+
+<p>
+
+Lernen Sie unser pharmazeutisches Team
+persönlich vor Ort kennen.
+
+</p>
+
+
+<div class="demo-box">
+
+<strong>
+Apothekerliche Beratung
+</strong>
+
+Wir nehmen uns Zeit für Ihre Fragen
+und Anliegen.
+
+</div>
+
+
+<button
+class="button button-primary"
+onclick="closeModal('teamModal')"
+>
+
+Schließen
+
+</button>
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =====================================================
+   MOBILE MENU
+===================================================== */
+
+const menuButton =
+document.getElementById("menuButton");
+
+const mobileMenu =
+document.getElementById("mobileMenu");
+
+
+menuButton.addEventListener(
+"click",
+() => {
+
+mobileMenu.classList.toggle("active");
+
+}
+);
+
+
+document
+.querySelectorAll(".mobile-menu a")
+.forEach(link => {
+
+link.addEventListener(
+"click",
+() => {
+
+mobileMenu.classList.remove("active");
+
+}
+);
+
+});
+
+
+
+/* =====================================================
+   POPUPS
+===================================================== */
+
+function openModal(id) {
+
+document
+.getElementById(id)
+.classList.add("active");
+
+document.body.style.overflow = "hidden";
+
+}
+
+
+function closeModal(id) {
+
+document
+.getElementById(id)
+.classList.remove("active");
+
+document.body.style.overflow = "";
+
+}
+
+
+function closeOutside(event,id) {
+
+if(event.target.id === id) {
+
+closeModal(id);
+
+}
+
+}
+
+
+document.addEventListener(
+"keydown",
+event => {
+
+if(event.key === "Escape") {
+
+document
+.querySelectorAll(".modal")
+.forEach(modal => {
+
+modal.classList.remove("active");
+
+});
+
+document.body.style.overflow = "";
+
+}
+
+}
+);
+
+
+
+/* =====================================================
+   SCROLL ANIMATION
+===================================================== */
+
+const observer =
+new IntersectionObserver(
+(entries) => {
+
+entries.forEach(entry => {
+
+if(entry.isIntersecting) {
+
+entry.target.classList.add("visible");
+
+}
+
+});
+
+},
+{
+threshold: 0.15
+}
+);
+
+
+document
+.querySelectorAll(".reveal")
+.forEach(element => {
+
+observer.observe(element);
+
+});
+
+
+
+/* =====================================================
+   ÖFFNUNGSZEITEN
+===================================================== */
+
+function updateOpeningStatus() {
+
+const now = new Date();
+
+const day = now.getDay();
+
+const minutes =
+now.getHours() * 60 +
+now.getMinutes();
+
+
+let open = false;
+
+
+/*
+
+Montag - Freitag
+08:00 - 18:30
+
+Samstag
+09:00 - 14:00
+
+Sonntag geschlossen
+
+*/
+
+if(day >= 1 && day <= 5) {
+
+open =
+minutes >= 480 &&
+minutes <= 1110;
+
+}
+
+else if(day === 6) {
+
+open =
+minutes >= 540 &&
+minutes <= 840;
+
+}
+
+
+const status =
+document.getElementById("openStatus");
+
+
+if(open) {
+
+status.innerHTML =
+"🟢 Jetzt geöffnet";
+
+status.style.color =
+"#15966f";
+
+}
+
+else {
+
+status.innerHTML =
+"⚪ Aktuell geschlossen";
+
+status.style.color =
+"#71808c";
+
+}
+
+}
+
+
+updateOpeningStatus();
+
+setInterval(
+updateOpeningStatus,
+60000
+);
+
+
+</script>
 
 </body>
 
