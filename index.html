@@ -1,908 +1,1915 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Apotheke am Stadtpark | Ihre Apotheke in Münster</title>
+<meta charset="UTF-8">
 
-  <meta
-    name="description"
-    content="Apotheke am Stadtpark in Münster – persönliche Beratung, E-Rezept, Medikamentenvorbestellung und zahlreiche Gesundheitsleistungen."
-  >
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<title>Apotheke am Stadtpark · Münster</title>
 
-    html {
-      scroll-behavior: smooth;
-    }
+<meta
+name="description"
+content="Apotheke am Stadtpark in Münster – persönliche Beratung, E-Rezept, Arzneimittel und moderne Gesundheitsleistungen."
+>
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      color: #17324d;
-      background: #f8fbfc;
-      line-height: 1.6;
-    }
+<style>
 
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
+/* =========================================================
+   GRUNDLAGEN
+========================================================= */
 
-    .container {
-      width: min(1120px, 92%);
-      margin: 0 auto;
-    }
+:root {
 
-    /* Navigation */
+    --green: #15966f;
+    --green-dark: #0e7557;
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid #e7eef2;
-    }
+    --blue: #102a43;
+    --text: #263746;
+    --muted: #71808c;
 
-    nav {
-      min-height: 76px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 30px;
-    }
+    --white: #ffffff;
+    --gray: #f5f7f8;
+    --gray-dark: #e9eef1;
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 800;
-      font-size: 1.05rem;
-    }
+    --radius: 28px;
 
-    .logo-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      background: #18a77a;
-      color: white;
-      display: grid;
-      place-items: center;
-      font-size: 1.4rem;
-      font-weight: 800;
-    }
+    --shadow:
+        0 20px 60px rgba(16,42,67,0.08);
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    color: var(--text);
+
+    background: var(--white);
+
+    line-height: 1.6;
+
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.container {
+
+    width: min(1180px, 90%);
+
+    margin: auto;
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+header {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 1000;
+
+    background:
+        rgba(255,255,255,0.78);
+
+    backdrop-filter:
+        blur(20px);
+
+    -webkit-backdrop-filter:
+        blur(20px);
+
+    border-bottom:
+        1px solid rgba(0,0,0,0.05);
+
+}
+
+nav {
+
+    height: 76px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+}
+
+.logo {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: -0.02em;
+
+}
+
+.logo-mark {
+
+    width: 42px;
+    height: 42px;
+
+    border-radius: 13px;
+
+    background: var(--green);
+
+    color: white;
+
+    display: grid;
+
+    place-items: center;
+
+    font-size: 25px;
+
+    font-weight: 500;
+
+}
+
+.nav-links {
+
+    display: flex;
+
+    gap: 30px;
+
+    align-items: center;
+
+}
+
+.nav-links a {
+
+    color: #526473;
+
+    font-size: 14px;
+
+    transition: 0.25s ease;
+
+}
+
+.nav-links a:hover {
+
+    color: var(--green);
+
+}
+
+.nav-cta {
+
+    background: var(--blue);
+
+    color: white;
+
+    padding: 11px 19px;
+
+    border-radius: 100px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition: 0.25s ease;
+
+}
+
+.nav-cta:hover {
+
+    transform: scale(1.06);
+
+    background: var(--green);
+
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+
+    min-height: 100vh;
+
+    padding-top: 150px;
+
+    padding-bottom: 80px;
+
+    display: flex;
+
+    align-items: center;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,0.98) 0%,
+            rgba(255,255,255,0.92) 40%,
+            rgba(255,255,255,0.25) 75%,
+            rgba(255,255,255,0.05) 100%
+        ),
+
+        url("https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=1800&q=90")
+
+        center / cover no-repeat;
+
+}
+
+.hero-content {
+
+    max-width: 670px;
+
+}
+
+.eyebrow {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    background: rgba(21,150,111,0.10);
+
+    color: var(--green-dark);
+
+    padding: 8px 14px;
+
+    border-radius: 100px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    margin-bottom: 25px;
+
+}
+
+.eyebrow-dot {
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: var(--green);
+
+}
+
+h1 {
+
+    font-size:
+        clamp(3.2rem, 7vw, 6.4rem);
+
+    line-height: 0.98;
+
+    letter-spacing: -0.065em;
+
+    color: var(--blue);
+
+    margin-bottom: 30px;
+
+}
+
+.hero-text {
+
+    font-size: 20px;
+
+    color: #61727f;
+
+    max-width: 600px;
+
+    margin-bottom: 35px;
+
+}
+
+.hero-buttons {
+
+    display: flex;
+
+    gap: 14px;
+
+    flex-wrap: wrap;
+
+}
+
+.button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 16px 24px;
+
+    border-radius: 100px;
+
+    font-weight: 700;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+
+}
+
+.button-primary {
+
+    background: var(--green);
+
+    color: white;
+
+    box-shadow:
+        0 10px 30px rgba(21,150,111,0.25);
+
+}
+
+.button-primary:hover {
+
+    transform: scale(1.05);
+
+    background: var(--green-dark);
+
+    box-shadow:
+        0 15px 35px rgba(21,150,111,0.35);
+
+}
+
+.button-secondary {
+
+    background: rgba(255,255,255,0.85);
+
+    border: 1px solid rgba(0,0,0,0.08);
+
+    color: var(--blue);
+
+}
+
+.button-secondary:hover {
+
+    transform: scale(1.05);
+
+    box-shadow: var(--shadow);
+
+}
+
+
+/* =========================================================
+   QUICK INFO
+========================================================= */
+
+.quick-info {
+
+    position: relative;
+
+    margin-top: -40px;
+
+    z-index: 5;
+
+}
+
+.quick-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    background: rgba(255,255,255,0.95);
+
+    backdrop-filter: blur(20px);
+
+    border-radius: var(--radius);
+
+    box-shadow: var(--shadow);
+
+    overflow: hidden;
+
+}
+
+.quick-item {
+
+    padding: 30px;
+
+    border-right:
+        1px solid #e8edef;
+
+    transition: 0.3s ease;
+
+}
+
+.quick-item:last-child {
+
+    border-right: none;
+
+}
+
+.quick-item:hover {
+
+    background: #fbfdfc;
+
+    transform: translateY(-4px);
+
+}
+
+.quick-label {
+
+    font-size: 12px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.08em;
+
+    color: var(--muted);
+
+    margin-bottom: 7px;
+
+}
+
+.quick-value {
+
+    font-weight: 700;
+
+    color: var(--blue);
+
+}
+
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+section {
+
+    padding: 120px 0;
+
+}
+
+.section-label {
+
+    color: var(--green);
+
+    text-transform: uppercase;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.12em;
+
+    margin-bottom: 12px;
+
+}
+
+.section-title {
+
+    font-size:
+        clamp(2.4rem,5vw,4rem);
+
+    letter-spacing: -0.055em;
+
+    line-height: 1.05;
+
+    color: var(--blue);
+
+    max-width: 750px;
+
+    margin-bottom: 20px;
+
+}
+
+.section-description {
+
+    color: var(--muted);
+
+    max-width: 650px;
+
+    font-size: 18px;
+
+}
+
+
+/* =========================================================
+   LEISTUNGEN
+========================================================= */
+
+.services {
+
+    background: var(--gray);
+
+}
+
+.services-header {
+
+    margin-bottom: 55px;
+
+}
+
+.services-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap: 20px;
+
+}
+
+.service-card {
+
+    background: white;
+
+    border-radius: var(--radius);
+
+    padding: 35px;
+
+    min-height: 250px;
+
+    border:
+        1px solid rgba(0,0,0,0.04);
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+
+}
+
+.service-card:hover {
+
+    transform:
+        translateY(-10px)
+        scale(1.015);
+
+    box-shadow:
+        0 25px 60px rgba(16,42,67,0.10);
+
+}
+
+.service-icon {
+
+    width: 54px;
+    height: 54px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 17px;
+
+    background:
+        rgba(21,150,111,0.10);
+
+    font-size: 25px;
+
+    margin-bottom: 25px;
+
+}
+
+.service-card h3 {
+
+    font-size: 21px;
+
+    margin-bottom: 10px;
+
+    color: var(--blue);
+
+}
+
+.service-card p {
+
+    color: var(--muted);
+
+}
+
+
+/* =========================================================
+   E-REZEPT
+========================================================= */
+
+.erezept {
+
+    background: var(--blue);
+
+    color: white;
+
+    overflow: hidden;
+
+}
+
+.erezept-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 80px;
+
+    align-items: center;
+
+}
+
+.erezept .section-title {
+
+    color: white;
+
+}
+
+.erezept .section-description {
+
+    color: #b8c8d3;
+
+}
+
+.erezept-image {
+
+    min-height: 500px;
+
+    border-radius: var(--radius);
+
+    background:
+
+        linear-gradient(
+            rgba(16,42,67,0.15),
+            rgba(16,42,67,0.3)
+        ),
+
+        url("https://images.unsplash.com/photo-1559757175-0eb30cd8c063?auto=format&fit=crop&w=1200&q=90")
+
+        center / cover;
+
+    box-shadow:
+        0 30px 70px rgba(0,0,0,0.25);
+
+}
+
+.feature-list {
+
+    margin-top: 30px;
+
+    display: grid;
+
+    gap: 14px;
+
+}
+
+.feature {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    color: #d8e5eb;
+
+}
+
+.check {
+
+    width: 25px;
+    height: 25px;
+
+    border-radius: 50%;
+
+    background: var(--green);
+
+    display: grid;
+
+    place-items: center;
+
+    font-size: 13px;
+
+}
+
+
+/* =========================================================
+   ÜBER UNS
+========================================================= */
+
+.about {
+
+    background: white;
+
+}
+
+.about-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 80px;
+
+    align-items: center;
+
+}
+
+.about-image {
+
+    min-height: 560px;
+
+    border-radius: var(--radius);
+
+    background:
+
+        url("https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=90")
+
+        center / cover;
+
+}
+
+.about-text p {
+
+    color: var(--muted);
+
+    font-size: 17px;
+
+    margin-bottom: 18px;
+
+}
+
+
+/* =========================================================
+   TEAM
+========================================================= */
+
+.team {
+
+    background: var(--gray);
+
+}
+
+.team-card {
+
+    position: relative;
+
+    height: 500px;
+
+    border-radius: var(--radius);
+
+    overflow: hidden;
+
+    background:
+
+        url("https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=1400&q=90")
+
+        center / cover;
+
+}
+
+.team-overlay {
+
+    position: absolute;
+
+    left: 25px;
+    right: 25px;
+    bottom: 25px;
+
+    padding: 25px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255,255,255,0.92);
+
+    backdrop-filter: blur(15px);
+
+}
+
+.team-overlay h3 {
+
+    color: var(--blue);
+
+    margin-bottom: 5px;
+
+}
+
+.team-overlay p {
+
+    color: var(--muted);
+
+}
+
+
+/* =========================================================
+   KONTAKT
+========================================================= */
+
+.contact {
+
+    background: white;
+
+}
+
+.contact-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 25px;
+
+    margin-top: 50px;
+
+}
+
+.contact-card {
+
+    background: var(--gray);
+
+    padding: 40px;
+
+    border-radius: var(--radius);
+
+    transition: 0.3s ease;
+
+}
+
+.contact-card:hover {
+
+    transform: translateY(-6px);
+
+    box-shadow: var(--shadow);
+
+}
+
+.contact-card h3 {
+
+    color: var(--blue);
+
+    margin-bottom: 25px;
+
+}
+
+.contact-row {
+
+    margin-bottom: 20px;
+
+}
+
+.contact-label {
+
+    font-size: 12px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.08em;
+
+    color: var(--muted);
+
+}
+
+.contact-value {
+
+    font-weight: 700;
+
+    color: var(--blue);
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+
+    background: #0b2235;
+
+    color: white;
+
+    padding: 70px 0 30px;
+
+}
+
+.footer-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        2fr 1fr 1fr;
+
+    gap: 50px;
+
+    padding-bottom: 50px;
+
+}
+
+footer h3,
+footer h4 {
+
+    margin-bottom: 15px;
+
+}
+
+footer p,
+footer a {
+
+    color: #a9bac5;
+
+    font-size: 14px;
+
+}
+
+footer a:hover {
+
+    color: white;
+
+}
+
+.footer-bottom {
+
+    padding-top: 25px;
+
+    border-top:
+        1px solid rgba(255,255,255,0.1);
+
+    color: #8195a2;
+
+    font-size: 12px;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 850px) {
 
     .nav-links {
-      display: flex;
-      gap: 25px;
-      align-items: center;
-      font-size: 0.95rem;
-    }
 
-    .nav-links a:hover {
-      color: #18a77a;
-    }
+        display: none;
 
-    .nav-button {
-      background: #18a77a;
-      color: white;
-      padding: 11px 18px;
-      border-radius: 10px;
-      font-weight: 700;
     }
-
-    /* Hero */
 
     .hero {
-      padding: 90px 0;
-      background:
-        radial-gradient(circle at 80% 20%, rgba(24,167,122,0.15), transparent 30%),
-        linear-gradient(135deg, #f5fbf9, #ffffff);
-    }
 
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 60px;
-      align-items: center;
-    }
+        background:
 
-    .badge {
-      display: inline-block;
-      background: #e5f7f0;
-      color: #087453;
-      padding: 7px 13px;
-      border-radius: 50px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      margin-bottom: 20px;
+            linear-gradient(
+                rgba(255,255,255,0.90),
+                rgba(255,255,255,0.96)
+            ),
+
+            url("https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=1400&q=85")
+
+            center / cover;
+
     }
 
     h1 {
-      font-size: clamp(2.5rem, 6vw, 4.8rem);
-      line-height: 1.05;
-      letter-spacing: -0.04em;
-      margin-bottom: 25px;
+
+        font-size: 3.5rem;
+
     }
 
-    .hero p {
-      font-size: 1.15rem;
-      color: #5c7182;
-      max-width: 600px;
-      margin-bottom: 30px;
+    .quick-grid {
+
+        grid-template-columns: 1fr;
+
     }
 
-    .buttons {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
+    .quick-item {
+
+        border-right: none;
+
+        border-bottom:
+            1px solid #e8edef;
+
     }
-
-    .button {
-      display: inline-block;
-      padding: 14px 22px;
-      border-radius: 11px;
-      font-weight: 700;
-      transition: 0.2s;
-    }
-
-    .button-primary {
-      background: #18a77a;
-      color: white;
-    }
-
-    .button-primary:hover {
-      transform: translateY(-2px);
-      background: #118c67;
-    }
-
-    .button-secondary {
-      background: white;
-      border: 1px solid #dce8ed;
-    }
-
-    .hero-card {
-      min-height: 430px;
-      border-radius: 28px;
-      background:
-        linear-gradient(rgba(16,67,65,0.2), rgba(16,67,65,0.5)),
-        url("https://images.unsplash.com/photo-1580281658223-9b93f18ae9ae?auto=format&fit=crop&w=1000&q=80")
-        center/cover;
-      display: flex;
-      align-items: flex-end;
-      padding: 28px;
-      box-shadow: 0 25px 60px rgba(18,56,76,0.15);
-    }
-
-    .opening-card {
-      background: rgba(255,255,255,0.95);
-      padding: 20px;
-      border-radius: 18px;
-      width: 100%;
-    }
-
-    .opening-card strong {
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    /* Sections */
-
-    section {
-      padding: 90px 0;
-    }
-
-    .section-header {
-      max-width: 650px;
-      margin-bottom: 45px;
-    }
-
-    .section-header span {
-      color: #18a77a;
-      font-weight: 800;
-      text-transform: uppercase;
-      font-size: 0.8rem;
-      letter-spacing: 0.1em;
-    }
-
-    .section-header h2 {
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      margin: 8px 0 15px;
-      letter-spacing: -0.03em;
-    }
-
-    .section-header p {
-      color: #657887;
-    }
-
-    /* Services */
 
     .services-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+
+        grid-template-columns: 1fr;
+
     }
 
-    .service {
-      background: white;
-      border: 1px solid #e8eff2;
-      border-radius: 18px;
-      padding: 28px;
-      transition: 0.2s;
+    .erezept-grid,
+    .about-grid,
+    .contact-grid {
+
+        grid-template-columns: 1fr;
+
     }
 
-    .service:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 40px rgba(18,56,76,0.08);
-    }
+    .erezept-image {
 
-    .service-icon {
-      font-size: 1.8rem;
-      margin-bottom: 18px;
-    }
+        min-height: 350px;
 
-    .service h3 {
-      margin-bottom: 8px;
-    }
+        order: -1;
 
-    .service p {
-      color: #687b89;
-      font-size: 0.95rem;
-    }
-
-    /* E-Rezept */
-
-    .erezept {
-      background: #17324d;
-      color: white;
-    }
-
-    .erezept-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
-    }
-
-    .erezept p {
-      color: #c6d7e2;
-      margin: 18px 0 25px;
-    }
-
-    .erezept-list {
-      display: grid;
-      gap: 14px;
-    }
-
-    .erezept-list div {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .check {
-      width: 25px;
-      height: 25px;
-      border-radius: 50%;
-      background: #18a77a;
-      display: grid;
-      place-items: center;
-      font-size: 0.8rem;
-    }
-
-    .erezept-box {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 24px;
-      padding: 35px;
-    }
-
-    /* About */
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
     }
 
     .about-image {
-      height: 420px;
-      border-radius: 25px;
-      background:
-        url("https://images.unsplash.com/photo-1585435557343-3b092031a831?auto=format&fit=crop&w=1000&q=80")
-        center/cover;
-    }
 
-    .about-text p {
-      color: #657887;
-      margin-bottom: 18px;
-    }
+        min-height: 400px;
 
-    /* Contact */
-
-    .contact {
-      background: #eef8f5;
-    }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 25px;
-    }
-
-    .contact-card {
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      border: 1px solid #dfece8;
-    }
-
-    .contact-card h3 {
-      margin-bottom: 15px;
-    }
-
-    .contact-item {
-      margin: 12px 0;
-      color: #617585;
-    }
-
-    .contact-item strong {
-      color: #17324d;
-      display: block;
-    }
-
-    /* Footer */
-
-    footer {
-      background: #10283c;
-      color: white;
-      padding: 45px 0 25px;
     }
 
     .footer-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 40px;
-      margin-bottom: 35px;
-    }
 
-    footer p,
-    footer a {
-      color: #b9cbd6;
-      font-size: 0.9rem;
-    }
-
-    footer h4 {
-      margin-bottom: 12px;
-    }
-
-    .footer-bottom {
-      border-top: 1px solid rgba(255,255,255,0.1);
-      padding-top: 20px;
-      font-size: 0.8rem;
-      color: #9eb1bd;
-    }
-
-    /* Mobile */
-
-    @media (max-width: 800px) {
-
-      .nav-links {
-        display: none;
-      }
-
-      nav {
-        min-height: 65px;
-      }
-
-      .hero {
-        padding: 60px 0;
-      }
-
-      .hero-grid,
-      .erezept-grid,
-      .about-grid,
-      .contact-grid {
         grid-template-columns: 1fr;
-      }
 
-      .hero-card {
-        min-height: 350px;
-      }
-
-      .services-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
-
-      section {
-        padding: 65px 0;
-      }
     }
-  </style>
+
+    section {
+
+        padding: 80px 0;
+
+    }
+
+}
+
+
+/* =========================================================
+   KLEINE ANIMATION
+========================================================= */
+
+@keyframes fadeUp {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(20px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+.hero-content {
+
+    animation:
+        fadeUp 0.9s ease forwards;
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
 <header>
-  <div class="container">
-    <nav>
 
-      <a href="#" class="logo">
-        <div class="logo-icon">+</div>
-        <span>Apotheke am Stadtpark</span>
-      </a>
+<div class="container">
 
-      <div class="nav-links">
-        <a href="#leistungen">Leistungen</a>
-        <a href="#erezept">E-Rezept</a>
-        <a href="#ueber-uns">Über uns</a>
-        <a href="#kontakt">Kontakt</a>
-      </div>
+<nav>
 
-      <a class="nav-button" href="tel:+49251123456">
-        Anrufen
-      </a>
+<a href="#" class="logo">
 
-    </nav>
-  </div>
+<div class="logo-mark">
++
+</div>
+
+<span>
+Apotheke am Stadtpark
+</span>
+
+</a>
+
+
+<div class="nav-links">
+
+<a href="#leistungen">
+Leistungen
+</a>
+
+<a href="#erezept">
+E-Rezept
+</a>
+
+<a href="#ueber-uns">
+Über uns
+</a>
+
+<a href="#team">
+Team
+</a>
+
+<a href="#kontakt">
+Kontakt
+</a>
+
+</div>
+
+
+<a
+href="tel:+49251123456"
+class="nav-cta"
+>
+Anrufen
+</a>
+
+</nav>
+
+</div>
+
 </header>
 
 
-<main>
 
-  <!-- HERO -->
+<!-- =====================================================
+     HERO
+===================================================== -->
 
-  <section class="hero">
-    <div class="container hero-grid">
+<section class="hero">
 
-      <div>
+<div class="container">
 
-        <div class="badge">
-          Ihre Apotheke in Münster
-        </div>
+<div class="hero-content">
 
-        <h1>
-          Gesundheit beginnt mit guter Beratung.
-        </h1>
+<div class="eyebrow">
 
-        <p>
-          Persönliche Beratung, zuverlässiger Service und
-          moderne Gesundheitsleistungen – direkt bei Ihnen
-          vor Ort.
-        </p>
+<span class="eyebrow-dot"></span>
 
-        <div class="buttons">
+Heute für Sie da
 
-          <a href="#kontakt" class="button button-primary">
-            Medikament vorbestellen
-          </a>
+</div>
 
-          <a href="tel:+49251123456" class="button button-secondary">
-            0251 123456
-          </a>
 
-        </div>
+<h1>
 
-      </div>
+Gesundheit beginnt
+mit guter Beratung.
 
+</h1>
 
-      <div class="hero-card">
 
-        <div class="opening-card">
+<p class="hero-text">
 
-          <strong>Heute geöffnet</strong>
+Ihre Apotheke in Münster für persönliche Beratung,
+moderne Gesundheitsleistungen und einen Service,
+auf den Sie sich verlassen können.
 
-          <span>
-            Montag – Freitag · 08:00 – 18:30 Uhr
-          </span>
+</p>
 
-        </div>
 
-      </div>
+<div class="hero-buttons">
 
-    </div>
-  </section>
+<a
+href="#erezept"
+class="button button-primary"
+>
 
+E-Rezept einlösen
+→
 
-  <!-- LEISTUNGEN -->
+</a>
 
-  <section id="leistungen">
 
-    <div class="container">
+<a
+href="tel:+49251123456"
+class="button button-secondary"
+>
 
-      <div class="section-header">
+Jetzt anrufen
 
-        <span>Unsere Leistungen</span>
+</a>
 
-        <h2>
-          Mehr als nur Medikamente.
-        </h2>
+</div>
 
-        <p>
-          Wir unterstützen Sie mit persönlicher Beratung
-          und verschiedenen Gesundheitsleistungen.
-        </p>
+</div>
 
-      </div>
+</div>
 
+</section>
 
-      <div class="services-grid">
 
-        <div class="service">
 
-          <div class="service-icon">💊</div>
+<!-- =====================================================
+     QUICK INFO
+===================================================== -->
 
-          <h3>Arzneimittel</h3>
+<div class="quick-info">
 
-          <p>
-            Persönliche Beratung zu rezeptpflichtigen und
-            rezeptfreien Arzneimitteln.
-          </p>
+<div class="container">
 
-        </div>
+<div class="quick-grid">
 
 
-        <div class="service">
+<div class="quick-item">
 
-          <div class="service-icon">📱</div>
+<div class="quick-label">
+Öffnungszeiten
+</div>
 
-          <h3>E-Rezept</h3>
+<div class="quick-value">
+Mo – Fr · 08:00 – 18:30
+</div>
 
-          <p>
-            E-Rezepte einfach bei uns einlösen und
-            Medikamente bequem vorbestellen.
-          </p>
+</div>
 
-        </div>
 
+<div class="quick-item">
 
-        <div class="service">
+<div class="quick-label">
+Adresse
+</div>
 
-          <div class="service-icon">🩺</div>
+<div class="quick-value">
+Parkstraße 15 · Münster
+</div>
 
-          <h3>Gesundheitschecks</h3>
+</div>
 
-          <p>
-            Blutdruck- und Blutzuckermessung sowie
-            weitere Gesundheitsservices.
-          </p>
 
-        </div>
+<div class="quick-item">
 
+<div class="quick-label">
+Telefon
+</div>
 
-        <div class="service">
+<div class="quick-value">
+0251 123456
+</div>
 
-          <div class="service-icon">🧦</div>
+</div>
 
-          <h3>Kompression</h3>
 
-          <p>
-            Individuelle Beratung und Versorgung mit
-            Kompressionsstrümpfen.
-          </p>
+</div>
 
-        </div>
+</div>
 
+</div>
 
-        <div class="service">
 
-          <div class="service-icon">✈️</div>
 
-          <h3>Reiseberatung</h3>
+<!-- =====================================================
+     LEISTUNGEN
+===================================================== -->
 
-          <p>
-            Informationen und Beratung rund um Ihre
-            persönliche Reiseapotheke.
-          </p>
+<section
+id="leistungen"
+class="services"
+>
 
-        </div>
+<div class="container">
 
 
-        <div class="service">
+<div class="services-header">
 
-          <div class="service-icon">🚲</div>
+<div class="section-label">
+Unsere Leistungen
+</div>
 
-          <h3>Botendienst</h3>
+<h2 class="section-title">
 
-          <p>
-            In unserem Liefergebiet bringen wir Ihre
-            Medikamente bei Bedarf zu Ihnen nach Hause.
-          </p>
+Mehr als nur Medikamente.
 
-        </div>
+</h2>
 
-      </div>
+<p class="section-description">
 
-    </div>
+Wir verbinden persönliche Beratung mit modernen
+Gesundheitsleistungen – direkt vor Ort in Münster.
 
-  </section>
+</p>
 
+</div>
 
-  <!-- E-REZEPT -->
 
-  <section id="erezept" class="erezept">
+<div class="services-grid">
 
-    <div class="container erezept-grid">
 
-      <div>
+<div class="service-card">
 
-        <div class="section-header">
+<div class="service-icon">
+💊
+</div>
 
-          <span>E-Rezept</span>
+<h3>
+Arzneimittelberatung
+</h3>
 
-          <h2>
-            Einfach digital.
-            Persönlich bei uns.
-          </h2>
+<p>
+Persönliche Beratung rund um Ihre Arzneimittel
+und deren richtige Anwendung.
+</p>
 
-          <p>
-            Lösen Sie Ihr E-Rezept unkompliziert bei uns ein
-            und sparen Sie sich unnötige Wege.
-          </p>
+</div>
 
-        </div>
 
+<div class="service-card">
 
-        <div class="erezept-list">
+<div class="service-icon">
+📱
+</div>
 
-          <div>
-            <span class="check">✓</span>
-            E-Rezept digital einlösen
-          </div>
+<h3>
+E-Rezept
+</h3>
 
-          <div>
-            <span class="check">✓</span>
-            Medikamente vorbestellen
-          </div>
+<p>
+Digitale Rezepte unkompliziert einlösen und
+Medikamente vorbestellen.
+</p>
 
-          <div>
-            <span class="check">✓</span>
-            Persönliche Beratung
-          </div>
+</div>
 
-        </div>
 
-      </div>
+<div class="service-card">
 
+<div class="service-icon">
+🩺
+</div>
 
-      <div class="erezept-box">
+<h3>
+Gesundheitschecks
+</h3>
 
-        <h3>
-          Medikament vorbestellen
-        </h3>
+<p>
+Blutdruck- und Blutzuckermessungen sowie
+weitere Gesundheitsleistungen.
+</p>
 
-        <p>
-          Senden Sie uns Ihre Anfrage und wir melden uns
-          anschließend persönlich bei Ihnen.
-        </p>
+</div>
 
-        <a href="#kontakt" class="button button-primary">
-          Anfrage starten
-        </a>
 
-      </div>
+<div class="service-card">
 
-    </div>
+<div class="service-icon">
+🧦
+</div>
 
-  </section>
+<h3>
+Kompressionsversorgung
+</h3>
 
+<p>
+Individuelle Beratung und Versorgung mit
+Kompressionsprodukten.
+</p>
 
-  <!-- ÜBER UNS -->
+</div>
 
-  <section id="ueber-uns">
 
-    <div class="container about-grid">
+<div class="service-card">
 
-      <div class="about-image"></div>
+<div class="service-icon">
+✈️
+</div>
 
-      <div class="about-text">
+<h3>
+Reiseberatung
+</h3>
 
-        <div class="section-header">
+<p>
+Beratung rund um Ihre persönliche
+Reiseapotheke.
+</p>
 
-          <span>Über uns</span>
+</div>
 
-          <h2>
-            Persönlich. Kompetent. Für Sie da.
-          </h2>
 
-        </div>
+<div class="service-card">
 
-        <p>
-          Die Apotheke am Stadtpark steht für persönliche
-          Beratung und einen modernen, zuverlässigen
-          Apothekenservice.
-        </p>
+<div class="service-icon">
+🚲
+</div>
 
-        <p>
-          Unser Team nimmt sich Zeit für Ihre Fragen und
-          unterstützt Sie dabei, Ihre Gesundheit im Alltag
-          bestmöglich zu unterstützen.
-        </p>
+<h3>
+Botendienst
+</h3>
 
-        <a href="#kontakt" class="button button-primary">
-          Kontakt aufnehmen
-        </a>
+<p>
+Medikamente bequem nach Hause liefern lassen,
+wenn unser Servicegebiet dies ermöglicht.
+</p>
 
-      </div>
+</div>
 
-    </div>
 
-  </section>
+</div>
 
+</div>
 
-  <!-- KONTAKT -->
+</section>
 
-  <section id="kontakt" class="contact">
 
-    <div class="container">
 
-      <div class="section-header">
+<!-- =====================================================
+     E-REZEPT
+===================================================== -->
 
-        <span>Kontakt</span>
+<section
+id="erezept"
+class="erezept"
+>
 
-        <h2>
-          Wir sind für Sie da.
-        </h2>
+<div class="container erezept-grid">
 
-        <p>
-          Besuchen Sie uns vor Ort oder kontaktieren Sie
-          uns telefonisch.
-        </p>
 
-      </div>
+<div>
 
+<div class="section-label">
+Digitaler Service
+</div>
 
-      <div class="contact-grid">
+<h2 class="section-title">
 
-        <div class="contact-card">
+Ihr E-Rezept.
+Einfach und bequem.
 
-          <h3>
-            Apotheke am Stadtpark
-          </h3>
+</h2>
 
-          <div class="contact-item">
-            <strong>Adresse</strong>
-            Parkstraße 15<br>
-            48143 Münster
-          </div>
+<p class="section-description">
 
-          <div class="contact-item">
-            <strong>Telefon</strong>
-            <a href="tel:+49251123456">
-              0251 123456
-            </a>
-          </div>
+Nutzen Sie moderne digitale Möglichkeiten und
+verbinden Sie diese mit persönlicher Beratung
+vor Ort.
 
-          <div class="contact-item">
-            <strong>E-Mail</strong>
-            <a href="mailto:info@apotheke-am-stadtpark.de">
-              info@apotheke-am-stadtpark.de
-            </a>
-          </div>
+</p>
 
-        </div>
 
+<div class="feature-list">
 
-        <div class="contact-card">
+<div class="feature">
 
-          <h3>
-            Öffnungszeiten
-          </h3>
+<span class="check">✓</span>
 
-          <div class="contact-item">
-            <strong>Montag – Freitag</strong>
-            08:00 – 18:30 Uhr
-          </div>
+E-Rezepte digital einlösen
 
-          <div class="contact-item">
-            <strong>Samstag</strong>
-            09:00 – 14:00 Uhr
-          </div>
+</div>
 
-          <div class="contact-item">
-            <strong>Sonntag</strong>
-            Geschlossen
-          </div>
 
-          <a
-            href="https://www.google.com/maps/search/?api=1&query=Parkstraße+15+48143+Münster"
-            target="_blank"
-            class="button button-primary"
-          >
-            Route planen
-          </a>
+<div class="feature">
 
-        </div>
+<span class="check">✓</span>
 
-      </div>
+Medikamente vorbestellen
 
-    </div>
+</div>
 
-  </section>
 
-</main>
+<div class="feature">
 
+<span class="check">✓</span>
+
+Persönliche Beratung
+
+</div>
+
+</div>
+
+
+<br>
+
+
+<a
+href="#kontakt"
+class="button button-primary"
+>
+
+Vorbestellung starten
+→
+
+</a>
+
+</div>
+
+
+<div class="erezept-image"></div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ÜBER UNS
+===================================================== -->
+
+<section
+id="ueber-uns"
+class="about"
+>
+
+<div class="container about-grid">
+
+
+<div class="about-image"></div>
+
+
+<div>
+
+<div class="section-label">
+Über uns
+</div>
+
+<h2 class="section-title">
+
+Persönlich.
+Kompetent.
+Für Sie da.
+
+</h2>
+
+
+<div class="about-text">
+
+<p>
+
+Die Apotheke am Stadtpark steht für eine moderne
+Apotheke mit persönlicher Beratung.
+
+</p>
+
+<p>
+
+Unser Team nimmt sich Zeit für Ihre Fragen und
+möchte Ihnen dabei helfen, Ihre Gesundheit im
+Alltag bestmöglich zu unterstützen.
+
+</p>
+
+<p>
+
+Dabei verbinden wir traditionelle pharmazeutische
+Kompetenz mit modernen digitalen Services.
+
+</p>
+
+</div>
+
+
+<a
+href="#kontakt"
+class="button button-primary"
+>
+
+Unser Team kennenlernen
+→
+
+</a>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     TEAM
+===================================================== -->
+
+<section
+id="team"
+class="team"
+>
+
+<div class="container">
+
+
+<div class="section-label">
+Unser Team
+</div>
+
+<h2 class="section-title">
+
+Menschen, die sich
+um Sie kümmern.
+
+</h2>
+
+
+<div class="team-card">
+
+<div class="team-overlay">
+
+<h3>
+Persönliche Beratung steht bei uns im Mittelpunkt.
+</h3>
+
+<p>
+Apothekerinnen, Apotheker und unser gesamtes
+Team sind gerne für Ihre Fragen da.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     KONTAKT
+===================================================== -->
+
+<section
+id="kontakt"
+class="contact"
+>
+
+<div class="container">
+
+
+<div class="section-label">
+Kontakt
+</div>
+
+<h2 class="section-title">
+
+Wir sind für Sie da.
+
+</h2>
+
+<p class="section-description">
+
+Besuchen Sie uns in Münster oder kontaktieren
+Sie uns telefonisch.
+
+</p>
+
+
+<div class="contact-grid">
+
+
+<div class="contact-card">
+
+<h3>
+Apotheke am Stadtpark
+</h3>
+
+
+<div class="contact-row">
+
+<div class="contact-label">
+Adresse
+</div>
+
+<div class="contact-value">
+
+Parkstraße 15<br>
+48143 Münster
+
+</div>
+
+</div>
+
+
+<div class="contact-row">
+
+<div class="contact-label">
+Telefon
+</div>
+
+<div class="contact-value">
+
+0251 123456
+
+</div>
+
+</div>
+
+
+<div class="contact-row">
+
+<div class="contact-label">
+E-Mail
+</div>
+
+<div class="contact-value">
+
+info@apotheke-am-stadtpark.de
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="contact-card">
+
+<h3>
+Öffnungszeiten
+</h3>
+
+
+<div class="contact-row">
+
+<div class="contact-label">
+Montag – Freitag
+</div>
+
+<div class="contact-value">
+08:00 – 18:30 Uhr
+</div>
+
+</div>
+
+
+<div class="contact-row">
+
+<div class="contact-label">
+Samstag
+</div>
+
+<div class="contact-value">
+09:00 – 14:00 Uhr
+</div>
+
+</div>
+
+
+<div class="contact-row">
+
+<div class="contact-label">
+Sonntag
+</div>
+
+<div class="contact-value">
+Geschlossen
+</div>
+
+</div>
+
+
+<a
+href="https://www.google.com/maps/search/?api=1&query=Parkstraße+15+48143+Münster"
+target="_blank"
+class="button button-primary"
+>
+
+Route planen
+→
+
+</a>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
 <footer>
 
-  <div class="container">
-
-    <div class="footer-grid">
-
-      <div>
-
-        <h3>
-          Apotheke am Stadtpark
-        </h3>
-
-        <p>
-          Persönliche Beratung und moderner
-          Apothekenservice in Münster.
-        </p>
-
-      </div>
+<div class="container">
 
 
-      <div>
-
-        <h4>Navigation</h4>
-
-        <p>
-          <a href="#leistungen">Leistungen</a>
-        </p>
-
-        <p>
-          <a href="#erezept">E-Rezept</a>
-        </p>
-
-        <p>
-          <a href="#ueber-uns">Über uns</a>
-        </p>
-
-        <p>
-          <a href="#kontakt">Kontakt</a>
-        </p>
-
-      </div>
+<div class="footer-grid">
 
 
-      <div>
+<div>
 
-        <h4>Rechtliches</h4>
+<h3>
+Apotheke am Stadtpark
+</h3>
 
-        <p>
-          <a href="#">Impressum</a>
-        </p>
+<p>
 
-        <p>
-          <a href="#">Datenschutz</a>
-        </p>
+Ihre moderne Apotheke in Münster –
+persönlich, kompetent und nah.
 
-      </div>
+</p>
 
-    </div>
+</div>
 
 
-    <div class="footer-bottom">
+<div>
 
-      © 2026 Apotheke am Stadtpark · Demo-Projekt
+<h4>
+Navigation
+</h4>
 
-    </div>
+<p>
+<a href="#leistungen">
+Leistungen
+</a>
+</p>
 
-  </div>
+<p>
+<a href="#erezept">
+E-Rezept
+</a>
+</p>
+
+<p>
+<a href="#ueber-uns">
+Über uns
+</a>
+</p>
+
+<p>
+<a href="#kontakt">
+Kontakt
+</a>
+</p>
+
+</div>
+
+
+<div>
+
+<h4>
+Rechtliches
+</h4>
+
+<p>
+<a href="#">
+Impressum
+</a>
+</p>
+
+<p>
+<a href="#">
+Datenschutz
+</a>
+</p>
+
+</div>
+
+
+</div>
+
+
+<div class="footer-bottom">
+
+© 2026 Apotheke am Stadtpark · Demo-Projekt
+
+</div>
+
+
+</div>
 
 </footer>
 
+
 </body>
+
 </html>
