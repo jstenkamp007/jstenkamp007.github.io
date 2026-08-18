@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+Apotheke am Stadtpark – Verwaltung
+</title>
+
+
+<style>
+
+:root {
+
+    --blue: #102a43;
+    --green: #15966f;
+    --light: #f5f7f8;
+    --muted: #627d98;
+
+}
+
+* {
+
+    box-sizing: border-box;
+
+}
+
+body {
+
+    margin: 0;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    background: var(--light);
+
+    color: var(--blue);
+
+}
+
+
+/* ==============================
+   HEADER
+============================== */
+
+header {
+
+    background: white;
+
+    padding:
+        20px 24px;
+
+    border-bottom:
+        1px solid #e5eaed;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+}
+
+.logo {
+
+    font-weight: 700;
+
+    font-size: 18px;
+
+}
+
+.logout {
+
+    border: none;
+
+    background: #f1f3f4;
+
+    padding: 10px 16px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+}
+
+
+/* ==============================
+   CONTAINER
+============================== */
+
+.container {
+
+    max-width: 900px;
+
+    margin: 0 auto;
+
+    padding: 40px 20px;
+
+}
+
+h1 {
+
+    margin-bottom: 8px;
+
+}
+
+.subtitle {
+
+    color: var(--muted);
+
+    margin-bottom: 30px;
+
+}
+
+
+/* ==============================
+   LOGIN
+============================== */
+
+.login-box {
+
+    max-width: 430px;
+
+    margin:
+        80px auto;
+
+    background: white;
+
+    padding: 32px;
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 15px 40px
+        rgba(16,42,67,0.08);
+
+}
+
+.form-group {
+
+    margin-bottom: 18px;
+
+}
+
+label {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-weight: 600;
+
+}
+
+input {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: 1px solid #dce3e7;
+
+    border-radius: 12px;
+
+    font-size: 15px;
+
+}
+
+button.primary {
+
+    width: 100%;
+
+    border: none;
+
+    background: var(--green);
+
+    color: white;
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+}
+
+
+/* ==============================
+   ORDER CARD
+============================== */
+
+.order-card {
+
+    background: white;
+
+    padding: 22px;
+
+    margin-bottom: 15px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(16,42,67,0.06);
+
+}
+
+.order-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+}
+
+.order-name {
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+}
+
+.order-date {
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+}
+
+.order-medicine {
+
+    margin-top: 12px;
+
+    font-weight: 600;
+
+    color: var(--green);
+
+}
+
+.order-details {
+
+    margin-top: 15px;
+
+    color: var(--muted);
+
+    line-height: 1.6;
+
+}
+
+.error {
+
+    color: #b42318;
+
+    margin-top: 15px;
+
+}
+
+.empty {
+
+    text-align: center;
+
+    padding: 50px 20px;
+
+    color: var(--muted);
+
+}
+
+
+/* ==============================
+   MOBILE
+============================== */
+
+@media(max-width:600px) {
+
+    .order-header {
+
+        flex-direction: column;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="logo">
+
+Apotheke am Stadtpark
+
+</div>
+
+
+<button
+class="logout"
+id="logoutButton"
+style="display:none;"
+>
+
+Abmelden
+
+</button>
+
+</header>
+
+
+
+<!-- ============================
+     LOGIN
+============================ -->
+
+<section
+id="loginSection"
+class="login-box"
+>
+
+<h1>
+Apotheken-Verwaltung
+</h1>
+
+<p>
+Bitte anmelden, um Vorbestellungen
+anzuzeigen.
+</p>
+
+
+<form id="loginForm">
+
+
+<div class="form-group">
+
+<label for="email">
+E-Mail
+</label>
+
+<input
+type="email"
+id="email"
+required
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="password">
+Passwort
+</label>
+
+<input
+type="password"
+id="password"
+required
+>
+
+</div>
+
+
+<button
+class="primary"
+type="submit"
+>
+
+Anmelden
+
+</button>
+
+
+<div
+id="loginError"
+class="error"
+></div>
+
+
+</form>
+
+</section>
+
+
+
+<!-- ============================
+     ADMIN
+============================ -->
+
+<main
+id="adminSection"
+class="container"
+style="display:none;"
+>
+
+<h1>
+Vorbestellungen
+</h1>
+
+<p class="subtitle">
+Eingegangene Anfragen
+</p>
+
+
+<div id="orders">
+
+</div>
+
+</main>
+
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+    "https://iezjojbuyzugfguhizyw.supabase.co";
+
+
+const SUPABASE_KEY =
+    "sb_publishable_M-EP4v8yBM092Lkgau701Q_EISGyFfe";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+
+/* =====================================================
+   ELEMENTE
+===================================================== */
+
+const loginForm =
+    document.getElementById("loginForm");
+
+const loginSection =
+    document.getElementById("loginSection");
+
+const adminSection =
+    document.getElementById("adminSection");
+
+const loginError =
+    document.getElementById("loginError");
+
+const logoutButton =
+    document.getElementById("logoutButton");
+
+const ordersContainer =
+    document.getElementById("orders");
+
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+loginForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        loginError.textContent = "";
+
+
+        const email =
+            document.getElementById("email").value;
+
+        const password =
+            document.getElementById("password").value;
+
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth.signInWithPassword({
+
+            email: email,
+
+            password: password
+
+        });
+
+
+        if (error) {
+
+            loginError.textContent =
+                "E-Mail oder Passwort ist falsch.";
+
+            console.error(error);
+
+            return;
+
+        }
+
+
+        showAdmin();
+
+    }
+);
+
+
+
+/* =====================================================
+   ADMIN ANZEIGEN
+===================================================== */
+
+async function showAdmin() {
+
+    loginSection.style.display =
+        "none";
+
+    adminSection.style.display =
+        "block";
+
+    logoutButton.style.display =
+        "block";
+
+
+    await loadOrders();
+
+}
+
+
+
+/* =====================================================
+   BESTELLUNGEN LADEN
+===================================================== */
+
+async function loadOrders() {
+
+
+    ordersContainer.innerHTML =
+        "<p>Vorbestellungen werden geladen ...</p>";
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+        .from("orders")
+        .select("*")
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        );
+
+
+    if (error) {
+
+        console.error(error);
+
+        ordersContainer.innerHTML = `
+
+            <div class="error">
+
+            Fehler beim Laden der
+            Vorbestellungen.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    if (!data || data.length === 0) {
+
+        ordersContainer.innerHTML = `
+
+            <div class="empty">
+
+            Keine Vorbestellungen vorhanden.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    ordersContainer.innerHTML = "";
+
+
+    data.forEach(order => {
+
+
+        const date =
+            order.created_at
+            ? new Date(
+                order.created_at
+              ).toLocaleString(
+                "de-DE"
+              )
+            : "Zeitpunkt unbekannt";
+
+
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "order-card";
+
+
+        card.innerHTML = `
+
+            <div class="order-header">
+
+                <div class="order-name">
+
+                    ${escapeHtml(
+                        order.first_name
+                    )}
+
+                    ${escapeHtml(
+                        order.last_name
+                    )}
+
+                </div>
+
+
+                <div class="order-date">
+
+                    ${date}
+
+                </div>
+
+            </div>
+
+
+            <div class="order-medicine">
+
+                💊
+                ${escapeHtml(
+                    order.medicine
+                )}
+
+            </div>
+
+
+            <div class="order-details">
+
+                📞
+                ${escapeHtml(
+                    order.phone
+                )}
+
+                <br>
+
+
+                📝
+                ${escapeHtml(
+                    order.message || "Keine Nachricht"
+                )}
+
+                <br>
+
+
+                📱 Rückruf:
+
+                ${
+                    order.callback
+                    ? "Ja"
+                    : "Nein"
+                }
+
+            </div>
+
+        `;
+
+
+        ordersContainer.appendChild(
+            card
+        );
+
+    });
+
+}
+
+
+
+/* =====================================================
+   SICHERHEIT
+===================================================== */
+
+function escapeHtml(value) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        value ?? "";
+
+    return div.innerHTML;
+
+}
+
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+logoutButton.addEventListener(
+    "click",
+    async function() {
+
+        await supabaseClient.auth.signOut();
+
+        adminSection.style.display =
+            "none";
+
+        loginSection.style.display =
+            "block";
+
+        logoutButton.style.display =
+            "none";
+
+    }
+);
+
+
+
+/* =====================================================
+   BESTEHENDE SESSION PRÜFEN
+===================================================== */
+
+async function checkSession() {
+
+    const {
+        data
+    } =
+    await supabaseClient.auth.getUser();
+
+
+    if (data.user) {
+
+        showAdmin();
+
+    }
+
+}
+
+
+checkSession();
+
+
+</script>
+
+
+</body>
+
+</html>
