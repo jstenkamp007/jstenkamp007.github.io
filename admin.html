@@ -285,6 +285,58 @@ button.primary {
 
 
 /* ==============================
+   DASHBOARD
+============================== */
+
+.dashboard {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 35px;
+
+}
+
+
+.stat-card {
+
+    background: white;
+
+    padding: 22px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(16,42,67,0.06);
+
+}
+
+
+.stat-number {
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+}
+
+
+.stat-label {
+
+    margin-top: 6px;
+
+    color: var(--muted);
+
+    font-size: 14px;
+
+}
+
+/* ==============================
    MOBILE
 ============================== */
 
@@ -293,6 +345,28 @@ button.primary {
     .order-header {
 
         flex-direction: column;
+
+    }
+
+
+    .dashboard {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+
+    .stat-card {
+
+        padding: 18px;
+
+    }
+
+
+    .stat-number {
+
+        font-size: 26px;
 
     }
 
@@ -421,6 +495,76 @@ Vorbestellungen
 Eingegangene Anfragen
 </p>
 
+<!-- ============================
+     DASHBOARD
+============================ -->
+
+<div class="dashboard">
+
+    <div class="stat-card">
+
+        <div
+        class="stat-number"
+        id="newCount"
+        >
+            0
+        </div>
+
+        <div class="stat-label">
+            🔴 Neu
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div
+        class="stat-number"
+        id="processingCount"
+        >
+            0
+        </div>
+
+        <div class="stat-label">
+            🟡 In Bearbeitung
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div
+        class="stat-number"
+        id="readyCount"
+        >
+            0
+        </div>
+
+        <div class="stat-label">
+            🟢 Abholbereit
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div
+        class="stat-number"
+        id="totalCount"
+        >
+            0
+        </div>
+
+        <div class="stat-label">
+            📋 Gesamt
+        </div>
+
+    </div>
+
+</div>
 
 <div id="orders">
 
@@ -602,6 +746,54 @@ async function loadOrders() {
 
     }
 
+/* =====================================================
+   DASHBOARD ZAHLEN
+===================================================== */
+
+const newCount =
+    data.filter(
+        order => order.status === "new"
+    ).length;
+
+
+const processingCount =
+    data.filter(
+        order => order.status === "processing"
+    ).length;
+
+
+const readyCount =
+    data.filter(
+        order => order.status === "ready"
+    ).length;
+
+
+const totalCount =
+    data.length;
+
+
+document.getElementById(
+    "newCount"
+).textContent =
+    newCount;
+
+
+document.getElementById(
+    "processingCount"
+).textContent =
+    processingCount;
+
+
+document.getElementById(
+    "readyCount"
+).textContent =
+    readyCount;
+
+
+document.getElementById(
+    "totalCount"
+).textContent =
+    totalCount;
 
     if (!data || data.length === 0) {
 
