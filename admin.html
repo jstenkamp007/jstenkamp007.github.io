@@ -707,6 +707,48 @@ async function loadOrders() {
 
             </div>
 
+        <div class="order-status">
+
+    <strong>
+        Status:
+    </strong>
+
+    <span>
+        ${getStatusLabel(order.status)}
+    </span>
+
+</div>
+
+
+<div class="status-buttons">
+
+    <button
+        onclick="updateOrderStatus(${order.id}, 'new')"
+    >
+        Neu
+    </button>
+
+    <button
+        onclick="updateOrderStatus(${order.id}, 'processing')"
+    >
+        In Bearbeitung
+    </button>
+
+    <button
+        onclick="updateOrderStatus(${order.id}, 'ready')"
+    >
+        Abholbereit
+    </button>
+
+    <button
+        onclick="updateOrderStatus(${order.id}, 'completed')"
+    >
+        Erledigt
+    </button>
+
+</div>
+
+
         `;
 
 
@@ -785,6 +827,78 @@ async function checkSession() {
 
 checkSession();
 
+
+/* =====================================================
+   STATUS ANZEIGEN
+===================================================== */
+
+function getStatusLabel(status) {
+
+    if (status === "new") {
+        return "🔴 Neu";
+    }
+
+    if (status === "processing") {
+        return "🟡 In Bearbeitung";
+    }
+
+    if (status === "ready") {
+        return "🟢 Abholbereit";
+    }
+
+    if (status === "completed") {
+        return "⚪ Erledigt";
+    }
+
+    return "Unbekannt";
+
+}
+
+
+
+/* =====================================================
+   STATUS ÄNDERN
+===================================================== */
+
+async function updateOrderStatus(
+    orderId,
+    newStatus
+) {
+
+    const {
+        error
+    } =
+    await supabaseClient
+        .from("orders")
+        .update({
+
+            status: newStatus
+
+        })
+        .eq(
+            "id",
+            orderId
+        );
+
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "Der Status konnte nicht geändert werden."
+        );
+
+        return;
+
+    }
+
+
+    /* Liste neu laden */
+
+    await loadOrders();
+
+}
 
 </script>
 
