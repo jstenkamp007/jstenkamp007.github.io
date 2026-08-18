@@ -2699,66 +2699,168 @@ Schließen
 <!-- =====================================================
      JAVASCRIPT
 ===================================================== -->
+
+<script>
+
 /* =====================================================
    VORBESTELLUNGS FORMULAR
 ===================================================== */
 
-<script>
-
 const orderForm =
-document.getElementById("orderForm");
+    document.getElementById("orderForm");
 
 const formSuccess =
-document.getElementById("formSuccess");
+    document.getElementById("formSuccess");
 
 
 orderForm.addEventListener(
-"submit",
-function(event) {
+    "submit",
+    async function(event) {
 
-    event.preventDefault();
-
-
-    const firstName =
-        document.getElementById("firstName").value;
-
-    const lastName =
-        document.getElementById("lastName").value;
+        event.preventDefault();
 
 
-    formSuccess.classList.add("active");
+        /* ---------------------------------------------
+           FORMULARWERTE AUSLESEN
+        --------------------------------------------- */
+
+        const firstName =
+            document.getElementById("firstName").value;
+
+        const lastName =
+            document.getElementById("lastName").value;
+
+        const phone =
+            document.getElementById("phone").value;
+
+        const medicine =
+            document.getElementById("medicine").value;
+
+        const message =
+            document.getElementById("message").value;
+
+        const callback =
+            document.getElementById("callback").checked;
 
 
-    formSuccess.innerHTML = `
+        /* ---------------------------------------------
+           DATEN AN SUPABASE SENDEN
+        --------------------------------------------- */
 
-        <strong>
-        ✓ Vielen Dank, ${firstName}!
-        </strong>
+        try {
 
-        <p>
-        Ihre Vorbestellungs-Anfrage wurde
-        vorbereitet.
-        </p>
+            const response = await fetch(
+                "https://iezjojbuyzugfguhizyw.supabase.co/rest/v1/orders",
+                {
 
-        <p>
-        Wir würden uns anschließend unter
-        der angegebenen Telefonnummer bei
-        Ihnen melden.
-        </p>
+                    method: "POST",
 
-    `;
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "apikey":
+                            "sb_publishable_M-EP4v8yBM092Lkgau701Q_EISGyFfe",
+
+                        "Authorization":
+                            "Bearer sb_publishable_M-EP4v8yBM092Lkgau701Q_EISGyFfe",
+
+                        "Prefer":
+                            "return=minimal"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        first_name: firstName,
+
+                        last_name: lastName,
+
+                        phone: phone,
+
+                        medicine: medicine,
+
+                        message: message,
+
+                        callback: callback
+
+                    })
+
+                }
+            );
 
 
-    orderForm
-        .querySelectorAll("input, textarea, button")
-        .forEach(element => {
+            /* -----------------------------------------
+               FEHLER PRÜFEN
+            ----------------------------------------- */
 
-            element.disabled = true;
+            if (!response.ok) {
 
-        });
+                throw new Error(
+                    "Die Anfrage konnte nicht gespeichert werden."
+                );
 
-});
+            }
 
+
+            /* -----------------------------------------
+               ERFOLGSMELDUNG
+            ----------------------------------------- */
+
+            formSuccess.classList.add("active");
+
+            formSuccess.innerHTML = `
+
+                <strong>
+                ✓ Vielen Dank, ${firstName}!
+                </strong>
+
+                <p>
+                Ihre Vorbestellungs-Anfrage wurde
+                erfolgreich übermittelt.
+                </p>
+
+            `;
+
+
+            /* Formular deaktivieren */
+
+            orderForm
+                .querySelectorAll(
+                    "input, textarea, button"
+                )
+                .forEach(element => {
+
+                    element.disabled = true;
+
+                });
+
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            formSuccess.classList.add("active");
+
+            formSuccess.innerHTML = `
+
+                <strong>
+                ⚠️ Es ist ein Fehler aufgetreten.
+                </strong>
+
+                <p>
+                Die Anfrage konnte nicht
+                übermittelt werden.
+                </p>
+
+            `;
+
+        }
+
+    }
+);
 
 /* =====================================================
    MOBILE MENU
