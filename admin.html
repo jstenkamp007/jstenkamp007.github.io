@@ -933,7 +933,14 @@ function startRealtime() {
             }
         )
 
-        .subscribe();
+        .subscribe(function(status) {
+
+    console.log(
+        "Realtime Status:",
+        status
+    );
+
+});
 
 }
 
