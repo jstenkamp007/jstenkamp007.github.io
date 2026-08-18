@@ -900,6 +900,124 @@ async function updateOrderStatus(
 
 }
 
+/* =====================================================
+   SUPABASE REALTIME
+===================================================== */
+
+function startRealtime() {
+
+    supabaseClient
+        .channel("orders-realtime")
+
+        .on(
+            "postgres_changes",
+            {
+                event: "INSERT",
+                schema: "public",
+                table: "orders"
+            },
+
+            function(payload) {
+
+                console.log(
+                    "Neue Vorbestellung:",
+                    payload.new
+                );
+
+                loadOrders();
+
+                showNewOrderNotification(
+                    payload.new
+                );
+
+            }
+        )
+
+        .subscribe();
+
+}
+
+
+
+/* =====================================================
+   NEUE VORBESTELLUNG ANZEIGEN
+===================================================== */
+
+function showNewOrderNotification(order) {
+
+    const notification =
+        document.createElement("div");
+
+
+    notification.style.position =
+        "fixed";
+
+    notification.style.top =
+        "20px";
+
+    notification.style.right =
+        "20px";
+
+    notification.style.zIndex =
+        "9999";
+
+    notification.style.background =
+        "white";
+
+    notification.style.padding =
+        "18px 22px";
+
+    notification.style.borderRadius =
+        "18px";
+
+    notification.style.boxShadow =
+        "0 15px 40px rgba(0,0,0,0.15)";
+
+    notification.innerHTML = `
+
+        <strong>
+            🔴 Neue Vorbestellung
+        </strong>
+
+        <br>
+
+        <span>
+            ${escapeHtml(
+                order.first_name
+            )}
+
+            ${escapeHtml(
+                order.last_name
+            )}
+        </span>
+
+    `;
+
+
+    document.body.appendChild(
+        notification
+    );
+
+
+    setTimeout(
+        function() {
+
+            notification.remove();
+
+        },
+        5000
+    );
+
+}
+
+
+
+/* =====================================================
+   REALTIME STARTEN
+===================================================== */
+
+startRealtime();
+
 </script>
 
 
