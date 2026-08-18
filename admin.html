@@ -551,6 +551,7 @@ async function showAdmin() {
 
 
     await loadOrders();
+    startRealtime()
 
 }
 
@@ -787,6 +788,16 @@ function escapeHtml(value) {
 logoutButton.addEventListener(
     "click",
     async function() {
+        
+        if (realtimeChannel) {
+
+    supabaseClient.removeChannel(
+        realtimeChannel
+    );
+
+    realtimeChannel = null;
+
+}
 
         await supabaseClient.auth.signOut();
 
@@ -904,47 +915,64 @@ async function updateOrderStatus(
    SUPABASE REALTIME
 ===================================================== */
 
+let realtimeChannel = null;
+
+
 function startRealtime() {
 
-    supabaseClient
-        .channel("orders-realtime")
+    /* Falls bereits verbunden, nichts erneut starten */
 
-        .on(
-            "postgres_changes",
-            {
-                event: "INSERT",
-                schema: "public",
-                table: "orders"
-            },
+    if (realtimeChannel) {
 
-            function(payload) {
+        return;
 
-                console.log(
-                    "Neue Vorbestellung:",
-                    payload.new
-                );
+    }
 
-                loadOrders();
 
-                showNewOrderNotification(
-                    payload.new
-                );
+    realtimeChannel =
+        supabaseClient
 
-            }
-        )
+            .channel("orders-realtime")
 
-        .subscribe(function(status) {
+            .on(
+                "postgres_changes",
+                {
+                    event: "INSERT",
+                    schema: "public",
+                    table: "orders"
+                },
 
-    console.log(
-        "Realtime Status:",
-        status
-    );
+                function(payload) {
 
-});
+                    console.log(
+                        "Neue Vorbestellung:",
+                        payload.new
+                    );
+
+
+                    loadOrders();
+
+
+                    showNewOrderNotification(
+                        payload.new
+                    );
+
+                }
+
+            )
+
+            .subscribe(
+                function(status) {
+
+                    console.log(
+                        "Realtime Status:",
+                        status
+                    );
+
+                }
+            );
 
 }
-
-
 
 /* =====================================================
    NEUE VORBESTELLUNG ANZEIGEN
@@ -1018,12 +1046,6 @@ function showNewOrderNotification(order) {
 }
 
 
-
-/* =====================================================
-   REALTIME STARTEN
-===================================================== */
-
-startRealtime();
 
 </script>
 
