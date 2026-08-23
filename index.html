@@ -1563,6 +1563,95 @@ footer a:hover {
 
 }
 
+.success-icon {
+
+    width: 64px;
+    height: 64px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #e8f7f1;
+
+    color: #15966f;
+
+    font-size: 32px;
+
+    font-weight: 700;
+
+}
+
+
+#formSuccess {
+
+    text-align: center;
+
+    padding: 25px 10px;
+
+}
+
+
+#formSuccess h3 {
+
+    margin-bottom: 10px;
+
+    font-size: 24px;
+
+}
+
+
+#formSuccess p {
+
+    color: #627d98;
+
+    line-height: 1.6;
+
+}
+
+
+.success-home-button {
+
+    margin-top: 15px;
+
+    border: none;
+
+    background: #15966f;
+
+    color: white;
+
+    padding: 13px 20px;
+
+    border-radius: 12px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+
+.success-home-button:hover {
+
+    transform: scale(1.04);
+
+    box-shadow:
+        0 8px 20px
+        rgba(21,150,111,0.2);
+
+}
+
 </style>
 
 </head>
@@ -2808,20 +2897,42 @@ orderForm.addEventListener(
                ERFOLGSMELDUNG
             ----------------------------------------- */
 
-            formSuccess.classList.add("active");
+           formSuccess.classList.add("active");
 
-            formSuccess.innerHTML = `
+formSuccess.innerHTML = `
 
-                <strong>
-                ✓ Vielen Dank, ${firstName}!
-                </strong>
+    <div class="success-icon">
+        ✓
+    </div>
 
-                <p>
-                Ihre Vorbestellungs-Anfrage wurde
-                erfolgreich übermittelt.
-                </p>
+    <h3>
+        Anfrage erfolgreich übermittelt
+    </h3>
 
-            `;
+    <p>
+        Vielen Dank, ${firstName}!
+    </p>
+
+    <p>
+        Ihre Vorbestellung wurde erfolgreich
+        an die Apotheke am Stadtpark übermittelt.
+    </p>
+
+    <p>
+        Wir melden uns bei Ihnen unter der
+        angegebenen Telefonnummer, sobald
+        Ihre Anfrage bearbeitet wurde.
+    </p>
+
+    <button
+        type="button"
+        class="success-home-button"
+        onclick="closeModal('orderModal')"
+    >
+        Zurück zur Website
+    </button>
+
+`;
 
 
             /* Formular deaktivieren */
