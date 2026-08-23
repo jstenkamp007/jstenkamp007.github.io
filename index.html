@@ -2938,14 +2938,12 @@ formSuccess.innerHTML = `
             /* Formular deaktivieren */
 
             orderForm
-                .querySelectorAll(
-                    "input, textarea, button"
-                )
-                .forEach(element => {
+    .querySelectorAll("input, textarea, button[type='submit']")
+    .forEach(element => {
 
-                    element.disabled = true;
+        element.disabled = true;
 
-                });
+    });
 
 
         } catch (error) {
