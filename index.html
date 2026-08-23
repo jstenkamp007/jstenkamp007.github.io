@@ -2925,12 +2925,12 @@ formSuccess.innerHTML = `
     </p>
 
     <button
-        type="button"
-        class="success-home-button"
-        onclick="closeModal('orderModal')"
-    >
-        Zurück zur Website
-    </button>
+    type="button"
+    class="success-home-button"
+    onclick="document.getElementById('orderModal').classList.remove('active'); document.body.style.overflow = '';"
+>
+    Zurück zur Website
+</button>
 
 `;
 
