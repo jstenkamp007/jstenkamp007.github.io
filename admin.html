@@ -2078,39 +2078,115 @@ let selectedOrderId = null;
    AUDIO
 ===================================================== */
 
+/*
+    Der AudioContext wird erst durch eine echte
+    Benutzerinteraktion aktiviert.
+
+    Das ist besonders wichtig für iPad / iPhone /
+    Safari, da diese Browser Audio außerhalb einer
+    Benutzerinteraktion blockieren können.
+*/
+
 let audioContext = null;
 
 let soundEnabled = false;
 
 
-function initializeAudio() {
+/* =====================================================
+   AUDIO CONTEXT ERSTELLEN
+===================================================== */
+
+function createAudioContext() {
+
+    if (audioContext) {
+
+        return audioContext;
+
+    }
+
+
+    const AudioContext =
+        window.AudioContext ||
+        window.webkitAudioContext;
+
+
+    if (!AudioContext) {
+
+        console.error(
+            "Dieser Browser unterstützt Web Audio API nicht."
+        );
+
+        return null;
+
+    }
+
+
+    audioContext =
+        new AudioContext();
+
+
+    return audioContext;
+
+}
+
+
+/* =====================================================
+   AUDIO AKTIVIEREN
+===================================================== */
+
+async function initializeAudio(
+    playTestSound = true
+) {
 
     try {
 
-        if (!audioContext) {
+        const context =
+            createAudioContext();
 
-            const AudioContext =
-                window.AudioContext ||
-                window.webkitAudioContext;
 
-            if (!AudioContext) {
+        if (!context) {
 
-                return false;
+            showToast(
+                "Dieser Browser unterstützt keine Audiobenachrichtigungen.",
+                "error"
+            );
 
-            }
+            return false;
 
-            audioContext =
-                new AudioContext();
+        }
+
+
+        /*
+            Safari / iPad kann den AudioContext zunächst
+            auf "suspended" setzen.
+        */
+
+        if (
+            context.state ===
+            "suspended"
+        ) {
+
+            await context.resume();
 
         }
 
 
         if (
-            audioContext.state ===
-            "suspended"
+            context.state !==
+            "running"
         ) {
 
-            audioContext.resume();
+            console.error(
+                "AudioContext konnte nicht gestartet werden. Status:",
+                context.state
+            );
+
+            showToast(
+                "Der Ton konnte nicht aktiviert werden.",
+                "error"
+            );
+
+            return false;
 
         }
 
@@ -2118,6 +2194,27 @@ function initializeAudio() {
         soundEnabled = true;
 
         updateSoundButtons();
+
+
+        /*
+            Wichtig:
+            Der Testton wird direkt während der
+            Benutzerinteraktion abgespielt.
+            Dadurch wird Audio auf iPad/Safari
+            zuverlässig freigeschaltet.
+        */
+
+        if (playTestSound) {
+
+            await playActivationSound();
+
+            showToast(
+                "Ton aktiviert – Testton wurde abgespielt.",
+                "success"
+            );
+
+        }
+
 
         return true;
 
@@ -2128,12 +2225,298 @@ function initializeAudio() {
             error
         );
 
+        soundEnabled = false;
+
+        updateSoundButtons();
+
+
+        showToast(
+            "Der Ton konnte nicht aktiviert werden.",
+            "error"
+        );
+
+
         return false;
 
     }
 
 }
 
+
+/* =====================================================
+   AKTIVIERUNGSTON
+===================================================== */
+
+async function playActivationSound() {
+
+    if (!audioContext) {
+
+        return;
+
+    }
+
+
+    try {
+
+        if (
+            audioContext.state ===
+            "suspended"
+        ) {
+
+            await audioContext.resume();
+
+        }
+
+
+        const now =
+            audioContext.currentTime;
+
+
+        const oscillator =
+            audioContext.createOscillator();
+
+        const gain =
+            audioContext.createGain();
+
+
+        oscillator.type =
+            "sine";
+
+
+        oscillator.frequency.setValueAtTime(
+            660,
+            now
+        );
+
+
+        oscillator.frequency.setValueAtTime(
+            880,
+            now + 0.12
+        );
+
+
+        oscillator.frequency.setValueAtTime(
+            1046,
+            now + 0.24
+        );
+
+
+        gain.gain.setValueAtTime(
+            0.0001,
+            now
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.30,
+            now + 0.025
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            now + 0.38
+        );
+
+
+        oscillator.connect(gain);
+
+        gain.connect(
+            audioContext.destination
+        );
+
+
+        oscillator.start(now);
+
+        oscillator.stop(
+            now + 0.40
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Testton konnte nicht abgespielt werden:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   BENACHRICHTIGUNGSTON
+===================================================== */
+
+async function playNewOrderSound() {
+
+    if (!soundEnabled) {
+
+        console.log(
+            "Neue Bestellung erkannt, aber Ton ist deaktiviert."
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        if (!audioContext) {
+
+            console.warn(
+                "Kein AudioContext vorhanden."
+            );
+
+            return;
+
+        }
+
+
+        /*
+            Falls Safari den AudioContext zwischenzeitlich
+            wieder pausiert hat, versuchen wir ihn erneut
+            zu aktivieren.
+        */
+
+        if (
+            audioContext.state ===
+            "suspended"
+        ) {
+
+            await audioContext.resume();
+
+        }
+
+
+        if (
+            audioContext.state !==
+            "running"
+        ) {
+
+            console.warn(
+                "AudioContext ist nicht aktiv:",
+                audioContext.state
+            );
+
+            return;
+
+        }
+
+
+        const now =
+            audioContext.currentTime;
+
+
+        /*
+            Zwei kurze Töne.
+            Dadurch ist die Benachrichtigung deutlich
+            besser hörbar als ein einzelner kurzer Ton.
+        */
+
+        createNotificationBeep(
+            880,
+            now,
+            0.00
+        );
+
+
+        createNotificationBeep(
+            1174,
+            now,
+            0.18
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Benachrichtigungston konnte nicht abgespielt werden:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   EINZELNEN BENACHRICHTIGUNGSTON ERZEUGEN
+===================================================== */
+
+function createNotificationBeep(
+    frequency,
+    startTime,
+    offset
+) {
+
+    if (!audioContext) {
+
+        return;
+
+    }
+
+
+    const oscillator =
+        audioContext.createOscillator();
+
+    const gain =
+        audioContext.createGain();
+
+
+    const start =
+        startTime + offset;
+
+
+    oscillator.type =
+        "sine";
+
+
+    oscillator.frequency.setValueAtTime(
+        frequency,
+        start
+    );
+
+
+    gain.gain.setValueAtTime(
+        0.0001,
+        start
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.30,
+        start + 0.02
+    );
+
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        start + 0.16
+    );
+
+
+    oscillator.connect(gain);
+
+    gain.connect(
+        audioContext.destination
+    );
+
+
+    oscillator.start(start);
+
+    oscillator.stop(
+        start + 0.18
+    );
+
+}
+
+
+/* =====================================================
+   SOUND BUTTONS AKTUALISIEREN
+===================================================== */
 
 function updateSoundButtons() {
 
@@ -2162,6 +2545,9 @@ function updateSoundButtons() {
                     "enabled"
                 );
 
+                button.title =
+                    "Ton ist aktiviert. Klicken für einen Testton.";
+
             } else {
 
                 button.textContent =
@@ -2171,6 +2557,9 @@ function updateSoundButtons() {
                     "enabled"
                 );
 
+                button.title =
+                    "Ton für neue Bestellungen aktivieren";
+
             }
 
         }
@@ -2179,111 +2568,15 @@ function updateSoundButtons() {
 }
 
 
-function playNewOrderSound() {
-
-    if (!soundEnabled) {
-
-        return;
-
-    }
-
-
-    try {
-
-        if (!audioContext) {
-
-            return;
-
-        }
-
-
-        if (
-            audioContext.state ===
-            "suspended"
-        ) {
-
-            audioContext.resume();
-
-        }
-
-
-        const oscillator =
-            audioContext.createOscillator();
-
-        const gain =
-            audioContext.createGain();
-
-
-        oscillator.type =
-            "sine";
-
-
-        oscillator.frequency.setValueAtTime(
-            880,
-            audioContext.currentTime
-        );
-
-
-        oscillator.frequency.setValueAtTime(
-            1174,
-            audioContext.currentTime + 0.12
-        );
-
-
-        oscillator.frequency.setValueAtTime(
-            880,
-            audioContext.currentTime + 0.24
-        );
-
-
-        gain.gain.setValueAtTime(
-            0.0001,
-            audioContext.currentTime
-        );
-
-
-        gain.gain.exponentialRampToValueAtTime(
-            0.22,
-            audioContext.currentTime + 0.02
-        );
-
-
-        gain.gain.exponentialRampToValueAtTime(
-            0.0001,
-            audioContext.currentTime + 0.45
-        );
-
-
-        oscillator.connect(gain);
-
-        gain.connect(
-            audioContext.destination
-        );
-
-
-        oscillator.start();
-
-        oscillator.stop(
-            audioContext.currentTime + 0.45
-        );
-
-    } catch (error) {
-
-        console.error(
-            "Benachrichtigungston konnte nicht abgespielt werden:",
-            error
-        );
-
-    }
-
-}
-
+/* =====================================================
+   SOUND BUTTONS
+===================================================== */
 
 soundButton.addEventListener(
     "click",
-    function() {
+    async function() {
 
-        initializeAudio();
+        await initializeAudio(true);
 
     }
 );
@@ -2291,36 +2584,23 @@ soundButton.addEventListener(
 
 soundButtonMobile.addEventListener(
     "click",
-    function() {
+    async function() {
 
-        initializeAudio();
+        await initializeAudio(true);
 
     }
 );
 
 
 /*
-    Benutzerinteraktion nutzen, um Audio
-    möglichst zuverlässig für spätere
-    Realtime-Benachrichtigungen freizuschalten.
+    KEIN automatisches Audio mehr bei jedem beliebigen
+    Klick auf der Seite.
+
+    Stattdessen muss der Benutzer bewusst auf
+    "Ton aktivieren" drücken.
+
+    Das ist auf iPad/Safari wesentlich zuverlässiger.
 */
-
-document.addEventListener(
-    "click",
-    function() {
-
-        if (!soundEnabled) {
-
-            initializeAudio();
-
-        }
-
-    },
-    {
-        once: true
-    }
-);
-
 
 
 /* =====================================================
@@ -2339,9 +2619,6 @@ loginForm.addEventListener(
 
         loginButton.textContent =
             "Anmeldung läuft ...";
-
-
-        initializeAudio();
 
 
         const email =
@@ -2418,6 +2695,9 @@ async function showAdmin() {
 
     soundButton.style.display =
         "block";
+
+
+    updateSoundButtons();
 
 
     await loadOrders();
@@ -3556,12 +3836,6 @@ async function updateOrderStatus(
     updateLastUpdated();
 
 
-    /*
-        Detailansicht offen lassen.
-        Dadurch gibt es keinen unnötigen
-        Seiten- oder Listen-Sprung.
-    */
-
     if (
         fromModal &&
         selectedOrderId
@@ -3913,6 +4187,30 @@ logoutButton.addEventListener(
         allOrders = [];
 
 
+        soundEnabled = false;
+
+
+        if (audioContext) {
+
+            try {
+
+                await audioContext.close();
+
+            } catch (error) {
+
+                console.error(
+                    "AudioContext konnte nicht geschlossen werden:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        audioContext = null;
+
+
         adminSection.style.display =
             "none";
 
@@ -3954,6 +4252,8 @@ logoutButton.addEventListener(
 
 
         updateDashboardCounts();
+
+        updateSoundButtons();
 
 
         lastUpdated.textContent =
@@ -4033,7 +4333,7 @@ function startRealtime() {
                     table: "orders"
                 },
 
-                function(payload) {
+                async function(payload) {
 
                     console.log(
                         "Neue Vorbestellung:",
@@ -4077,12 +4377,29 @@ function startRealtime() {
                     updateLastUpdated();
 
 
+                    /*
+                        Visuelle Benachrichtigung
+                    */
+
                     showNewOrderNotification(
                         payload.new
                     );
 
 
-                    playNewOrderSound();
+                    /*
+                        Akustische Benachrichtigung
+
+                        WICHTIG:
+                        Dieser Ton wird ausschließlich bei
+                        einem INSERT abgespielt, also wenn
+                        Supabase tatsächlich eine NEUE
+                        Bestellung meldet.
+
+                        Änderungen an bestehenden Bestellungen
+                        lösen KEINEN Ton aus.
+                    */
+
+                    await playNewOrderSound();
 
                 }
             )
@@ -4177,6 +4494,39 @@ function startRealtime() {
                         "Realtime Status:",
                         status
                     );
+
+
+                    if (
+                        status === "SUBSCRIBED"
+                    ) {
+
+                        console.log(
+                            "Realtime für neue Bestellungen ist aktiv."
+                        );
+
+                    }
+
+
+                    if (
+                        status === "CHANNEL_ERROR"
+                    ) {
+
+                        console.error(
+                            "Supabase Realtime Channel Error."
+                        );
+
+                    }
+
+
+                    if (
+                        status === "TIMED_OUT"
+                    ) {
+
+                        console.error(
+                            "Supabase Realtime Verbindung Timeout."
+                        );
+
+                    }
 
                 }
             );
@@ -4411,6 +4761,14 @@ completionFilter.addEventListener(
 
     }
 );
+
+
+/* =====================================================
+   INITIALER SOUND-BUTTON STATUS
+===================================================== */
+
+updateSoundButtons();
+
 
 </script>
 
