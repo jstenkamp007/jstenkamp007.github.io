@@ -28,6 +28,10 @@
     --light: #f5f7f8;
     --muted: #627d98;
 
+    --red: #d92d20;
+    --yellow: #b7791f;
+    --ready: #15966f;
+
 }
 
 * {
@@ -73,6 +77,12 @@ header {
 
     align-items: center;
 
+    position: sticky;
+
+    top: 0;
+
+    z-index: 100;
+
 }
 
 .logo {
@@ -83,7 +93,18 @@ header {
 
 }
 
-.logout {
+.header-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+.logout,
+.refresh-button {
 
     border: none;
 
@@ -99,17 +120,28 @@ header {
 
     font-size: 14px;
 
+    font-family: inherit;
+
     transition:
         transform 0.2s ease,
         background 0.2s ease;
 
 }
 
-.logout:hover {
+.logout:hover,
+.refresh-button:hover {
 
-    transform: scale(1.03);
+    transform: translateY(-1px);
 
     background: #e8ecef;
+
+}
+
+.refresh-button.loading {
+
+    opacity: 0.6;
+
+    pointer-events: none;
 
 }
 
@@ -120,7 +152,7 @@ header {
 
 .container {
 
-    max-width: 900px;
+    max-width: 1000px;
 
     margin: 0 auto;
 
@@ -140,7 +172,7 @@ h1 {
 
     color: var(--muted);
 
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 
 }
 
@@ -248,6 +280,45 @@ button.primary:hover {
 
 }
 
+button.primary:disabled {
+
+    opacity: 0.6;
+
+    cursor: default;
+
+    transform: none;
+
+}
+
+
+/* =====================================================
+   ADMIN TOOLBAR
+===================================================== */
+
+.admin-toolbar {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+
+    flex-wrap: wrap;
+
+}
+
+.last-updated {
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+}
+
 
 /* =====================================================
    SUCHE & FILTER
@@ -335,7 +406,7 @@ button.primary:hover {
     display: grid;
 
     grid-template-columns:
-        repeat(4, 1fr);
+        repeat(3, 1fr);
 
     gap: 15px;
 
@@ -394,6 +465,20 @@ button.primary:hover {
         0 8px 25px
         rgba(16,42,67,0.06);
 
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+.order-card:hover {
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 12px 30px
+        rgba(16,42,67,0.08);
+
 }
 
 .order-header {
@@ -420,6 +505,8 @@ button.primary:hover {
 
     font-size: 13px;
 
+    text-align: right;
+
 }
 
 .order-medicine {
@@ -430,6 +517,8 @@ button.primary:hover {
 
     color: var(--green);
 
+    font-size: 16px;
+
 }
 
 .order-details {
@@ -438,9 +527,46 @@ button.primary:hover {
 
     color: var(--muted);
 
-    line-height: 1.6;
+    line-height: 1.7;
 
 }
+
+.order-details a {
+
+    color: var(--blue);
+
+    text-decoration: none;
+
+    font-weight: 600;
+
+}
+
+.order-details a:hover {
+
+    text-decoration: underline;
+
+}
+
+.order-message {
+
+    margin-top: 6px;
+
+    padding: 10px 12px;
+
+    background: #f7f9fa;
+
+    border-radius: 10px;
+
+    white-space: pre-wrap;
+
+    word-break: break-word;
+
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
 
 .order-status {
 
@@ -450,6 +576,20 @@ button.primary:hover {
 
     border-top:
         1px solid #eef1f3;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+
+}
+
+.status-label {
+
+    font-weight: 600;
 
 }
 
@@ -473,7 +613,7 @@ button.primary:hover {
 
     color: var(--blue);
 
-    padding: 9px 12px;
+    padding: 10px 13px;
 
     border-radius: 10px;
 
@@ -486,7 +626,8 @@ button.primary:hover {
     transition:
         transform 0.2s ease,
         background 0.2s ease,
-        box-shadow 0.2s ease;
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
 
 }
 
@@ -510,10 +651,19 @@ button.primary:hover {
 
 }
 
+.status-buttons button:disabled {
+
+    opacity: 0.55;
+
+    cursor: default;
+
+    transform: none;
+
+}
 
 
 /* =====================================================
-   FEHLER / LEER
+   FEHLER / LEER / LADEN
 ===================================================== */
 
 .error {
@@ -538,19 +688,189 @@ button.primary:hover {
 
 }
 
+.loading {
+
+    text-align: center;
+
+    padding: 30px 20px;
+
+    color: var(--muted);
+
+    background: white;
+
+    border-radius: 20px;
+
+}
+
+
+/* =====================================================
+   BENACHRICHTIGUNG
+===================================================== */
+
+.notification {
+
+    position: fixed;
+
+    top: 20px;
+
+    right: 20px;
+
+    z-index: 9999;
+
+    background: white;
+
+    color: var(--blue);
+
+    padding: 18px 22px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 15px 40px
+        rgba(0,0,0,0.15);
+
+    max-width: 340px;
+
+    animation:
+        notificationIn 0.25s ease;
+
+}
+
+.notification-title {
+
+    font-weight: 700;
+
+}
+
+.notification-name {
+
+    margin-top: 5px;
+
+    color: var(--muted);
+
+}
+
+@keyframes notificationIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translateY(-10px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast {
+
+    position: fixed;
+
+    bottom: 20px;
+
+    left: 50%;
+
+    transform:
+        translateX(-50%);
+
+    z-index: 10000;
+
+    background: var(--blue);
+
+    color: white;
+
+    padding: 13px 18px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 10px 30px
+        rgba(0,0,0,0.15);
+
+    font-size: 14px;
+
+    animation:
+        toastIn 0.2s ease;
+
+}
+
+@keyframes toastIn {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            translate(-50%, 10px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            translate(-50%, 0);
+
+    }
+
+}
+
 
 /* =====================================================
    MOBILE
 ===================================================== */
 
-@media(max-width:600px) {
+@media(max-width:700px) {
 
-    .order-header {
+    header {
+
+        padding:
+            16px 18px;
+
+    }
+
+    .logo {
+
+        font-size: 16px;
+
+    }
+
+    .container {
+
+        padding:
+            28px 15px;
+
+    }
+
+    .admin-toolbar {
+
+        align-items: stretch;
 
         flex-direction: column;
 
     }
 
+    .refresh-button {
+
+        width: 100%;
+
+    }
 
     .dashboard {
 
@@ -559,13 +879,11 @@ button.primary:hover {
 
     }
 
-
     .stat-card {
 
         padding: 18px;
 
     }
-
 
     .stat-number {
 
@@ -573,13 +891,23 @@ button.primary:hover {
 
     }
 
+    .order-header {
+
+        flex-direction: column;
+
+    }
+
+    .order-date {
+
+        text-align: left;
+
+    }
 
     .order-filters {
 
         flex-direction: column;
 
     }
-
 
     .order-filters input,
     .order-filters select {
@@ -590,17 +918,43 @@ button.primary:hover {
 
     }
 
-
     .status-buttons {
 
         flex-direction: column;
 
     }
 
-
     .status-buttons button {
 
         width: 100%;
+
+    }
+
+    .notification {
+
+        left: 15px;
+
+        right: 15px;
+
+        top: 15px;
+
+        max-width: none;
+
+    }
+
+}
+
+
+/* =====================================================
+   SEHR KLEINE GERÄTE
+===================================================== */
+
+@media(max-width:380px) {
+
+    .dashboard {
+
+        grid-template-columns:
+            1fr;
 
     }
 
@@ -623,15 +977,34 @@ button.primary:hover {
     </div>
 
 
-    <button
-        class="logout"
-        id="logoutButton"
-        style="display:none;"
+    <div
+        class="header-actions"
     >
 
-        Abmelden
+        <button
+            class="refresh-button"
+            id="refreshButton"
+            style="display:none;"
+            type="button"
+        >
 
-    </button>
+            ↻ Aktualisieren
+
+        </button>
+
+
+        <button
+            class="logout"
+            id="logoutButton"
+            style="display:none;"
+            type="button"
+        >
+
+            Abmelden
+
+        </button>
+
+    </div>
 
 </header>
 
@@ -668,6 +1041,7 @@ button.primary:hover {
             <input
                 type="email"
                 id="email"
+                autocomplete="username"
                 required
             >
 
@@ -683,6 +1057,7 @@ button.primary:hover {
             <input
                 type="password"
                 id="password"
+                autocomplete="current-password"
                 required
             >
 
@@ -691,6 +1066,7 @@ button.primary:hover {
 
         <button
             class="primary"
+            id="loginButton"
             type="submit"
         >
 
@@ -731,6 +1107,34 @@ button.primary:hover {
 
 
     <!-- =================================================
+         TOOLBAR
+    ================================================= -->
+
+    <div class="admin-toolbar">
+
+        <div
+            class="last-updated"
+            id="lastUpdated"
+        >
+            Noch nicht aktualisiert
+        </div>
+
+
+        <button
+            class="refresh-button"
+            id="refreshButtonMobile"
+            type="button"
+        >
+
+            ↻ Aktualisieren
+
+        </button>
+
+    </div>
+
+
+
+    <!-- =================================================
          SUCHE & FILTER
     ================================================= -->
 
@@ -739,7 +1143,8 @@ button.primary:hover {
         <input
             type="text"
             id="orderSearch"
-            placeholder="🔍 Name, Medikament oder Telefon suchen..."
+            placeholder="🔍 Name, Medikament, Telefon oder Nachricht suchen..."
+            autocomplete="off"
         >
 
 
@@ -767,6 +1172,19 @@ button.primary:hover {
 
         </select>
 
+
+        <select id="dateFilter">
+
+            <option value="all">
+                Alle Zeiträume
+            </option>
+
+            <option value="today">
+                Heute
+            </option>
+
+        </select>
+
     </div>
 
 
@@ -776,6 +1194,7 @@ button.primary:hover {
     ================================================= -->
 
     <div class="dashboard">
+
 
         <div class="stat-card">
 
@@ -839,6 +1258,39 @@ button.primary:hover {
             </div>
 
         </div>
+
+
+        <div class="stat-card">
+
+            <div
+                class="stat-number"
+                id="todayCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                📅 Heute
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div
+                class="stat-number"
+                id="openCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                ⏳ Offen
+            </div>
+
+        </div>
+
 
     </div>
 
@@ -905,6 +1357,15 @@ const loginError =
 const logoutButton =
     document.getElementById("logoutButton");
 
+const refreshButton =
+    document.getElementById("refreshButton");
+
+const refreshButtonMobile =
+    document.getElementById("refreshButtonMobile");
+
+const loginButton =
+    document.getElementById("loginButton");
+
 const ordersContainer =
     document.getElementById("orders");
 
@@ -913,6 +1374,12 @@ const orderSearch =
 
 const statusFilter =
     document.getElementById("statusFilter");
+
+const dateFilter =
+    document.getElementById("dateFilter");
+
+const lastUpdated =
+    document.getElementById("lastUpdated");
 
 const newCount =
     document.getElementById("newCount");
@@ -926,10 +1393,18 @@ const readyCount =
 const totalCount =
     document.getElementById("totalCount");
 
+const todayCount =
+    document.getElementById("todayCount");
+
+const openCount =
+    document.getElementById("openCount");
+
 
 let allOrders = [];
 
 let realtimeChannel = null;
+
+let isLoadingOrders = false;
 
 
 
@@ -945,12 +1420,22 @@ loginForm.addEventListener(
 
         loginError.textContent = "";
 
+        loginButton.disabled = true;
+
+        loginButton.textContent =
+            "Anmeldung läuft ...";
+
 
         const email =
-            document.getElementById("email").value.trim();
+            document
+                .getElementById("email")
+                .value
+                .trim();
 
         const password =
-            document.getElementById("password").value;
+            document
+                .getElementById("password")
+                .value;
 
 
         const {
@@ -972,9 +1457,20 @@ loginForm.addEventListener(
 
             console.error(error);
 
+            loginButton.disabled = false;
+
+            loginButton.textContent =
+                "Anmelden";
+
             return;
 
         }
+
+
+        loginButton.disabled = false;
+
+        loginButton.textContent =
+            "Anmelden";
 
 
         await showAdmin();
@@ -999,6 +1495,9 @@ async function showAdmin() {
     logoutButton.style.display =
         "block";
 
+    refreshButton.style.display =
+        "block";
+
 
     await loadOrders();
 
@@ -1014,8 +1513,25 @@ async function showAdmin() {
 
 async function loadOrders() {
 
-    ordersContainer.innerHTML =
-        "<p>Vorbestellungen werden geladen ...";
+    if (isLoadingOrders) {
+
+        return;
+
+    }
+
+
+    isLoadingOrders = true;
+
+
+    ordersContainer.innerHTML = `
+
+        <div class="loading">
+
+            Vorbestellungen werden geladen ...
+
+        </div>
+
+    `;
 
 
     const {
@@ -1033,6 +1549,9 @@ async function loadOrders() {
         );
 
 
+    isLoadingOrders = false;
+
+
     if (error) {
 
         console.error(error);
@@ -1043,6 +1562,10 @@ async function loadOrders() {
 
                 Fehler beim Laden der
                 Vorbestellungen.
+
+                <br>
+
+                Bitte versuchen Sie es erneut.
 
             </div>
 
@@ -1061,6 +1584,8 @@ async function loadOrders() {
 
     renderOrders();
 
+    updateLastUpdated();
+
 }
 
 
@@ -1073,27 +1598,60 @@ function updateDashboardCounts() {
 
     const newOrders =
         allOrders.filter(
-            order =>
-                order.status === "new"
+            function(order) {
+
+                return order.status === "new";
+
+            }
         ).length;
 
 
     const processingOrders =
         allOrders.filter(
-            order =>
-                order.status === "processing"
+            function(order) {
+
+                return order.status === "processing";
+
+            }
         ).length;
 
 
     const readyOrders =
         allOrders.filter(
-            order =>
-                order.status === "ready"
+            function(order) {
+
+                return order.status === "ready";
+
+            }
         ).length;
 
 
     const totalOrders =
         allOrders.length;
+
+
+    const todayOrders =
+        allOrders.filter(
+            function(order) {
+
+                return isToday(
+                    order.created_at
+                );
+
+            }
+        ).length;
+
+
+    const openOrders =
+        allOrders.filter(
+            function(order) {
+
+                return (
+                    order.status !== "completed"
+                );
+
+            }
+        ).length;
 
 
     newCount.textContent =
@@ -1110,6 +1668,14 @@ function updateDashboardCounts() {
 
     totalCount.textContent =
         totalOrders;
+
+
+    todayCount.textContent =
+        todayOrders;
+
+
+    openCount.textContent =
+        openOrders;
 
 }
 
@@ -1131,6 +1697,10 @@ function renderOrders() {
         statusFilter.value;
 
 
+    const selectedDate =
+        dateFilter.value;
+
+
     const filteredOrders =
         allOrders.filter(
             function(order) {
@@ -1145,6 +1715,8 @@ function renderOrders() {
                     ${order.medicine || ""}
 
                     ${order.phone || ""}
+
+                    ${order.message || ""}
 
                 `.toLowerCase();
 
@@ -1161,17 +1733,35 @@ function renderOrders() {
                     order.status === selectedStatus;
 
 
+                const matchesDate =
+                    selectedDate === "all"
+                    ||
+                    (
+                        selectedDate === "today"
+                        &&
+                        isToday(
+                            order.created_at
+                        )
+                    );
+
+
                 return (
+
                     matchesSearch
                     &&
                     matchesStatus
+                    &&
+                    matchesDate
+
                 );
 
             }
         );
 
 
-    if (filteredOrders.length === 0) {
+    if (
+        filteredOrders.length === 0
+    ) {
 
         ordersContainer.innerHTML = `
 
@@ -1200,13 +1790,9 @@ function renderOrders() {
 
 
             const date =
-                order.created_at
-                ? new Date(
+                formatDate(
                     order.created_at
-                  ).toLocaleString(
-                    "de-DE"
-                  )
-                : "Zeitpunkt unbekannt";
+                );
 
 
             const card =
@@ -1258,39 +1844,61 @@ function renderOrders() {
 
                     📞
 
-                    ${escapeHtml(
-                        order.phone
-                    )}
+                    <a
+                        href="${getTelLink(
+                            order.phone
+                        )}"
+                    >
+
+                        ${escapeHtml(
+                            order.phone
+                        )}
+
+                    </a>
+
 
                     <br>
 
 
-                    📝
+                    📝 Nachricht:
 
-                    ${escapeHtml(
-                        order.message ||
-                        "Keine Nachricht"
-                    )}
+                    <div class="order-message">
 
-                    <br>
+                        ${escapeHtml(
+                            order.message ||
+                            "Keine Nachricht"
+                        )}
+
+                    </div>
 
 
-                    📱 Rückruf:
+                    <div style="margin-top:8px;">
 
-                    ${
-                        order.callback
-                        ? "Ja"
-                        : "Nein"
-                    }
+                        📱 Rückruf:
+
+                        <strong>
+
+                            ${
+                                order.callback
+                                ? "Ja"
+                                : "Nein"
+                            }
+
+                        </strong>
+
+                    </div>
 
                 </div>
 
 
                 <div class="order-status">
 
-                    <strong>
+                    <span class="status-label">
+
                         Status:
-                    </strong>
+
+                    </span>
+
 
                     <span>
 
@@ -1305,65 +1913,70 @@ function renderOrders() {
 
                 <div class="status-buttons">
 
-                   <button
-    type="button"
-    class="${
-        order.status === "new"
-        ? "active"
-        : ""
-    }"
-    onclick="updateOrderStatus(
-        ${order.id},
-        'new'
-    )"
->
-    Neu
-</button>
 
-                   <button
-    type="button"
-    class="${
-        order.status === "processing"
-        ? "active"
-        : ""
-    }"
-    onclick="updateOrderStatus(
-        ${order.id},
-        'processing'
-    )"
->
-    In Bearbeitung
-</button>
+                    <button
+                        type="button"
+                        class="${
+                            order.status === "new"
+                            ? "active"
+                            : ""
+                        }"
+                        data-order-id="${order.id}"
+                        data-status="new"
+                    >
 
-                   <button
-    type="button"
-    class="${
-        order.status === "ready"
-        ? "active"
-        : ""
-    }"
-    onclick="updateOrderStatus(
-        ${order.id},
-        'ready'
-    )"
->
-    Abholbereit
-</button>
+                        🔴 Neu
 
-                   <button
-    type="button"
-    class="${
-        order.status === "completed"
-        ? "active"
-        : ""
-    }"
-    onclick="updateOrderStatus(
-        ${order.id},
-        'completed'
-    )"
->
-    Erledigt
-</button>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="${
+                            order.status === "processing"
+                            ? "active"
+                            : ""
+                        }"
+                        data-order-id="${order.id}"
+                        data-status="processing"
+                    >
+
+                        🟡 In Bearbeitung
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="${
+                            order.status === "ready"
+                            ? "active"
+                            : ""
+                        }"
+                        data-order-id="${order.id}"
+                        data-status="ready"
+                    >
+
+                        🟢 Abholbereit
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="${
+                            order.status === "completed"
+                            ? "active"
+                            : ""
+                        }"
+                        data-order-id="${order.id}"
+                        data-status="completed"
+                    >
+
+                        ⚪ Erledigt
+
+                    </button>
+
 
                 </div>
 
@@ -1375,6 +1988,147 @@ function renderOrders() {
             );
 
         }
+    );
+
+}
+
+
+
+/* =====================================================
+   STATUS-BUTTONS
+===================================================== */
+
+ordersContainer.addEventListener(
+    "click",
+    async function(event) {
+
+        const button =
+            event.target.closest(
+                "button[data-order-id]"
+            );
+
+
+        if (!button) {
+
+            return;
+
+        }
+
+
+        const orderId =
+            button.dataset.orderId;
+
+        const newStatus =
+            button.dataset.status;
+
+
+        await updateOrderStatus(
+            orderId,
+            newStatus,
+            button
+        );
+
+    }
+);
+
+
+
+/* =====================================================
+   STATUS ÄNDERN
+===================================================== */
+
+async function updateOrderStatus(
+    orderId,
+    newStatus,
+    clickedButton
+) {
+
+    const order =
+        allOrders.find(
+            function(item) {
+
+                return String(item.id) ===
+                    String(orderId);
+
+            }
+        );
+
+
+    if (!order) {
+
+        return;
+
+    }
+
+
+    if (
+        order.status === newStatus
+    ) {
+
+        return;
+
+    }
+
+
+    const originalText =
+        clickedButton.textContent;
+
+
+    clickedButton.disabled =
+        true;
+
+    clickedButton.textContent =
+        "Speichern ...";
+
+
+    const {
+        error
+    } =
+    await supabaseClient
+        .from("orders")
+        .update({
+
+            status: newStatus
+
+        })
+        .eq(
+            "id",
+            orderId
+        );
+
+
+    clickedButton.disabled =
+        false;
+
+    clickedButton.textContent =
+        originalText;
+
+
+    if (error) {
+
+        console.error(error);
+
+        showToast(
+            "Der Status konnte nicht geändert werden."
+        );
+
+        return;
+
+    }
+
+
+    order.status =
+        newStatus;
+
+
+    updateDashboardCounts();
+
+    renderOrders();
+
+    updateLastUpdated();
+
+    showToast(
+        "Status erfolgreich geändert."
     );
 
 }
@@ -1396,6 +2150,130 @@ function escapeHtml(value) {
 
 
     return div.innerHTML;
+
+}
+
+
+
+/* =====================================================
+   TELEFONNUMMER
+===================================================== */
+
+function getTelLink(phone) {
+
+    if (!phone) {
+
+        return "#";
+
+    }
+
+
+    const cleaned =
+        String(phone)
+            .replace(
+                /[^0-9+]/g,
+                ""
+            );
+
+
+    return "tel:" +
+        encodeURIComponent(
+            cleaned
+        );
+
+}
+
+
+
+/* =====================================================
+   DATUM FORMATIEREN
+===================================================== */
+
+function formatDate(value) {
+
+    if (!value) {
+
+        return "Zeitpunkt unbekannt";
+
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return "Zeitpunkt unbekannt";
+
+    }
+
+
+    return date.toLocaleString(
+        "de-DE",
+        {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   HEUTE PRÜFEN
+===================================================== */
+
+function isToday(value) {
+
+    if (!value) {
+
+        return false;
+
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+
+        return false;
+
+    }
+
+
+    const now =
+        new Date();
+
+
+    return (
+        date.getFullYear() ===
+            now.getFullYear()
+
+        &&
+
+        date.getMonth() ===
+            now.getMonth()
+
+        &&
+
+        date.getDate() ===
+            now.getDate()
+    );
 
 }
 
@@ -1442,46 +2320,85 @@ function getStatusLabel(status) {
 
 
 /* =====================================================
-   STATUS ÄNDERN
+   LETZTE AKTUALISIERUNG
 ===================================================== */
 
-async function updateOrderStatus(
-    orderId,
-    newStatus
-) {
+function updateLastUpdated() {
 
-    const {
-        error
-    } =
-    await supabaseClient
-        .from("orders")
-        .update({
+    const now =
+        new Date();
 
-            status: newStatus
 
-        })
-        .eq(
-            "id",
-            orderId
+    lastUpdated.textContent =
+        "Zuletzt aktualisiert: " +
+        now.toLocaleTimeString(
+            "de-DE",
+            {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit"
+            }
         );
 
+}
 
-    if (error) {
 
-        console.error(error);
 
-        alert(
-            "Der Status konnte nicht geändert werden."
-        );
+/* =====================================================
+   MANUELLES AKTUALISIEREN
+===================================================== */
+
+async function manualRefresh() {
+
+    if (
+        isLoadingOrders
+    ) {
 
         return;
 
     }
 
 
+    refreshButton.classList.add(
+        "loading"
+    );
+
+
+    refreshButtonMobile.classList.add(
+        "loading"
+    );
+
+
     await loadOrders();
 
+
+    refreshButton.classList.remove(
+        "loading"
+    );
+
+
+    refreshButtonMobile.classList.remove(
+        "loading"
+    );
+
+
+    showToast(
+        "Vorbestellungen aktualisiert."
+    );
+
 }
+
+
+refreshButton.addEventListener(
+    "click",
+    manualRefresh
+);
+
+
+refreshButtonMobile.addEventListener(
+    "click",
+    manualRefresh
+);
 
 
 
@@ -1523,6 +2440,10 @@ logoutButton.addEventListener(
             "none";
 
 
+        refreshButton.style.display =
+            "none";
+
+
         ordersContainer.innerHTML =
             "";
 
@@ -1535,7 +2456,14 @@ logoutButton.addEventListener(
             "all";
 
 
+        dateFilter.value =
+            "all";
+
+
         updateDashboardCounts();
+
+        lastUpdated.textContent =
+            "Noch nicht aktualisiert";
 
     }
 );
@@ -1549,9 +2477,21 @@ logoutButton.addEventListener(
 async function checkSession() {
 
     const {
-        data
+        data,
+        error
     } =
     await supabaseClient.auth.getUser();
+
+
+    if (error) {
+
+        console.log(
+            "Keine aktive Sitzung."
+        );
+
+        return;
+
+    }
 
 
     if (data.user) {
@@ -1582,7 +2522,13 @@ function startRealtime() {
 
     realtimeChannel =
         supabaseClient
-            .channel("orders-realtime")
+            .channel(
+                "orders-realtime"
+            )
+
+            /* =========================================
+               NEUE BESTELLUNG
+            ========================================= */
 
             .on(
                 "postgres_changes",
@@ -1610,6 +2556,31 @@ function startRealtime() {
                 }
             )
 
+            /* =========================================
+               STATUSÄNDERUNG
+            ========================================= */
+
+            .on(
+                "postgres_changes",
+                {
+                    event: "UPDATE",
+                    schema: "public",
+                    table: "orders"
+                },
+
+                function(payload) {
+
+                    console.log(
+                        "Vorbestellung aktualisiert:",
+                        payload.new
+                    );
+
+
+                    loadOrders();
+
+                }
+            )
+
             .subscribe(
                 function(status) {
 
@@ -1629,48 +2600,43 @@ function startRealtime() {
    NEUE VORBESTELLUNG BENACHRICHTIGUNG
 ===================================================== */
 
-function showNewOrderNotification(order) {
+function showNewOrderNotification(
+    order
+) {
+
+    const oldNotification =
+        document.querySelector(
+            ".notification"
+        );
+
+
+    if (
+        oldNotification
+    ) {
+
+        oldNotification.remove();
+
+    }
+
 
     const notification =
         document.createElement("div");
 
 
-    notification.style.position =
-        "fixed";
+    notification.className =
+        "notification";
 
-    notification.style.top =
-        "20px";
-
-    notification.style.right =
-        "20px";
-
-    notification.style.zIndex =
-        "9999";
-
-    notification.style.background =
-        "white";
-
-    notification.style.color =
-        "#102a43";
-
-    notification.style.padding =
-        "18px 22px";
-
-    notification.style.borderRadius =
-        "18px";
-
-    notification.style.boxShadow =
-        "0 15px 40px rgba(0,0,0,0.15)";
 
     notification.innerHTML = `
 
-        <strong>
+        <div class="notification-title">
+
             🔴 Neue Vorbestellung
-        </strong>
 
-        <br>
+        </div>
 
-        <span>
+
+        <div class="notification-name">
 
             ${escapeHtml(
                 order.first_name
@@ -1680,7 +2646,15 @@ function showNewOrderNotification(order) {
                 order.last_name
             )}
 
-        </span>
+            <br>
+
+            💊
+
+            ${escapeHtml(
+                order.medicine
+            )}
+
+        </div>
 
     `;
 
@@ -1710,6 +2684,63 @@ function showNewOrderNotification(order) {
 
 
 /* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(message) {
+
+    const existingToast =
+        document.querySelector(
+            ".toast"
+        );
+
+
+    if (
+        existingToast
+    ) {
+
+        existingToast.remove();
+
+    }
+
+
+    const toast =
+        document.createElement("div");
+
+
+    toast.className =
+        "toast";
+
+
+    toast.textContent =
+        message;
+
+
+    document.body.appendChild(
+        toast
+    );
+
+
+    setTimeout(
+        function() {
+
+            if (
+                toast.parentNode
+            ) {
+
+                toast.remove();
+
+            }
+
+        },
+        3000
+    );
+
+}
+
+
+
+/* =====================================================
    SUCHE & FILTER
 ===================================================== */
 
@@ -1724,6 +2755,16 @@ orderSearch.addEventListener(
 
 
 statusFilter.addEventListener(
+    "change",
+    function() {
+
+        renderOrders();
+
+    }
+);
+
+
+dateFilter.addEventListener(
     "change",
     function() {
 
