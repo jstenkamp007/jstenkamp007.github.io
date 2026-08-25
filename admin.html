@@ -485,7 +485,8 @@ button.primary:hover {
 
     transition:
         transform 0.2s ease,
-        background 0.2s ease;
+        background 0.2s ease,
+        box-shadow 0.2s ease;
 
 }
 
@@ -496,6 +497,19 @@ button.primary:hover {
     background: #e5e9eb;
 
 }
+
+.status-buttons button.active {
+
+    background: var(--green);
+
+    color: white;
+
+    box-shadow:
+        0 4px 12px
+        rgba(21,150,111,0.20);
+
+}
+
 
 
 /* =====================================================
@@ -1291,48 +1305,65 @@ function renderOrders() {
 
                 <div class="status-buttons">
 
-                    <button
-                        type="button"
-                        onclick="updateOrderStatus(
-                            ${order.id},
-                            'new'
-                        )"
-                    >
-                        Neu
-                    </button>
+                   <button
+    type="button"
+    class="${
+        order.status === "new"
+        ? "active"
+        : ""
+    }"
+    onclick="updateOrderStatus(
+        ${order.id},
+        'new'
+    )"
+>
+    Neu
+</button>
 
+                   <button
+    type="button"
+    class="${
+        order.status === "processing"
+        ? "active"
+        : ""
+    }"
+    onclick="updateOrderStatus(
+        ${order.id},
+        'processing'
+    )"
+>
+    In Bearbeitung
+</button>
 
-                    <button
-                        type="button"
-                        onclick="updateOrderStatus(
-                            ${order.id},
-                            'processing'
-                        )"
-                    >
-                        In Bearbeitung
-                    </button>
+                   <button
+    type="button"
+    class="${
+        order.status === "ready"
+        ? "active"
+        : ""
+    }"
+    onclick="updateOrderStatus(
+        ${order.id},
+        'ready'
+    )"
+>
+    Abholbereit
+</button>
 
-
-                    <button
-                        type="button"
-                        onclick="updateOrderStatus(
-                            ${order.id},
-                            'ready'
-                        )"
-                    >
-                        Abholbereit
-                    </button>
-
-
-                    <button
-                        type="button"
-                        onclick="updateOrderStatus(
-                            ${order.id},
-                            'completed'
-                        )"
-                    >
-                        Erledigt
-                    </button>
+                   <button
+    type="button"
+    class="${
+        order.status === "completed"
+        ? "active"
+        : ""
+    }"
+    onclick="updateOrderStatus(
+        ${order.id},
+        'completed'
+    )"
+>
+    Erledigt
+</button>
 
                 </div>
 
