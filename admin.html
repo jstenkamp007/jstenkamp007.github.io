@@ -6,16 +6,20 @@
 <meta charset="UTF-8">
 
 <meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
 >
 
 <title>
-Apotheke am Stadtpark – Verwaltung
+    Apotheke am Stadtpark – Verwaltung
 </title>
 
 
 <style>
+
+/* =====================================================
+   GRUNDLAGEN
+===================================================== */
 
 :root {
 
@@ -49,9 +53,9 @@ body {
 }
 
 
-/* ==============================
+/* =====================================================
    HEADER
-============================== */
+===================================================== */
 
 header {
 
@@ -85,18 +89,34 @@ header {
 
     background: #f1f3f4;
 
+    color: var(--blue);
+
     padding: 10px 16px;
 
     border-radius: 12px;
 
     cursor: pointer;
 
+    font-size: 14px;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+
+}
+
+.logout:hover {
+
+    transform: scale(1.03);
+
+    background: #e8ecef;
+
 }
 
 
-/* ==============================
+/* =====================================================
    CONTAINER
-============================== */
+===================================================== */
 
 .container {
 
@@ -109,6 +129,8 @@ header {
 }
 
 h1 {
+
+    margin-top: 0;
 
     margin-bottom: 8px;
 
@@ -123,9 +145,9 @@ h1 {
 }
 
 
-/* ==============================
+/* =====================================================
    LOGIN
-============================== */
+===================================================== */
 
 .login-box {
 
@@ -174,6 +196,20 @@ input {
 
     font-size: 15px;
 
+    font-family: inherit;
+
+    outline: none;
+
+}
+
+input:focus {
+
+    border-color: var(--green);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(21,150,111,0.10);
+
 }
 
 button.primary {
@@ -196,12 +232,153 @@ button.primary {
 
     cursor: pointer;
 
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+button.primary:hover {
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(21,150,111,0.20);
+
 }
 
 
-/* ==============================
+/* =====================================================
+   SUCHE & FILTER
+===================================================== */
+
+.order-filters {
+
+    display: flex;
+
+    gap: 12px;
+
+    margin-bottom: 25px;
+
+    flex-wrap: wrap;
+
+}
+
+.order-filters input,
+.order-filters select {
+
+    padding: 14px 16px;
+
+    border: 1px solid #dce3e7;
+
+    border-radius: 14px;
+
+    background: white;
+
+    color: var(--blue);
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+
+}
+
+.order-filters input {
+
+    flex: 1;
+
+    min-width: 240px;
+
+}
+
+.order-filters select {
+
+    min-width: 170px;
+
+    cursor: pointer;
+
+}
+
+.order-filters input:focus,
+.order-filters select:focus {
+
+    border-color: var(--green);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(21,150,111,0.10);
+
+}
+
+.order-filters input:hover,
+.order-filters select:hover {
+
+    transform: translateY(-1px);
+
+}
+
+
+/* =====================================================
+   DASHBOARD
+===================================================== */
+
+.dashboard {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 35px;
+
+}
+
+.stat-card {
+
+    background: white;
+
+    padding: 22px;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(16,42,67,0.06);
+
+}
+
+.stat-number {
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+}
+
+.stat-label {
+
+    margin-top: 6px;
+
+    color: var(--muted);
+
+    font-size: 14px;
+
+}
+
+
+/* =====================================================
    ORDER CARD
-============================== */
+===================================================== */
 
 .order-card {
 
@@ -265,6 +442,66 @@ button.primary {
 
 }
 
+.order-status {
+
+    margin-top: 18px;
+
+    padding-top: 15px;
+
+    border-top:
+        1px solid #eef1f3;
+
+}
+
+.status-buttons {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin-top: 15px;
+
+}
+
+.status-buttons button {
+
+    border: none;
+
+    background: #f1f3f4;
+
+    color: var(--blue);
+
+    padding: 9px 12px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+
+}
+
+.status-buttons button:hover {
+
+    transform: translateY(-1px);
+
+    background: #e5e9eb;
+
+}
+
+
+/* =====================================================
+   FEHLER / LEER
+===================================================== */
+
 .error {
 
     color: #b42318;
@@ -281,64 +518,16 @@ button.primary {
 
     color: var(--muted);
 
-}
-
-
-/* ==============================
-   DASHBOARD
-============================== */
-
-.dashboard {
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(4, 1fr);
-
-    gap: 15px;
-
-    margin-bottom: 35px;
-
-}
-
-
-.stat-card {
-
     background: white;
-
-    padding: 22px;
 
     border-radius: 20px;
 
-    box-shadow:
-        0 8px 25px
-        rgba(16,42,67,0.06);
-
 }
 
 
-.stat-number {
-
-    font-size: 30px;
-
-    font-weight: 700;
-
-}
-
-
-.stat-label {
-
-    margin-top: 6px;
-
-    color: var(--muted);
-
-    font-size: 14px;
-
-}
-
-/* ==============================
+/* =====================================================
    MOBILE
-============================== */
+===================================================== */
 
 @media(max-width:600px) {
 
@@ -370,91 +559,6 @@ button.primary {
 
     }
 
-}
-
-/* ==============================
-   SUCHE & FILTER
-============================== */
-
-.order-filters {
-
-    display: flex;
-
-    gap: 12px;
-
-    margin-bottom: 25px;
-
-    flex-wrap: wrap;
-
-}
-
-
-.order-filters input,
-.order-filters select {
-
-    padding: 14px 16px;
-
-    border: 1px solid #dce3e7;
-
-    border-radius: 14px;
-
-    background: white;
-
-    color: var(--blue);
-
-    font-family: inherit;
-
-    font-size: 15px;
-
-    outline: none;
-
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        transform 0.2s ease;
-
-}
-
-
-.order-filters input {
-
-    flex: 1;
-
-    min-width: 240px;
-
-}
-
-
-.order-filters select {
-
-    min-width: 170px;
-
-    cursor: pointer;
-
-}
-
-
-.order-filters input:focus,
-.order-filters select:focus {
-
-    border-color: var(--green);
-
-    box-shadow:
-        0 0 0 3px
-        rgba(21,150,111,0.10);
-
-}
-
-
-.order-filters input:hover,
-.order-filters select:hover {
-
-    transform: translateY(-1px);
-
-}
-
-
-@media(max-width:600px) {
 
     .order-filters {
 
@@ -472,6 +576,20 @@ button.primary {
 
     }
 
+
+    .status-buttons {
+
+        flex-direction: column;
+
+    }
+
+
+    .status-buttons button {
+
+        width: 100%;
+
+    }
+
 }
 
 </style>
@@ -484,244 +602,249 @@ button.primary {
 
 <header>
 
-<div class="logo">
+    <div class="logo">
 
-Apotheke am Stadtpark
+        Apotheke am Stadtpark
 
-</div>
+    </div>
 
 
-<button
-class="logout"
-id="logoutButton"
-style="display:none;"
->
+    <button
+        class="logout"
+        id="logoutButton"
+        style="display:none;"
+    >
 
-Abmelden
+        Abmelden
 
-</button>
+    </button>
 
 </header>
 
 
 
-<!-- ============================
+<!-- =====================================================
      LOGIN
-============================ -->
+===================================================== -->
 
 <section
-id="loginSection"
-class="login-box"
+    id="loginSection"
+    class="login-box"
 >
 
-<h1>
-Apotheken-Verwaltung
-</h1>
+    <h1>
+        Apotheken-Verwaltung
+    </h1>
 
-<p>
-Bitte anmelden, um Vorbestellungen
-anzuzeigen.
-</p>
-
-
-<form id="loginForm">
+    <p>
+        Bitte anmelden, um Vorbestellungen
+        anzuzeigen.
+    </p>
 
 
-<div class="form-group">
-
-<label for="email">
-E-Mail
-</label>
-
-<input
-type="email"
-id="email"
-required
->
-
-</div>
+    <form id="loginForm">
 
 
-<div class="form-group">
+        <div class="form-group">
 
-<label for="password">
-Passwort
-</label>
+            <label for="email">
+                E-Mail
+            </label>
 
-<input
-type="password"
-id="password"
-required
->
+            <input
+                type="email"
+                id="email"
+                required
+            >
 
-</div>
-
-
-<button
-class="primary"
-type="submit"
->
-
-Anmelden
-
-</button>
+        </div>
 
 
-<div
-id="loginError"
-class="error"
-></div>
+        <div class="form-group">
+
+            <label for="password">
+                Passwort
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                required
+            >
+
+        </div>
 
 
-</form>
+        <button
+            class="primary"
+            type="submit"
+        >
+
+            Anmelden
+
+        </button>
+
+
+        <div
+            id="loginError"
+            class="error"
+        ></div>
+
+
+    </form>
 
 </section>
 
 
 
-<!-- ============================
+<!-- =====================================================
      ADMIN
-============================ -->
+===================================================== -->
 
 <main
-id="adminSection"
-class="container"
-style="display:none;"
+    id="adminSection"
+    class="container"
+    style="display:none;"
 >
 
-<h1>
-Vorbestellungen
-</h1>
+    <h1>
+        Vorbestellungen
+    </h1>
 
-<p class="subtitle">
-Eingegangene Anfragen
-</p>
-
-
-<!-- ============================
-     SUCHE & FILTER
-============================ -->
-
-<div class="order-filters">
-
-    <input
-        type="text"
-        id="orderSearch"
-        placeholder="🔍 Name, Medikament oder Telefon suchen..."
-    >
+    <p class="subtitle">
+        Eingegangene Anfragen
+    </p>
 
 
-    <select id="statusFilter">
+    <!-- =================================================
+         SUCHE & FILTER
+    ================================================= -->
 
-        <option value="all">
-            Alle Status
-        </option>
+    <div class="order-filters">
 
-        <option value="new">
-            🔴 Neu
-        </option>
-
-        <option value="processing">
-            🟡 In Bearbeitung
-        </option>
-
-        <option value="ready">
-            🟢 Abholbereit
-        </option>
-
-        <option value="completed">
-            ⚪ Erledigt
-        </option>
-
-    </select>
-
-</div>
-
-
-<div id="orders">
-
-</div>
-
-<!-- ============================
-     DASHBOARD
-============================ -->
-
-<div class="dashboard">
-
-    <div class="stat-card">
-
-        <div
-        class="stat-number"
-        id="newCount"
+        <input
+            type="text"
+            id="orderSearch"
+            placeholder="🔍 Name, Medikament oder Telefon suchen..."
         >
-            0
+
+
+        <select id="statusFilter">
+
+            <option value="all">
+                Alle Status
+            </option>
+
+            <option value="new">
+                🔴 Neu
+            </option>
+
+            <option value="processing">
+                🟡 In Bearbeitung
+            </option>
+
+            <option value="ready">
+                🟢 Abholbereit
+            </option>
+
+            <option value="completed">
+                ⚪ Erledigt
+            </option>
+
+        </select>
+
+    </div>
+
+
+
+    <!-- =================================================
+         DASHBOARD
+    ================================================= -->
+
+    <div class="dashboard">
+
+        <div class="stat-card">
+
+            <div
+                class="stat-number"
+                id="newCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                🔴 Neu
+            </div>
+
         </div>
 
-        <div class="stat-label">
-            🔴 Neu
+
+        <div class="stat-card">
+
+            <div
+                class="stat-number"
+                id="processingCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                🟡 In Bearbeitung
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div
+                class="stat-number"
+                id="readyCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                🟢 Abholbereit
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div
+                class="stat-number"
+                id="totalCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                📋 Gesamt
+            </div>
+
         </div>
 
     </div>
 
 
-    <div class="stat-card">
 
-        <div
-        class="stat-number"
-        id="processingCount"
-        >
-            0
-        </div>
+    <!-- =================================================
+         BESTELLUNGEN
+    ================================================= -->
 
-        <div class="stat-label">
-            🟡 In Bearbeitung
-        </div>
+    <div id="orders">
 
     </div>
-
-
-    <div class="stat-card">
-
-        <div
-        class="stat-number"
-        id="readyCount"
-        >
-            0
-        </div>
-
-        <div class="stat-label">
-            🟢 Abholbereit
-        </div>
-
-    </div>
-
-
-    <div class="stat-card">
-
-        <div
-        class="stat-number"
-        id="totalCount"
-        >
-            0
-        </div>
-
-        <div class="stat-label">
-            📋 Gesamt
-        </div>
-
-    </div>
-
-</div>
-
-<div id="orders">
-
-</div>
 
 </main>
 
 
 
-<!-- SUPABASE -->
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -777,7 +900,24 @@ const orderSearch =
 const statusFilter =
     document.getElementById("statusFilter");
 
+const newCount =
+    document.getElementById("newCount");
+
+const processingCount =
+    document.getElementById("processingCount");
+
+const readyCount =
+    document.getElementById("readyCount");
+
+const totalCount =
+    document.getElementById("totalCount");
+
+
 let allOrders = [];
+
+let realtimeChannel = null;
+
+
 
 /* =====================================================
    LOGIN
@@ -793,14 +933,13 @@ loginForm.addEventListener(
 
 
         const email =
-            document.getElementById("email").value;
+            document.getElementById("email").value.trim();
 
         const password =
             document.getElementById("password").value;
 
 
         const {
-            data,
             error
         } =
         await supabaseClient.auth.signInWithPassword({
@@ -824,7 +963,7 @@ loginForm.addEventListener(
         }
 
 
-        showAdmin();
+        await showAdmin();
 
     }
 );
@@ -848,10 +987,10 @@ async function showAdmin() {
 
 
     await loadOrders();
-    startRealtime()
+
+    startRealtime();
 
 }
-
 
 
 
@@ -900,9 +1039,63 @@ async function loadOrders() {
     }
 
 
-    allOrders = data || [];
+    allOrders =
+        data || [];
+
+
+    updateDashboardCounts();
 
     renderOrders();
+
+}
+
+
+
+/* =====================================================
+   DASHBOARD ZAHLEN
+===================================================== */
+
+function updateDashboardCounts() {
+
+    const newOrders =
+        allOrders.filter(
+            order =>
+                order.status === "new"
+        ).length;
+
+
+    const processingOrders =
+        allOrders.filter(
+            order =>
+                order.status === "processing"
+        ).length;
+
+
+    const readyOrders =
+        allOrders.filter(
+            order =>
+                order.status === "ready"
+        ).length;
+
+
+    const totalOrders =
+        allOrders.length;
+
+
+    newCount.textContent =
+        newOrders;
+
+
+    processingCount.textContent =
+        processingOrders;
+
+
+    readyCount.textContent =
+        readyOrders;
+
+
+    totalCount.textContent =
+        totalOrders;
 
 }
 
@@ -925,40 +1118,43 @@ function renderOrders() {
 
 
     const filteredOrders =
-        allOrders.filter(order => {
-
-            const fullText = `
-
-                ${order.first_name || ""}
-
-                ${order.last_name || ""}
-
-                ${order.medicine || ""}
-
-                ${order.phone || ""}
-
-            `.toLowerCase();
+        allOrders.filter(
+            function(order) {
 
 
-            const matchesSearch =
-                fullText.includes(
-                    searchTerm
+                const fullText = `
+
+                    ${order.first_name || ""}
+
+                    ${order.last_name || ""}
+
+                    ${order.medicine || ""}
+
+                    ${order.phone || ""}
+
+                `.toLowerCase();
+
+
+                const matchesSearch =
+                    fullText.includes(
+                        searchTerm
+                    );
+
+
+                const matchesStatus =
+                    selectedStatus === "all"
+                    ||
+                    order.status === selectedStatus;
+
+
+                return (
+                    matchesSearch
+                    &&
+                    matchesStatus
                 );
 
-
-            const matchesStatus =
-                selectedStatus === "all"
-                ||
-                order.status === selectedStatus;
-
-
-            return (
-                matchesSearch
-                &&
-                matchesStatus
-            );
-
-        });
+            }
+        );
 
 
     if (filteredOrders.length === 0) {
@@ -967,8 +1163,11 @@ function renderOrders() {
 
             <div class="empty">
 
-                Keine passenden
-                Vorbestellungen gefunden.
+                ${
+                    allOrders.length === 0
+                    ? "Keine Vorbestellungen vorhanden."
+                    : "Keine passenden Vorbestellungen gefunden."
+                }
 
             </div>
 
@@ -982,371 +1181,170 @@ function renderOrders() {
     ordersContainer.innerHTML = "";
 
 
-    filteredOrders.forEach(order => {
+    filteredOrders.forEach(
+        function(order) {
 
 
-        const date =
-            order.created_at
-            ? new Date(
+            const date =
                 order.created_at
-              ).toLocaleString(
-                "de-DE"
-              )
-            : "Zeitpunkt unbekannt";
+                ? new Date(
+                    order.created_at
+                  ).toLocaleString(
+                    "de-DE"
+                  )
+                : "Zeitpunkt unbekannt";
 
 
-        const card =
-            document.createElement("div");
+            const card =
+                document.createElement("div");
 
 
-        card.className =
-            "order-card";
+            card.className =
+                "order-card";
 
 
-        card.innerHTML = `
+            card.innerHTML = `
 
-            <div class="order-header">
+                <div class="order-header">
 
-                <div class="order-name">
+                    <div class="order-name">
+
+                        ${escapeHtml(
+                            order.first_name
+                        )}
+
+                        ${escapeHtml(
+                            order.last_name
+                        )}
+
+                    </div>
+
+
+                    <div class="order-date">
+
+                        ${date}
+
+                    </div>
+
+                </div>
+
+
+                <div class="order-medicine">
+
+                    💊
 
                     ${escapeHtml(
-                        order.first_name
-                    )}
-
-                    ${escapeHtml(
-                        order.last_name
+                        order.medicine
                     )}
 
                 </div>
 
 
-                <div class="order-date">
+                <div class="order-details">
 
-                    ${date}
-
-                </div>
-
-            </div>
-
-
-            <div class="order-medicine">
-
-                💊
-
-                ${escapeHtml(
-                    order.medicine
-                )}
-
-            </div>
-
-
-            <div class="order-details">
-
-                📞
-
-                ${escapeHtml(
-                    order.phone
-                )}
-
-                <br>
-
-
-                📝
-
-                ${escapeHtml(
-                    order.message ||
-                    "Keine Nachricht"
-                )}
-
-                <br>
-
-
-                📱 Rückruf:
-
-                ${
-                    order.callback
-                    ? "Ja"
-                    : "Nein"
-                }
-
-            </div>
-
-
-            <div class="order-status">
-
-                <strong>
-                    Status:
-                </strong>
-
-                <span>
-
-                    ${getStatusLabel(
-                        order.status
-                    )}
-
-                </span>
-
-            </div>
-
-
-            <div class="status-buttons">
-
-                <button
-                    onclick="updateOrderStatus(
-                        ${order.id},
-                        'new'
-                    )"
-                >
-                    Neu
-                </button>
-
-
-                <button
-                    onclick="updateOrderStatus(
-                        ${order.id},
-                        'processing'
-                    )"
-                >
-                    In Bearbeitung
-                </button>
-
-
-                <button
-                    onclick="updateOrderStatus(
-                        ${order.id},
-                        'ready'
-                    )"
-                >
-                    Abholbereit
-                </button>
-
-
-                <button
-                    onclick="updateOrderStatus(
-                        ${order.id},
-                        'completed'
-                    )"
-                >
-                    Erledigt
-                </button>
-
-            </div>
-
-        `;
-
-
-        ordersContainer.appendChild(
-            card
-        );
-
-    });
-
-}
-
-/* =====================================================
-   DASHBOARD ZAHLEN
-===================================================== */
-
-const newCount =
-    data.filter(
-        order => order.status === "new"
-    ).length;
-
-
-const processingCount =
-    data.filter(
-        order => order.status === "processing"
-    ).length;
-
-
-const readyCount =
-    data.filter(
-        order => order.status === "ready"
-    ).length;
-
-
-const totalCount =
-    data.length;
-
-
-document.getElementById(
-    "newCount"
-).textContent =
-    newCount;
-
-
-document.getElementById(
-    "processingCount"
-).textContent =
-    processingCount;
-
-
-document.getElementById(
-    "readyCount"
-).textContent =
-    readyCount;
-
-
-document.getElementById(
-    "totalCount"
-).textContent =
-    totalCount;
-
-    if (!data || data.length === 0) {
-
-        ordersContainer.innerHTML = `
-
-            <div class="empty">
-
-            Keine Vorbestellungen vorhanden.
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    ordersContainer.innerHTML = "";
-
-
-    data.forEach(order => {
-
-
-        const date =
-            order.created_at
-            ? new Date(
-                order.created_at
-              ).toLocaleString(
-                "de-DE"
-              )
-            : "Zeitpunkt unbekannt";
-
-
-        const card =
-            document.createElement("div");
-
-
-        card.className =
-            "order-card";
-
-
-        card.innerHTML = `
-
-            <div class="order-header">
-
-                <div class="order-name">
+                    📞
 
                     ${escapeHtml(
-                        order.first_name
+                        order.phone
                     )}
+
+                    <br>
+
+
+                    📝
 
                     ${escapeHtml(
-                        order.last_name
+                        order.message ||
+                        "Keine Nachricht"
                     )}
 
+                    <br>
+
+
+                    📱 Rückruf:
+
+                    ${
+                        order.callback
+                        ? "Ja"
+                        : "Nein"
+                    }
+
                 </div>
 
 
-                <div class="order-date">
+                <div class="order-status">
 
-                    ${date}
+                    <strong>
+                        Status:
+                    </strong>
+
+                    <span>
+
+                        ${getStatusLabel(
+                            order.status
+                        )}
+
+                    </span>
 
                 </div>
 
-            </div>
+
+                <div class="status-buttons">
+
+                    <button
+                        type="button"
+                        onclick="updateOrderStatus(
+                            ${order.id},
+                            'new'
+                        )"
+                    >
+                        Neu
+                    </button>
 
 
-            <div class="order-medicine">
-
-                💊
-                ${escapeHtml(
-                    order.medicine
-                )}
-
-            </div>
-
-
-            <div class="order-details">
-
-                📞
-                ${escapeHtml(
-                    order.phone
-                )}
-
-                <br>
+                    <button
+                        type="button"
+                        onclick="updateOrderStatus(
+                            ${order.id},
+                            'processing'
+                        )"
+                    >
+                        In Bearbeitung
+                    </button>
 
 
-                📝
-                ${escapeHtml(
-                    order.message || "Keine Nachricht"
-                )}
-
-                <br>
-
-
-                📱 Rückruf:
-
-                ${
-                    order.callback
-                    ? "Ja"
-                    : "Nein"
-                }
-
-            </div>
-
-        <div class="order-status">
-
-    <strong>
-        Status:
-    </strong>
-
-    <span>
-        ${getStatusLabel(order.status)}
-    </span>
-
-</div>
+                    <button
+                        type="button"
+                        onclick="updateOrderStatus(
+                            ${order.id},
+                            'ready'
+                        )"
+                    >
+                        Abholbereit
+                    </button>
 
 
-<div class="status-buttons">
+                    <button
+                        type="button"
+                        onclick="updateOrderStatus(
+                            ${order.id},
+                            'completed'
+                        )"
+                    >
+                        Erledigt
+                    </button>
 
-    <button
-        onclick="updateOrderStatus(${order.id}, 'new')"
-    >
-        Neu
-    </button>
+                </div>
 
-    <button
-        onclick="updateOrderStatus(${order.id}, 'processing')"
-    >
-        In Bearbeitung
-    </button>
-
-    <button
-        onclick="updateOrderStatus(${order.id}, 'ready')"
-    >
-        Abholbereit
-    </button>
-
-    <button
-        onclick="updateOrderStatus(${order.id}, 'completed')"
-    >
-        Erledigt
-    </button>
-
-</div>
+            `;
 
 
-        `;
+            ordersContainer.appendChild(
+                card
+            );
 
-
-        ordersContainer.appendChild(
-            card
-        );
-
-    });
+        }
+    );
 
 }
 
@@ -1361,71 +1359,15 @@ function escapeHtml(value) {
     const div =
         document.createElement("div");
 
+
     div.textContent =
         value ?? "";
+
 
     return div.innerHTML;
 
 }
 
-
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-logoutButton.addEventListener(
-    "click",
-    async function() {
-        
-        if (realtimeChannel) {
-
-    supabaseClient.removeChannel(
-        realtimeChannel
-    );
-
-    realtimeChannel = null;
-
-}
-
-        await supabaseClient.auth.signOut();
-
-        adminSection.style.display =
-            "none";
-
-        loginSection.style.display =
-            "block";
-
-        logoutButton.style.display =
-            "none";
-
-    }
-);
-
-
-
-/* =====================================================
-   BESTEHENDE SESSION PRÜFEN
-===================================================== */
-
-async function checkSession() {
-
-    const {
-        data
-    } =
-    await supabaseClient.auth.getUser();
-
-
-    if (data.user) {
-
-        showAdmin();
-
-    }
-
-}
-
-
-checkSession();
 
 
 /* =====================================================
@@ -1435,20 +1377,32 @@ checkSession();
 function getStatusLabel(status) {
 
     if (status === "new") {
+
         return "🔴 Neu";
+
     }
+
 
     if (status === "processing") {
+
         return "🟡 In Bearbeitung";
+
     }
+
 
     if (status === "ready") {
+
         return "🟢 Abholbereit";
+
     }
 
+
     if (status === "completed") {
+
         return "⚪ Erledigt";
+
     }
+
 
     return "Unbekannt";
 
@@ -1494,22 +1448,99 @@ async function updateOrderStatus(
     }
 
 
-    /* Liste neu laden */
-
     await loadOrders();
 
 }
+
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+logoutButton.addEventListener(
+    "click",
+    async function() {
+
+
+        if (realtimeChannel) {
+
+            await supabaseClient.removeChannel(
+                realtimeChannel
+            );
+
+            realtimeChannel = null;
+
+        }
+
+
+        await supabaseClient.auth.signOut();
+
+
+        allOrders = [];
+
+
+        adminSection.style.display =
+            "none";
+
+
+        loginSection.style.display =
+            "block";
+
+
+        logoutButton.style.display =
+            "none";
+
+
+        ordersContainer.innerHTML =
+            "";
+
+
+        orderSearch.value =
+            "";
+
+
+        statusFilter.value =
+            "all";
+
+
+        updateDashboardCounts();
+
+    }
+);
+
+
+
+/* =====================================================
+   BESTEHENDE SESSION PRÜFEN
+===================================================== */
+
+async function checkSession() {
+
+    const {
+        data
+    } =
+    await supabaseClient.auth.getUser();
+
+
+    if (data.user) {
+
+        await showAdmin();
+
+    }
+
+}
+
+
+checkSession();
+
+
 
 /* =====================================================
    SUPABASE REALTIME
 ===================================================== */
 
-let realtimeChannel = null;
-
-
 function startRealtime() {
-
-    /* Falls bereits verbunden, nichts erneut starten */
 
     if (realtimeChannel) {
 
@@ -1520,7 +1551,6 @@ function startRealtime() {
 
     realtimeChannel =
         supabaseClient
-
             .channel("orders-realtime")
 
             .on(
@@ -1547,7 +1577,6 @@ function startRealtime() {
                     );
 
                 }
-
             )
 
             .subscribe(
@@ -1563,8 +1592,10 @@ function startRealtime() {
 
 }
 
+
+
 /* =====================================================
-   NEUE VORBESTELLUNG ANZEIGEN
+   NEUE VORBESTELLUNG BENACHRICHTIGUNG
 ===================================================== */
 
 function showNewOrderNotification(order) {
@@ -1588,6 +1619,9 @@ function showNewOrderNotification(order) {
     notification.style.background =
         "white";
 
+    notification.style.color =
+        "#102a43";
+
     notification.style.padding =
         "18px 22px";
 
@@ -1606,6 +1640,7 @@ function showNewOrderNotification(order) {
         <br>
 
         <span>
+
             ${escapeHtml(
                 order.first_name
             )}
@@ -1613,6 +1648,7 @@ function showNewOrderNotification(order) {
             ${escapeHtml(
                 order.last_name
             )}
+
         </span>
 
     `;
@@ -1626,13 +1662,21 @@ function showNewOrderNotification(order) {
     setTimeout(
         function() {
 
-            notification.remove();
+            if (
+                notification.parentNode
+            ) {
+
+                notification.remove();
+
+            }
 
         },
         5000
     );
 
 }
+
+
 
 /* =====================================================
    SUCHE & FILTER
