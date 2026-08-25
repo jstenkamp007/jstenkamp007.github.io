@@ -7,10 +7,13 @@
 
 <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    content="width=device-width, initial-scale=1.0"
 >
 
-<title>Apotheke am Stadtpark – Verwaltung</title>
+<title>
+    Apotheke am Stadtpark – Verwaltung
+</title>
+
 
 <style>
 
@@ -21,38 +24,57 @@
 :root {
 
     --blue: #102a43;
-    --blue-dark: #0b1f33;
     --green: #15966f;
-    --green-light: #e8f7f2;
     --light: #f5f7f8;
     --muted: #627d98;
 
     --red: #d92d20;
-    --red-light: #fff1f0;
-
     --yellow: #b7791f;
-    --yellow-light: #fff8e6;
-
     --ready: #15966f;
-    --ready-light: #e8f7f2;
 
+    --white: #ffffff;
     --border: #e5eaed;
-    --border-light: #eef1f3;
 
     --shadow:
         0 8px 25px rgba(16,42,67,0.06);
 
     --shadow-large:
-        0 20px 60px rgba(16,42,67,0.16);
+        0 20px 60px rgba(16,42,67,0.18);
+
+}
+
+:root.dark {
+
+    --blue: #e8f0f6;
+    --green: #22b983;
+    --light: #101820;
+    --muted: #9fb3c8;
+
+    --red: #ff6258;
+    --yellow: #e4b04d;
+    --ready: #22b983;
+
+    --white: #18232d;
+    --border: #2c3b47;
+
+    --shadow:
+        0 8px 25px rgba(0,0,0,0.20);
+
+    --shadow-large:
+        0 20px 60px rgba(0,0,0,0.40);
 
 }
 
 * {
+
     box-sizing: border-box;
+
 }
 
 html {
+
     scroll-behavior: smooth;
+
 }
 
 body {
@@ -69,25 +91,31 @@ body {
 
     color: var(--blue);
 
-    -webkit-font-smoothing: antialiased;
+    transition:
+        background 0.25s ease,
+        color 0.25s ease;
 
 }
 
 button,
 input,
-select {
-    font: inherit;
+select,
+textarea {
+
+    font-family: inherit;
+
 }
 
 button {
+
     -webkit-tap-highlight-color: transparent;
+
 }
 
-button:focus-visible,
-input:focus-visible,
-select:focus-visible {
-    outline: 3px solid rgba(21,150,111,0.18);
-    outline-offset: 2px;
+.hidden {
+
+    display: none !important;
+
 }
 
 
@@ -97,10 +125,10 @@ select:focus-visible {
 
 header {
 
-    background: rgba(255,255,255,0.96);
+    background: var(--white);
 
     padding:
-        18px 24px;
+        16px 24px;
 
     border-bottom:
         1px solid var(--border);
@@ -117,7 +145,9 @@ header {
 
     z-index: 100;
 
-    backdrop-filter: blur(12px);
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease;
 
 }
 
@@ -126,8 +156,6 @@ header {
     font-weight: 700;
 
     font-size: 18px;
-
-    letter-spacing: -0.2px;
 
 }
 
@@ -139,11 +167,14 @@ header {
 
     gap: 8px;
 
+    flex-wrap: wrap;
+
 }
 
 .logout,
 .refresh-button,
-.sound-button {
+.sound-button,
+.dark-mode-button {
 
     border: none;
 
@@ -151,7 +182,9 @@ header {
 
     color: var(--blue);
 
-    padding: 10px 15px;
+    padding: 10px 14px;
+
+    min-height: 42px;
 
     border-radius: 12px;
 
@@ -159,18 +192,25 @@ header {
 
     font-size: 14px;
 
-    font-family: inherit;
-
     transition:
-        transform 0.18s ease,
-        background 0.18s ease,
-        opacity 0.18s ease;
+        transform 0.2s ease,
+        background 0.2s ease;
+
+}
+
+:root.dark .logout,
+:root.dark .refresh-button,
+:root.dark .sound-button,
+:root.dark .dark-mode-button {
+
+    background: #24323d;
 
 }
 
 .logout:hover,
 .refresh-button:hover,
-.sound-button:hover {
+.sound-button:hover,
+.dark-mode-button:hover {
 
     transform: translateY(-1px);
 
@@ -178,9 +218,18 @@ header {
 
 }
 
+:root.dark .logout:hover,
+:root.dark .refresh-button:hover,
+:root.dark .sound-button:hover,
+:root.dark .dark-mode-button:hover {
+
+    background: #30414e;
+
+}
+
 .refresh-button.loading {
 
-    opacity: 0.55;
+    opacity: 0.6;
 
     pointer-events: none;
 
@@ -188,9 +237,160 @@ header {
 
 .sound-button.enabled {
 
-    background: var(--green-light);
+    background: #e8f7f2;
 
     color: var(--green);
+
+}
+
+:root.dark .sound-button.enabled {
+
+    background: #18392f;
+
+}
+
+
+/* =====================================================
+   REALTIME STATUS
+===================================================== */
+
+.realtime-status {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 8px 11px;
+
+    border-radius: 11px;
+
+    background: #f1f3f4;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+}
+
+:root.dark .realtime-status {
+
+    background: #24323d;
+
+}
+
+.realtime-dot {
+
+    width: 8px;
+
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: #9aa5ad;
+
+    flex-shrink: 0;
+
+}
+
+.realtime-status.connected {
+
+    color: var(--green);
+
+}
+
+.realtime-status.connected .realtime-dot {
+
+    background: var(--green);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(21,150,111,0.12);
+
+}
+
+.realtime-status.warning {
+
+    color: var(--yellow);
+
+}
+
+.realtime-status.warning .realtime-dot {
+
+    background: var(--yellow);
+
+}
+
+.realtime-status.error {
+
+    color: var(--red);
+
+}
+
+.realtime-status.error .realtime-dot {
+
+    background: var(--red);
+
+}
+
+
+/* =====================================================
+   CONNECTION WARNING
+===================================================== */
+
+.connection-warning {
+
+    position: fixed;
+
+    left: 50%;
+
+    top: 75px;
+
+    transform:
+        translateX(-50%)
+        translateY(-15px);
+
+    z-index: 9000;
+
+    background: #fff4e5;
+
+    color: #8a4b08;
+
+    border:
+        1px solid #f1c27d;
+
+    padding: 12px 16px;
+
+    border-radius: 13px;
+
+    box-shadow: var(--shadow-large);
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+
+}
+
+.connection-warning.visible {
+
+    opacity: 1;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
 
 }
 
@@ -201,20 +401,19 @@ header {
 
 .container {
 
-    max-width: 1080px;
+    max-width: 1100px;
 
     margin: 0 auto;
 
-    padding: 36px 20px 60px;
+    padding: 35px 20px 60px;
 
 }
 
 h1 {
 
-    margin:
-        0 0 7px;
+    margin-top: 0;
 
-    letter-spacing: -0.5px;
+    margin-bottom: 8px;
 
 }
 
@@ -222,8 +421,7 @@ h1 {
 
     color: var(--muted);
 
-    margin:
-        0 0 25px;
+    margin-bottom: 25px;
 
 }
 
@@ -239,20 +437,20 @@ h1 {
     margin:
         80px auto;
 
-    background: white;
+    background: var(--white);
 
     padding: 32px;
 
     border-radius: 24px;
 
-    box-shadow:
-        0 15px 40px
-        rgba(16,42,67,0.08);
+    box-shadow: var(--shadow-large);
 
 }
 
 .form-group {
+
     margin-bottom: 18px;
+
 }
 
 label {
@@ -265,27 +463,53 @@ label {
 
 }
 
+input,
+textarea,
+select {
+
+    border: 1px solid var(--border);
+
+    background: var(--white);
+
+    color: var(--blue);
+
+}
+
 input {
 
     width: 100%;
 
     padding: 14px;
 
-    border: 1px solid #dce3e7;
+    border-radius: 12px;
+
+    font-size: 15px;
+
+    outline: none;
+
+}
+
+textarea {
+
+    width: 100%;
+
+    min-height: 120px;
+
+    resize: vertical;
+
+    padding: 14px;
 
     border-radius: 12px;
 
     font-size: 15px;
 
-    font-family: inherit;
-
     outline: none;
-
-    background: white;
 
 }
 
-input:focus {
+input:focus,
+textarea:focus,
+select:focus {
 
     border-color: var(--green);
 
@@ -307,6 +531,8 @@ button.primary {
 
     padding: 14px;
 
+    min-height: 48px;
+
     border-radius: 12px;
 
     font-size: 16px;
@@ -317,8 +543,7 @@ button.primary {
 
     transition:
         transform 0.2s ease,
-        box-shadow 0.2s ease,
-        opacity 0.2s ease;
+        box-shadow 0.2s ease;
 
 }
 
@@ -371,6 +596,8 @@ button.primary:disabled {
 
     flex-wrap: wrap;
 
+    align-items: center;
+
 }
 
 .last-updated {
@@ -388,17 +615,13 @@ button.primary:disabled {
 
 .order-filters {
 
-    display: grid;
-
-    grid-template-columns:
-        minmax(240px, 1fr)
-        auto
-        auto
-        auto;
+    display: flex;
 
     gap: 10px;
 
-    margin-bottom: 24px;
+    margin-bottom: 25px;
+
+    flex-wrap: wrap;
 
 }
 
@@ -407,23 +630,31 @@ button.primary:disabled {
 
     padding: 13px 15px;
 
-    border: 1px solid #dce3e7;
+    border-radius: 14px;
 
-    border-radius: 13px;
-
-    background: white;
-
-    color: var(--blue);
-
-    font-family: inherit;
-
-    font-size: 14px;
+    font-size: 15px;
 
     outline: none;
 
     transition:
-        border-color 0.18s ease,
-        box-shadow 0.18s ease;
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+.order-filters input {
+
+    flex: 1;
+
+    min-width: 240px;
+
+}
+
+.order-filters select {
+
+    min-width: 160px;
+
+    cursor: pointer;
 
 }
 
@@ -436,10 +667,6 @@ button.primary:disabled {
         0 0 0 3px
         rgba(21,150,111,0.10);
 
-}
-
-.order-filters select {
-    cursor: pointer;
 }
 
 
@@ -456,13 +683,13 @@ button.primary:disabled {
 
     gap: 12px;
 
-    margin-bottom: 34px;
+    margin-bottom: 35px;
 
 }
 
 .stat-card {
 
-    background: white;
+    background: var(--white);
 
     padding: 18px;
 
@@ -470,28 +697,7 @@ button.primary:disabled {
 
     box-shadow: var(--shadow);
 
-    cursor: pointer;
-
-    border:
-        1px solid transparent;
-
-    transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease,
-        border-color 0.18s ease;
-
-}
-
-.stat-card:hover {
-
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 12px 30px
-        rgba(16,42,67,0.09);
-
-    border-color:
-        #e1e7ea;
+    min-width: 0;
 
 }
 
@@ -499,27 +705,93 @@ button.primary:disabled {
 
     font-size: 28px;
 
-    font-weight: 750;
-
-    line-height: 1;
+    font-weight: 700;
 
 }
 
 .stat-label {
 
-    margin-top: 7px;
+    margin-top: 5px;
 
     color: var(--muted);
 
     font-size: 13px;
 
-    line-height: 1.3;
+}
+
+
+/* =====================================================
+   STATISTIK EXTRA
+===================================================== */
+
+.weekly-summary {
+
+    background: var(--white);
+
+    border-radius: 18px;
+
+    padding: 18px;
+
+    margin-bottom: 25px;
+
+    box-shadow: var(--shadow);
+
+}
+
+.weekly-summary-title {
+
+    font-weight: 700;
+
+    margin-bottom: 12px;
+
+}
+
+.weekly-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 10px;
+
+}
+
+.weekly-item {
+
+    padding: 12px;
+
+    background: #f7f9fa;
+
+    border-radius: 12px;
+
+}
+
+:root.dark .weekly-item {
+
+    background: #202d36;
+
+}
+
+.weekly-item-label {
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+}
+
+.weekly-item-value {
+
+    margin-top: 4px;
+
+    font-weight: 700;
 
 }
 
 
 /* =====================================================
-   BESTELLUNGEN HEADER
+   BESTELLUNGEN-BEREICH
 ===================================================== */
 
 .orders-section-header {
@@ -532,13 +804,13 @@ button.primary:disabled {
 
     gap: 15px;
 
-    margin-bottom: 13px;
+    margin-bottom: 15px;
 
 }
 
 .orders-section-title {
 
-    font-size: 19px;
+    font-size: 18px;
 
     font-weight: 700;
 
@@ -559,27 +831,25 @@ button.primary:disabled {
 
 .order-card {
 
-    position: relative;
-
-    background: white;
+    background: var(--white);
 
     padding: 20px;
 
-    margin-bottom: 12px;
+    margin-bottom: 14px;
 
-    border-radius: 19px;
+    border-radius: 20px;
 
     box-shadow: var(--shadow);
 
     transition:
-        transform 0.18s ease,
-        box-shadow 0.18s ease,
-        border-color 0.18s ease;
-
-    border:
-        1px solid transparent;
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border 0.2s ease;
 
     cursor: pointer;
+
+    border:
+        2px solid transparent;
 
 }
 
@@ -587,69 +857,47 @@ button.primary:disabled {
 
     transform: translateY(-1px);
 
-    box-shadow:
-        0 12px 30px
-        rgba(16,42,67,0.09);
+}
+
+.order-card.new-highlight {
+
+    border-color: var(--red);
+
+    animation:
+        newOrderPulse 1.8s ease;
 
 }
 
-.order-card.is-new {
+@keyframes newOrderPulse {
 
-    border-color:
-        rgba(217,45,32,0.30);
+    0% {
 
-    box-shadow:
-        0 8px 28px
-        rgba(217,45,32,0.08);
+        box-shadow:
+            0 0 0 0
+            rgba(217,45,32,0.30);
+
+    }
+
+    70% {
+
+        box-shadow:
+            0 0 0 12px
+            rgba(217,45,32,0);
+
+    }
+
+    100% {
+
+        box-shadow:
+            var(--shadow);
+
+    }
 
 }
 
 .order-card.completed {
 
-    opacity: 0.76;
-
-}
-
-.order-card.completed:hover {
-    opacity: 0.9;
-}
-
-.order-priority-bar {
-
-    position: absolute;
-
-    left: 0;
-
-    top: 18px;
-
-    bottom: 18px;
-
-    width: 4px;
-
-    border-radius: 0 5px 5px 0;
-
-    background: #dce3e7;
-
-}
-
-.order-card.is-new
-.order-priority-bar {
-
-    background: var(--red);
-
-}
-
-.order-card.is-processing
-.order-priority-bar {
-
-    background: var(--yellow);
-
-}
-
-.order-card.is-ready
-.order-priority-bar {
-
-    background: var(--green);
+    opacity: 0.78;
 
 }
 
@@ -661,13 +909,11 @@ button.primary:disabled {
 
     gap: 15px;
 
-    padding-left: 5px;
-
 }
 
 .order-name {
 
-    font-size: 17px;
+    font-size: 18px;
 
     font-weight: 700;
 
@@ -677,29 +923,9 @@ button.primary:disabled {
 
     color: var(--muted);
 
-    font-size: 12px;
+    font-size: 13px;
 
     text-align: right;
-
-    white-space: nowrap;
-
-}
-
-.order-age {
-
-    margin-top: 3px;
-
-    color: var(--muted);
-
-    font-size: 11px;
-
-}
-
-.order-age.urgent {
-
-    color: var(--red);
-
-    font-weight: 700;
 
 }
 
@@ -707,27 +933,21 @@ button.primary:disabled {
 
     margin-top: 12px;
 
-    font-weight: 650;
+    font-weight: 600;
 
     color: var(--green);
 
-    font-size: 15px;
-
-    padding-left: 5px;
+    font-size: 16px;
 
 }
 
 .order-details {
 
-    margin-top: 12px;
+    margin-top: 15px;
 
     color: var(--muted);
 
     line-height: 1.7;
-
-    font-size: 14px;
-
-    padding-left: 5px;
 
 }
 
@@ -742,47 +962,14 @@ button.primary:disabled {
 }
 
 .order-details a:hover {
+
     text-decoration: underline;
-}
-
-.order-message {
-
-    margin-top: 8px;
-
-    padding: 10px 12px;
-
-    background: #f7f9fa;
-
-    border-radius: 10px;
-
-    white-space: pre-wrap;
-
-    word-break: break-word;
-
-}
-
-.order-bottom {
-
-    margin-top: 15px;
-
-    padding-top: 14px;
-
-    border-top:
-        1px solid var(--border-light);
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    gap: 12px;
-
-    flex-wrap: wrap;
 
 }
 
 .order-card-status {
+
+    margin-top: 15px;
 
     display: inline-flex;
 
@@ -794,60 +981,36 @@ button.primary:disabled {
 
     background: #f1f3f4;
 
-    font-size: 12px;
+    font-size: 13px;
 
-    font-weight: 700;
-
-}
-
-.order-card-status.status-new {
-
-    color: var(--red);
-
-    background: var(--red-light);
+    font-weight: 600;
 
 }
 
-.order-card-status.status-processing {
+:root.dark .order-card-status {
 
-    color: var(--yellow);
-
-    background: var(--yellow-light);
+    background: #24323d;
 
 }
 
-.order-card-status.status-ready {
+.order-card-actions {
 
-    color: var(--green);
+    margin-top: 14px;
 
-    background: var(--ready-light);
+    padding-top: 14px;
 
-}
-
-.order-card-status.status-completed {
-
-    color: var(--muted);
-
-    background: #eef1f3;
-
-}
-
-
-/* =====================================================
-   SCHNELL-AKTIONEN
-===================================================== */
-
-.quick-actions {
+    border-top:
+        1px solid var(--border);
 
     display: flex;
 
-    gap: 7px;
+    gap: 8px;
 
     flex-wrap: wrap;
 
 }
 
-.quick-action {
+.status-button {
 
     border: none;
 
@@ -855,46 +1018,37 @@ button.primary:disabled {
 
     color: var(--blue);
 
-    padding: 8px 10px;
+    padding: 10px 12px;
 
-    border-radius: 9px;
+    min-height: 42px;
+
+    border-radius: 10px;
 
     cursor: pointer;
 
-    font-size: 12px;
+    font-size: 13px;
 
-    font-weight: 650;
-
-    transition:
-        background 0.16s ease,
-        transform 0.16s ease,
-        opacity 0.16s ease;
+    font-weight: 600;
 
 }
 
-.quick-action:hover {
+:root.dark .status-button {
 
-    transform: translateY(-1px);
+    background: #24323d;
+
+}
+
+.status-button:hover {
 
     background: #e5e9eb;
 
 }
 
-.quick-action.active {
+.status-button.active {
 
     background: var(--green);
 
     color: white;
-
-}
-
-.quick-action:disabled {
-
-    opacity: 0.5;
-
-    cursor: default;
-
-    transform: none;
 
 }
 
@@ -910,7 +1064,7 @@ button.primary:disabled {
     inset: 0;
 
     background:
-        rgba(16,42,67,0.45);
+        rgba(16,42,67,0.48);
 
     z-index: 5000;
 
@@ -943,13 +1097,13 @@ button.primary:disabled {
 
     width: 100%;
 
-    max-width: 680px;
+    max-width: 700px;
 
-    max-height: 90vh;
+    max-height: 92vh;
 
     overflow-y: auto;
 
-    background: white;
+    background: var(--white);
 
     border-radius: 24px;
 
@@ -974,10 +1128,10 @@ button.primary:disabled {
 
 .modal-header {
 
-    padding: 20px 23px;
+    padding: 20px 24px;
 
     border-bottom:
-        1px solid var(--border-light);
+        1px solid var(--border);
 
     display: flex;
 
@@ -987,13 +1141,21 @@ button.primary:disabled {
 
     gap: 15px;
 
+    position: sticky;
+
+    top: 0;
+
+    background: var(--white);
+
+    z-index: 2;
+
 }
 
 .modal-title {
 
-    font-size: 21px;
+    font-size: 22px;
 
-    font-weight: 750;
+    font-weight: 700;
 
 }
 
@@ -1003,7 +1165,7 @@ button.primary:disabled {
 
     color: var(--muted);
 
-    font-size: 12px;
+    font-size: 13px;
 
 }
 
@@ -1015,26 +1177,30 @@ button.primary:disabled {
 
     color: var(--blue);
 
-    width: 40px;
+    width: 44px;
 
-    height: 40px;
+    height: 44px;
 
     border-radius: 12px;
 
     cursor: pointer;
 
-    font-size: 20px;
+    font-size: 22px;
 
     flex-shrink: 0;
 
 }
 
-.modal-close:hover {
-    background: #e5e9eb;
+:root.dark .modal-close {
+
+    background: #24323d;
+
 }
 
 .modal-body {
-    padding: 23px;
+
+    padding: 24px;
+
 }
 
 .detail-grid {
@@ -1052,21 +1218,29 @@ button.primary:disabled {
 
     background: #f7f9fa;
 
-    padding: 14px;
+    padding: 15px;
 
-    border-radius: 13px;
+    border-radius: 14px;
+
+}
+
+:root.dark .detail-item {
+
+    background: #202d36;
 
 }
 
 .detail-item.full {
+
     grid-column: 1 / -1;
+
 }
 
 .detail-label {
 
     color: var(--muted);
 
-    font-size: 11px;
+    font-size: 12px;
 
     margin-bottom: 5px;
 
@@ -1074,7 +1248,7 @@ button.primary:disabled {
 
 .detail-value {
 
-    font-weight: 650;
+    font-weight: 600;
 
     word-break: break-word;
 
@@ -1088,10 +1262,6 @@ button.primary:disabled {
 
 }
 
-.detail-value a:hover {
-    text-decoration: underline;
-}
-
 .detail-message {
 
     white-space: pre-wrap;
@@ -1102,19 +1272,25 @@ button.primary:disabled {
 
 }
 
+
+/* =====================================================
+   MODAL ACTIONS
+===================================================== */
+
 .modal-actions {
 
-    display: flex;
+    margin-top: 22px;
 
-    gap: 9px;
+    display: grid;
 
-    flex-wrap: wrap;
+    grid-template-columns:
+        repeat(2, 1fr);
 
-    margin-top: 18px;
+    gap: 10px;
 
 }
 
-.modal-action {
+.modal-action-button {
 
     border: none;
 
@@ -1122,30 +1298,51 @@ button.primary:disabled {
 
     color: var(--blue);
 
-    padding: 10px 13px;
+    padding: 13px;
 
-    border-radius: 11px;
+    min-height: 48px;
+
+    border-radius: 12px;
 
     cursor: pointer;
 
-    font-size: 13px;
-
-    font-weight: 650;
+    font-weight: 600;
 
 }
 
-.modal-action:hover {
-    background: #e5e9eb;
+:root.dark .modal-action-button {
+
+    background: #24323d;
+
 }
+
+.modal-action-button:hover {
+
+    transform: translateY(-1px);
+
+}
+
+.modal-action-button.primary-action {
+
+    background: var(--green);
+
+    color: white;
+
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
 
 .modal-status {
 
-    margin-top: 21px;
+    margin-top: 22px;
 
-    padding-top: 19px;
+    padding-top: 20px;
 
     border-top:
-        1px solid var(--border-light);
+        1px solid var(--border);
 
 }
 
@@ -1153,7 +1350,7 @@ button.primary:disabled {
 
     font-weight: 700;
 
-    margin-bottom: 11px;
+    margin-bottom: 12px;
 
 }
 
@@ -1164,7 +1361,7 @@ button.primary:disabled {
     grid-template-columns:
         repeat(2, 1fr);
 
-    gap: 9px;
+    gap: 10px;
 
 }
 
@@ -1176,30 +1373,23 @@ button.primary:disabled {
 
     color: var(--blue);
 
-    padding: 12px;
+    padding: 13px;
 
-    border-radius: 11px;
+    min-height: 48px;
+
+    border-radius: 12px;
 
     cursor: pointer;
 
-    font-family: inherit;
+    font-size: 14px;
 
-    font-size: 13px;
-
-    font-weight: 650;
-
-    transition:
-        background 0.16s ease,
-        transform 0.16s ease,
-        opacity 0.16s ease;
+    font-weight: 600;
 
 }
 
-.modal-status-buttons button:hover {
+:root.dark .modal-status-buttons button {
 
-    transform: translateY(-1px);
-
-    background: #e5e9eb;
+    background: #24323d;
 
 }
 
@@ -1213,24 +1403,122 @@ button.primary:disabled {
 
 .modal-status-buttons button:disabled {
 
-    opacity: 0.55;
-
-    cursor: default;
-
-    transform: none;
+    opacity: 0.6;
 
 }
 
-.modal-footer {
 
-    padding: 17px 23px;
+/* =====================================================
+   INTERNE NOTIZ
+===================================================== */
+
+.internal-note-section {
+
+    margin-top: 22px;
+
+    padding-top: 20px;
 
     border-top:
-        1px solid var(--border-light);
+        1px solid var(--border);
+
+}
+
+.internal-note-title {
+
+    font-weight: 700;
+
+    margin-bottom: 6px;
+
+}
+
+.internal-note-info {
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    margin-bottom: 10px;
+
+}
+
+.note-actions {
 
     display: flex;
 
     justify-content: flex-end;
+
+    margin-top: 8px;
+
+}
+
+.note-save-button {
+
+    border: none;
+
+    background: var(--green);
+
+    color: white;
+
+    padding: 11px 15px;
+
+    border-radius: 11px;
+
+    cursor: pointer;
+
+    font-weight: 600;
+
+}
+
+
+/* =====================================================
+   UNDO
+===================================================== */
+
+.undo-toast {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+}
+
+.undo-button {
+
+    border: none;
+
+    background: rgba(255,255,255,0.18);
+
+    color: white;
+
+    padding: 7px 10px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-weight: 700;
+
+}
+
+
+/* =====================================================
+   MODAL FOOTER
+===================================================== */
+
+.modal-footer {
+
+    padding: 16px 24px;
+
+    border-top:
+        1px solid var(--border);
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 10px;
 
 }
 
@@ -1242,15 +1530,21 @@ button.primary:disabled {
 
     color: var(--blue);
 
-    padding: 10px 15px;
+    padding: 12px 16px;
 
-    border-radius: 11px;
+    min-height: 44px;
+
+    border-radius: 12px;
 
     cursor: pointer;
 
-    font-family: inherit;
+    font-weight: 600;
 
-    font-weight: 650;
+}
+
+:root.dark .close-detail-button {
+
+    background: #24323d;
 
 }
 
@@ -1275,11 +1569,9 @@ button.primary:disabled {
 
     color: var(--muted);
 
-    background: white;
+    background: var(--white);
 
     border-radius: 20px;
-
-    box-shadow: var(--shadow);
 
 }
 
@@ -1287,98 +1579,56 @@ button.primary:disabled {
 
     text-align: center;
 
-    padding: 35px 20px;
+    padding: 30px 20px;
 
     color: var(--muted);
 
-    background: white;
+    background: var(--white);
 
     border-radius: 20px;
-
-    box-shadow: var(--shadow);
-
-}
-
-.retry-button {
-
-    margin-top: 14px;
-
-    border: none;
-
-    background: var(--green);
-
-    color: white;
-
-    padding: 10px 15px;
-
-    border-radius: 10px;
-
-    cursor: pointer;
-
-    font-weight: 650;
 
 }
 
 
 /* =====================================================
-   NEUE BESTELLUNGEN
+   BENACHRICHTIGUNG
 ===================================================== */
-
-.notification-stack {
-
-    position: fixed;
-
-    top: 18px;
-
-    right: 18px;
-
-    z-index: 9999;
-
-    width: min(370px, calc(100% - 36px));
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 9px;
-
-    pointer-events: none;
-
-}
 
 .notification {
 
-    background: white;
+    position: fixed;
+
+    top: 85px;
+
+    right: 20px;
+
+    z-index: 9999;
+
+    background: var(--white);
 
     color: var(--blue);
 
-    padding: 16px 18px;
+    padding: 17px 19px;
 
-    border-radius: 17px;
+    border-radius: 18px;
 
-    box-shadow:
-        0 15px 40px
-        rgba(0,0,0,0.15);
+    box-shadow: var(--shadow-large);
 
-    border-left:
-        4px solid var(--red);
+    max-width: 350px;
+
+    border:
+        2px solid var(--red);
 
     animation:
         notificationIn 0.25s ease;
 
     cursor: pointer;
 
-    pointer-events: auto;
-
-}
-
-.notification:hover {
-    transform: translateY(-1px);
 }
 
 .notification-title {
 
-    font-weight: 750;
+    font-weight: 700;
 
 }
 
@@ -1388,20 +1638,38 @@ button.primary:disabled {
 
     color: var(--muted);
 
-    line-height: 1.5;
+}
+
+.notification-action {
+
+    margin-top: 9px;
+
+    color: var(--green);
+
+    font-size: 12px;
+
+    font-weight: 700;
 
 }
 
 @keyframes notificationIn {
 
     from {
+
         opacity: 0;
-        transform: translateY(-10px);
+
+        transform:
+            translateY(-10px);
+
     }
 
     to {
+
         opacity: 1;
-        transform: translateY(0);
+
+        transform:
+            translateY(0);
+
     }
 
 }
@@ -1415,8 +1683,7 @@ button.primary:disabled {
 
     position: fixed;
 
-    bottom:
-        calc(20px + env(safe-area-inset-bottom));
+    bottom: 20px;
 
     left: 50%;
 
@@ -1429,7 +1696,7 @@ button.primary:disabled {
 
     color: white;
 
-    padding: 12px 17px;
+    padding: 13px 18px;
 
     border-radius: 12px;
 
@@ -1437,43 +1704,60 @@ button.primary:disabled {
         0 10px 30px
         rgba(0,0,0,0.15);
 
-    font-size: 13px;
+    font-size: 14px;
 
     animation:
         toastIn 0.2s ease;
 
-    max-width:
-        calc(100% - 30px);
+    max-width: calc(100% - 30px);
 
     text-align: center;
 
 }
 
 .toast.success {
+
     background: var(--green);
+
 }
 
 .toast.error-toast {
+
     background: #b42318;
+
+}
+
+.toast.warning {
+
+    background: #8a5a00;
+
 }
 
 @keyframes toastIn {
 
     from {
+
         opacity: 0;
-        transform: translate(-50%, 10px);
+
+        transform:
+            translate(-50%, 10px);
+
     }
 
     to {
+
         opacity: 1;
-        transform: translate(-50%, 0);
+
+        transform:
+            translate(-50%, 0);
+
     }
 
 }
 
 
 /* =====================================================
-   MOBILE
+   MOBILE / IPAD
 ===================================================== */
 
 @media(max-width:900px) {
@@ -1485,28 +1769,14 @@ button.primary:disabled {
 
     }
 
-    .order-filters {
-
-        grid-template-columns:
-            1fr 1fr;
-
-    }
-
-    .order-filters input {
-
-        grid-column: 1 / -1;
-
-    }
-
 }
-
 
 @media(max-width:700px) {
 
     header {
 
         padding:
-            14px 16px;
+            12px 15px;
 
     }
 
@@ -1522,25 +1792,33 @@ button.primary:disabled {
 
     }
 
-    .header-actions .sound-button {
+    .header-actions .realtime-status {
 
-        display: none !important;
+        display: none;
 
     }
 
     .header-actions button {
 
-        padding:
-            9px 11px;
+        min-width: 42px;
 
-        font-size: 13px;
+        padding:
+            10px;
+
+        font-size: 0;
+
+    }
+
+    .header-actions button::first-letter {
+
+        font-size: 18px;
 
     }
 
     .container {
 
         padding:
-            27px 14px 50px;
+            25px 14px 45px;
 
     }
 
@@ -1564,12 +1842,18 @@ button.primary:disabled {
 
     }
 
+    .toolbar-actions .realtime-status {
+
+        flex: 1;
+
+        justify-content: center;
+
+    }
+
     .dashboard {
 
         grid-template-columns:
             repeat(2, 1fr);
-
-        gap: 9px;
 
     }
 
@@ -1585,9 +1869,26 @@ button.primary:disabled {
 
     }
 
-    .order-filters {
+    .weekly-grid {
 
-        display: flex;
+        grid-template-columns:
+            1fr;
+
+    }
+
+    .order-header {
+
+        flex-direction: column;
+
+    }
+
+    .order-date {
+
+        text-align: left;
+
+    }
+
+    .order-filters {
 
         flex-direction: column;
 
@@ -1598,54 +1899,35 @@ button.primary:disabled {
 
         width: 100%;
 
-    }
+        min-width: 0;
 
-    .order-header {
-
-        flex-direction: column;
-
-        gap: 5px;
+        min-height: 48px;
 
     }
 
-    .order-date {
-
-        text-align: left;
-
-    }
-
-    .order-bottom {
-
-        align-items: stretch;
+    .order-card-actions {
 
         flex-direction: column;
 
     }
 
-    .quick-actions {
+    .status-button {
 
-        display: grid;
+        width: 100%;
 
-        grid-template-columns:
-            repeat(2, 1fr);
-
-    }
-
-    .quick-action {
-
-        min-height: 42px;
+        min-height: 48px;
 
     }
 
-    .notification-stack {
+    .notification {
 
-        left: 15px;
+        left: 12px;
 
-        right: 15px;
+        right: 12px;
 
-        top: 12px;
+        top: 70px;
 
-        width: auto;
+        max-width: none;
 
     }
 
@@ -1672,10 +1954,38 @@ button.primary:disabled {
 
     .order-modal {
 
-        max-height: 94vh;
+        max-height: 95vh;
 
         border-radius:
             22px 22px 0 0;
+
+    }
+
+    .modal-header {
+
+        padding:
+            17px 18px;
+
+    }
+
+    .modal-body {
+
+        padding:
+            18px;
+
+    }
+
+    .modal-footer {
+
+        padding:
+            14px 18px;
+
+    }
+
+    .modal-actions {
+
+        grid-template-columns:
+            1fr;
 
     }
 
@@ -1686,28 +1996,25 @@ button.primary:disabled {
 
     }
 
-    .modal-body {
+    .connection-warning {
 
-        padding: 19px;
+        top: 65px;
 
-    }
+        left: 10px;
 
-}
+        right: 10px;
 
+        transform:
+            translateY(-15px);
 
-@media(max-width:380px) {
-
-    .dashboard {
-
-        grid-template-columns:
-            1fr 1fr;
+        text-align: center;
 
     }
 
-    .quick-actions {
+    .connection-warning.visible {
 
-        grid-template-columns:
-            1fr;
+        transform:
+            translateY(0);
 
     }
 
@@ -1715,25 +2022,125 @@ button.primary:disabled {
 
 
 /* =====================================================
-   REDUZIERTE BEWEGUNG
+   DRUCKANSICHT
 ===================================================== */
 
-@media(prefers-reduced-motion: reduce) {
+@media print {
 
-    *,
-    *::before,
-    *::after {
+    body {
 
-        scroll-behavior: auto !important;
+        background: white !important;
 
-        transition-duration:
-            0.01ms !important;
+        color: black !important;
 
-        animation-duration:
-            0.01ms !important;
+    }
 
-        animation-iteration-count:
-            1 !important;
+    body > *:not(#printArea) {
+
+        display: none !important;
+
+    }
+
+    #printArea {
+
+        display: block !important;
+
+    }
+
+    .print-document {
+
+        padding: 25px;
+
+        color: black;
+
+        font-family:
+            Arial,
+            sans-serif;
+
+    }
+
+    .print-title {
+
+        font-size: 24px;
+
+        font-weight: 700;
+
+        margin-bottom: 5px;
+
+    }
+
+    .print-subtitle {
+
+        color: #555;
+
+        margin-bottom: 25px;
+
+    }
+
+    .print-row {
+
+        display: flex;
+
+        gap: 15px;
+
+        border-bottom:
+            1px solid #ddd;
+
+        padding:
+            10px 0;
+
+    }
+
+    .print-label {
+
+        width: 150px;
+
+        color: #666;
+
+        font-weight: 600;
+
+        flex-shrink: 0;
+
+    }
+
+    .print-value {
+
+        white-space: pre-wrap;
+
+        word-break: break-word;
+
+    }
+
+    .print-message {
+
+        margin-top: 20px;
+
+        padding-top: 15px;
+
+        border-top:
+            1px solid #ddd;
+
+    }
+
+}
+
+#printArea {
+
+    display: none;
+
+}
+
+
+/* =====================================================
+   SEHR KLEINE GERÄTE
+===================================================== */
+
+@media(max-width:380px) {
+
+    .dashboard {
+
+        grid-template-columns:
+            1fr;
 
     }
 
@@ -1755,6 +2162,31 @@ button.primary:disabled {
 
 
     <div class="header-actions">
+
+        <div
+            class="realtime-status"
+            id="realtimeStatusHeader"
+        >
+
+            <span class="realtime-dot"></span>
+
+            <span id="realtimeStatusText">
+                Nicht verbunden
+            </span>
+
+        </div>
+
+
+        <button
+            class="dark-mode-button"
+            id="darkModeButton"
+            style="display:none;"
+            type="button"
+            title="Darstellung wechseln"
+        >
+            🌙
+        </button>
+
 
         <button
             class="sound-button"
@@ -1789,6 +2221,14 @@ button.primary:disabled {
     </div>
 
 </header>
+
+
+<div
+    class="connection-warning"
+    id="connectionWarning"
+>
+    ⚠️ Verbindung zu den Live-Bestellungen unterbrochen. Wiederverbindung wird versucht ...
+</div>
 
 
 
@@ -1884,6 +2324,8 @@ button.primary:disabled {
     </p>
 
 
+    <!-- TOOLBAR -->
+
     <div class="admin-toolbar">
 
         <div
@@ -1895,6 +2337,20 @@ button.primary:disabled {
 
 
         <div class="toolbar-actions">
+
+            <div
+                class="realtime-status"
+                id="realtimeStatusMobile"
+            >
+
+                <span class="realtime-dot"></span>
+
+                <span id="realtimeStatusTextMobile">
+                    Nicht verbunden
+                </span>
+
+            </div>
+
 
             <button
                 class="sound-button"
@@ -1919,9 +2375,7 @@ button.primary:disabled {
 
 
 
-    <!-- =================================================
-         SUCHE & FILTER
-    ================================================= -->
+    <!-- SUCHE & FILTER -->
 
     <div class="order-filters">
 
@@ -1968,16 +2422,8 @@ button.primary:disabled {
                 Heute
             </option>
 
-            <option value="yesterday">
-                Gestern
-            </option>
-
-            <option value="last7">
-                Letzte 7 Tage
-            </option>
-
-            <option value="last30">
-                Letzte 30 Tage
+            <option value="week">
+                Diese Woche
             </option>
 
         </select>
@@ -2003,18 +2449,11 @@ button.primary:disabled {
 
 
 
-    <!-- =================================================
-         DASHBOARD
-    ================================================= -->
+    <!-- DASHBOARD -->
 
     <div class="dashboard">
 
-
-        <div
-            class="stat-card"
-            data-dashboard-filter="new"
-            title="Neue Bestellungen anzeigen"
-        >
+        <div class="stat-card">
 
             <div
                 class="stat-number"
@@ -2030,11 +2469,7 @@ button.primary:disabled {
         </div>
 
 
-        <div
-            class="stat-card"
-            data-dashboard-filter="processing"
-            title="Bestellungen in Bearbeitung anzeigen"
-        >
+        <div class="stat-card">
 
             <div
                 class="stat-number"
@@ -2050,11 +2485,7 @@ button.primary:disabled {
         </div>
 
 
-        <div
-            class="stat-card"
-            data-dashboard-filter="ready"
-            title="Abholbereite Bestellungen anzeigen"
-        >
+        <div class="stat-card">
 
             <div
                 class="stat-number"
@@ -2070,11 +2501,7 @@ button.primary:disabled {
         </div>
 
 
-        <div
-            class="stat-card"
-            data-dashboard-filter="all"
-            title="Alle Bestellungen anzeigen"
-        >
+        <div class="stat-card">
 
             <div
                 class="stat-number"
@@ -2090,11 +2517,7 @@ button.primary:disabled {
         </div>
 
 
-        <div
-            class="stat-card"
-            data-dashboard-filter="today"
-            title="Heute eingegangene Bestellungen anzeigen"
-        >
+        <div class="stat-card">
 
             <div
                 class="stat-number"
@@ -2104,17 +2527,13 @@ button.primary:disabled {
             </div>
 
             <div class="stat-label">
-                📅 Heute eingegangen
+                📅 Heute
             </div>
 
         </div>
 
 
-        <div
-            class="stat-card"
-            data-dashboard-filter="open"
-            title="Offene Bestellungen anzeigen"
-        >
+        <div class="stat-card">
 
             <div
                 class="stat-number"
@@ -2133,9 +2552,71 @@ button.primary:disabled {
 
 
 
-    <!-- =================================================
-         BESTELLUNGEN
-    ================================================= -->
+    <!-- WOCHENSTATISTIK -->
+
+    <div class="weekly-summary">
+
+        <div class="weekly-summary-title">
+            📊 Übersicht
+        </div>
+
+
+        <div class="weekly-grid">
+
+            <div class="weekly-item">
+
+                <div class="weekly-item-label">
+                    Bestellungen diese Woche
+                </div>
+
+                <div
+                    class="weekly-item-value"
+                    id="weekCount"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="weekly-item">
+
+                <div class="weekly-item-label">
+                    Heute erledigt
+                </div>
+
+                <div
+                    class="weekly-item-value"
+                    id="completedTodayCount"
+                >
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="weekly-item">
+
+                <div class="weekly-item-label">
+                    Bearbeitungszeit
+                </div>
+
+                <div
+                    class="weekly-item-value"
+                    id="averageProcessingTime"
+                >
+                    Nicht verfügbar
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- BESTELLUNGEN -->
 
     <div class="orders-section-header">
 
@@ -2236,14 +2717,12 @@ button.primary:disabled {
 </div>
 
 
+
 <!-- =====================================================
-     BENACHRICHTIGUNGEN
+     DRUCKBEREICH
 ===================================================== -->
 
-<div
-    class="notification-stack"
-    id="notificationStack"
-></div>
+<div id="printArea"></div>
 
 
 
@@ -2304,6 +2783,9 @@ const soundButton =
 const soundButtonMobile =
     document.getElementById("soundButtonMobile");
 
+const darkModeButton =
+    document.getElementById("darkModeButton");
+
 const loginButton =
     document.getElementById("loginButton");
 
@@ -2342,6 +2824,17 @@ const todayCount =
 
 const openCount =
     document.getElementById("openCount");
+
+const weekCount =
+    document.getElementById("weekCount");
+
+const completedTodayCount =
+    document.getElementById("completedTodayCount");
+
+const averageProcessingTime =
+    document.getElementById(
+        "averageProcessingTime"
+    );
 
 const ordersSectionTitle =
     document.getElementById(
@@ -2383,14 +2876,34 @@ const modalBody =
         "modalBody"
     );
 
-const notificationStack =
+const realtimeStatusHeader =
     document.getElementById(
-        "notificationStack"
+        "realtimeStatusHeader"
+    );
+
+const realtimeStatusMobile =
+    document.getElementById(
+        "realtimeStatusMobile"
+    );
+
+const realtimeStatusText =
+    document.getElementById(
+        "realtimeStatusText"
+    );
+
+const realtimeStatusTextMobile =
+    document.getElementById(
+        "realtimeStatusTextMobile"
+    );
+
+const connectionWarning =
+    document.getElementById(
+        "connectionWarning"
     );
 
 
 /* =====================================================
-   ZUSTAND
+   STATE
 ===================================================== */
 
 let allOrders = [];
@@ -2401,9 +2914,18 @@ let isLoadingOrders = false;
 
 let selectedOrderId = null;
 
-let statusUpdateInProgress = new Set();
+let realtimeReconnectTimer = null;
 
-let notificationSequence = 0;
+let realtimeReconnectAttempts = 0;
+
+let lastRealtimeStatus =
+    "DISCONNECTED";
+
+let undoTimeout = null;
+
+let undoAction = null;
+
+let notificationTimer = null;
 
 
 /* =====================================================
@@ -2416,40 +2938,116 @@ let soundEnabled = false;
 
 
 /* =====================================================
+   DARK MODE
+===================================================== */
+
+function initializeDarkMode() {
+
+    const savedTheme =
+        localStorage.getItem(
+            "apotheke_dark_mode"
+        );
+
+
+    if (savedTheme === "true") {
+
+        document.documentElement.classList.add(
+            "dark"
+        );
+
+        darkModeButton.textContent =
+            "☀️";
+
+        darkModeButton.title =
+            "Helles Design aktivieren";
+
+    } else {
+
+        document.documentElement.classList.remove(
+            "dark"
+        );
+
+        darkModeButton.textContent =
+            "🌙";
+
+        darkModeButton.title =
+            "Dunkles Design aktivieren";
+
+    }
+
+}
+
+
+function toggleDarkMode() {
+
+    const enabled =
+        document.documentElement.classList.toggle(
+            "dark"
+        );
+
+
+    localStorage.setItem(
+        "apotheke_dark_mode",
+        enabled ? "true" : "false"
+    );
+
+
+    darkModeButton.textContent =
+        enabled
+        ? "☀️"
+        : "🌙";
+
+
+    darkModeButton.title =
+        enabled
+        ? "Helles Design aktivieren"
+        : "Dunkles Design aktivieren";
+
+}
+
+
+darkModeButton.addEventListener(
+    "click",
+    toggleDarkMode
+);
+
+
+initializeDarkMode();
+
+
+/* =====================================================
    AUDIO CONTEXT
 ===================================================== */
 
 function createAudioContext() {
 
     if (audioContext) {
+
         return audioContext;
+
     }
+
 
     const AudioContext =
         window.AudioContext ||
         window.webkitAudioContext;
 
-    if (!AudioContext) {
 
-        console.error(
-            "Web Audio API wird nicht unterstützt."
-        );
+    if (!AudioContext) {
 
         return null;
 
     }
 
+
     audioContext =
         new AudioContext();
+
 
     return audioContext;
 
 }
 
-
-/* =====================================================
-   AUDIO AKTIVIEREN
-===================================================== */
 
 async function initializeAudio(
     playTestSound = true
@@ -2459,6 +3057,7 @@ async function initializeAudio(
 
         const context =
             createAudioContext();
+
 
         if (!context) {
 
@@ -2471,6 +3070,7 @@ async function initializeAudio(
 
         }
 
+
         if (
             context.state ===
             "suspended"
@@ -2479,6 +3079,7 @@ async function initializeAudio(
             await context.resume();
 
         }
+
 
         if (
             context.state !==
@@ -2494,9 +3095,11 @@ async function initializeAudio(
 
         }
 
+
         soundEnabled = true;
 
         updateSoundButtons();
+
 
         if (playTestSound) {
 
@@ -2508,6 +3111,7 @@ async function initializeAudio(
             );
 
         }
+
 
         return true;
 
@@ -2534,15 +3138,14 @@ async function initializeAudio(
 }
 
 
-/* =====================================================
-   AKTIVIERUNGSTON
-===================================================== */
-
 async function playActivationSound() {
 
     if (!audioContext) {
+
         return;
+
     }
+
 
     try {
 
@@ -2555,8 +3158,10 @@ async function playActivationSound() {
 
         }
 
+
         const now =
             audioContext.currentTime;
+
 
         const oscillator =
             audioContext.createOscillator();
@@ -2564,8 +3169,10 @@ async function playActivationSound() {
         const gain =
             audioContext.createGain();
 
+
         oscillator.type =
             "sine";
+
 
         oscillator.frequency.setValueAtTime(
             660,
@@ -2582,6 +3189,7 @@ async function playActivationSound() {
             now + 0.24
         );
 
+
         gain.gain.setValueAtTime(
             0.0001,
             now
@@ -2597,11 +3205,13 @@ async function playActivationSound() {
             now + 0.38
         );
 
+
         oscillator.connect(gain);
 
         gain.connect(
             audioContext.destination
         );
+
 
         oscillator.start(now);
 
@@ -2621,21 +3231,23 @@ async function playActivationSound() {
 }
 
 
-/* =====================================================
-   NEUE BESTELLUNG TON
-===================================================== */
-
 async function playNewOrderSound() {
 
     if (!soundEnabled) {
+
         return;
+
     }
+
 
     try {
 
         if (!audioContext) {
+
             return;
+
         }
+
 
         if (
             audioContext.state ===
@@ -2646,21 +3258,27 @@ async function playNewOrderSound() {
 
         }
 
+
         if (
             audioContext.state !==
             "running"
         ) {
+
             return;
+
         }
+
 
         const now =
             audioContext.currentTime;
+
 
         createNotificationBeep(
             880,
             now,
             0
         );
+
 
         createNotificationBeep(
             1174,
@@ -2671,7 +3289,7 @@ async function playNewOrderSound() {
     } catch (error) {
 
         console.error(
-            "Benachrichtigungston konnte nicht abgespielt werden:",
+            "Benachrichtigungston fehlgeschlagen:",
             error
         );
 
@@ -2687,8 +3305,11 @@ function createNotificationBeep(
 ) {
 
     if (!audioContext) {
+
         return;
+
     }
+
 
     const oscillator =
         audioContext.createOscillator();
@@ -2696,37 +3317,45 @@ function createNotificationBeep(
     const gain =
         audioContext.createGain();
 
+
     const start =
         startTime + offset;
 
+
     oscillator.type =
         "sine";
+
 
     oscillator.frequency.setValueAtTime(
         frequency,
         start
     );
 
+
     gain.gain.setValueAtTime(
         0.0001,
         start
     );
+
 
     gain.gain.exponentialRampToValueAtTime(
         0.30,
         start + 0.02
     );
 
+
     gain.gain.exponentialRampToValueAtTime(
         0.0001,
         start + 0.16
     );
+
 
     oscillator.connect(gain);
 
     gain.connect(
         audioContext.destination
     );
+
 
     oscillator.start(start);
 
@@ -2737,21 +3366,23 @@ function createNotificationBeep(
 }
 
 
-/* =====================================================
-   SOUND BUTTONS
-===================================================== */
-
 function updateSoundButtons() {
 
-    [
+    const buttons = [
         soundButton,
         soundButtonMobile
-    ].forEach(
+    ];
+
+
+    buttons.forEach(
         function(button) {
 
             if (!button) {
+
                 return;
+
             }
+
 
             if (soundEnabled) {
 
@@ -2787,15 +3418,20 @@ function updateSoundButtons() {
 
 soundButton.addEventListener(
     "click",
-    function() {
-        initializeAudio(true);
+    async function() {
+
+        await initializeAudio(true);
+
     }
 );
 
+
 soundButtonMobile.addEventListener(
     "click",
-    function() {
-        initializeAudio(true);
+    async function() {
+
+        await initializeAudio(true);
+
     }
 );
 
@@ -2817,6 +3453,7 @@ loginForm.addEventListener(
         loginButton.textContent =
             "Anmeldung läuft ...";
 
+
         const email =
             document
                 .getElementById("email")
@@ -2828,42 +3465,115 @@ loginForm.addEventListener(
                 .getElementById("password")
                 .value;
 
-        const {
-            error
-        } =
-        await supabaseClient.auth
-            .signInWithPassword({
 
-                email,
-                password
+        try {
+
+            const {
+                error
+            } =
+            await supabaseClient.auth.signInWithPassword({
+
+                email: email,
+
+                password: password
 
             });
 
-        if (error) {
 
-            loginError.textContent =
-                "E-Mail oder Passwort ist falsch.";
+            if (error) {
+
+                console.error(error);
+
+                loginError.textContent =
+                    "E-Mail oder Passwort ist falsch.";
+
+                return;
+
+            }
+
+
+            await showAdmin();
+
+        } catch (error) {
 
             console.error(error);
+
+            loginError.textContent =
+                "Anmeldung momentan nicht möglich. Bitte erneut versuchen.";
+
+        } finally {
 
             loginButton.disabled = false;
 
             loginButton.textContent =
                 "Anmelden";
 
-            return;
-
         }
-
-        loginButton.disabled = false;
-
-        loginButton.textContent =
-            "Anmelden";
-
-        await showAdmin();
 
     }
 );
+
+
+/* =====================================================
+   SESSION FEHLER
+===================================================== */
+
+supabaseClient.auth.onAuthStateChange(
+    function(event) {
+
+        console.log(
+            "Auth Status:",
+            event
+        );
+
+
+        if (
+            event ===
+            "SIGNED_OUT"
+        ) {
+
+            if (
+                adminSection.style.display !==
+                "none"
+            ) {
+
+                closeOrderDetail();
+
+                showSessionExpiredMessage();
+
+            }
+
+        }
+
+    }
+);
+
+
+function showSessionExpiredMessage() {
+
+    loginSection.style.display =
+        "block";
+
+    adminSection.style.display =
+        "none";
+
+    logoutButton.style.display =
+        "none";
+
+    refreshButton.style.display =
+        "none";
+
+    soundButton.style.display =
+        "none";
+
+    darkModeButton.style.display =
+        "none";
+
+
+    loginError.textContent =
+        "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.";
+
+}
 
 
 /* =====================================================
@@ -2887,11 +3597,33 @@ async function showAdmin() {
     soundButton.style.display =
         "block";
 
+    darkModeButton.style.display =
+        "block";
+
+
     updateSoundButtons();
 
-    await loadOrders();
+    updateRealtimeStatus(
+        "CONNECTING"
+    );
 
-    startRealtime();
+
+    const success =
+        await loadOrders();
+
+
+    if (success) {
+
+        startRealtime();
+
+    } else {
+
+        showToast(
+            "Bestellungen konnten nicht geladen werden.",
+            "error"
+        );
+
+    }
 
 }
 
@@ -2905,10 +3637,14 @@ async function loadOrders(
 ) {
 
     if (isLoadingOrders) {
+
         return false;
+
     }
 
+
     isLoadingOrders = true;
+
 
     if (showLoading) {
 
@@ -2924,23 +3660,66 @@ async function loadOrders(
 
     }
 
-    const {
-        data,
-        error
-    } =
-    await supabaseClient
-        .from("orders")
-        .select("*")
-        .order(
-            "created_at",
-            {
-                ascending: false
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient
+            .from("orders")
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            );
+
+
+        if (error) {
+
+            console.error(error);
+
+            if (showLoading) {
+
+                ordersContainer.innerHTML = `
+
+                    <div class="error">
+
+                        Fehler beim Laden der
+                        Vorbestellungen.
+
+                        <br><br>
+
+                        Bitte versuchen Sie es erneut.
+
+                    </div>
+
+                `;
+
             }
-        );
 
-    isLoadingOrders = false;
+            return false;
 
-    if (error) {
+        }
+
+
+        allOrders =
+            data || [];
+
+
+        updateDashboardCounts();
+
+        renderOrders();
+
+        updateLastUpdated();
+
+
+        return true;
+
+    } catch (error) {
 
         console.error(error);
 
@@ -2948,59 +3727,27 @@ async function loadOrders(
 
             ordersContainer.innerHTML = `
 
-                <div class="empty">
+                <div class="error">
 
-                    <strong>
-                        Vorbestellungen konnten nicht geladen werden.
-                    </strong>
+                    Die Verbindung konnte nicht hergestellt werden.
 
-                    <br>
+                    <br><br>
 
                     Bitte versuchen Sie es erneut.
-
-                    <br>
-
-                    <button
-                        class="retry-button"
-                        type="button"
-                        id="retryLoadButton"
-                    >
-                        Erneut versuchen
-                    </button>
 
                 </div>
 
             `;
 
-            document
-                .getElementById(
-                    "retryLoadButton"
-                )
-                ?.addEventListener(
-                    "click",
-                    function() {
-                        loadOrders();
-                    }
-                );
-
         }
 
         return false;
 
+    } finally {
+
+        isLoadingOrders = false;
+
     }
-
-    allOrders =
-        Array.isArray(data)
-        ? data
-        : [];
-
-    updateDashboardCounts();
-
-    renderOrders();
-
-    updateLastUpdated();
-
-    return true;
 
 }
 
@@ -3017,11 +3764,13 @@ function updateDashboardCounts() {
                 order.status === "new"
         ).length;
 
+
     const processingOrders =
         allOrders.filter(
             order =>
                 order.status === "processing"
         ).length;
+
 
     const readyOrders =
         allOrders.filter(
@@ -3029,20 +3778,47 @@ function updateDashboardCounts() {
                 order.status === "ready"
         ).length;
 
+
     const totalOrders =
         allOrders.length;
+
 
     const todayOrders =
         allOrders.filter(
             order =>
-                isToday(order.created_at)
+                isToday(
+                    order.created_at
+                )
         ).length;
+
 
     const openOrders =
         allOrders.filter(
             order =>
-                order.status !== "completed"
+                order.status !==
+                "completed"
         ).length;
+
+
+    const thisWeekOrders =
+        allOrders.filter(
+            order =>
+                isThisWeek(
+                    order.created_at
+                )
+        ).length;
+
+
+    const completedToday =
+        allOrders.filter(
+            order =>
+                order.status === "completed"
+                &&
+                isToday(
+                    order.created_at
+                )
+        ).length;
+
 
     newCount.textContent =
         newOrders;
@@ -3062,65 +3838,107 @@ function updateDashboardCounts() {
     openCount.textContent =
         openOrders;
 
+    weekCount.textContent =
+        thisWeekOrders;
+
+    completedTodayCount.textContent =
+        completedToday;
+
+
+    /*
+        Eine echte durchschnittliche Bearbeitungszeit
+        ist ohne Zeitstempel für Statusänderungen
+        nicht zuverlässig berechenbar.
+
+        Wir zeigen deshalb bewusst keine erfundene Zahl.
+    */
+
+    averageProcessingTime.textContent =
+        "Noch nicht messbar";
+
 }
 
 
 /* =====================================================
-   BESTELLUNGEN FILTERN
+   BESTELLUNGEN DARSTELLEN
 ===================================================== */
 
-function getFilteredOrders() {
+function renderOrders(
+    highlightId = null
+) {
 
     const searchTerm =
         orderSearch.value
             .toLowerCase()
             .trim();
 
+
     const selectedStatus =
         statusFilter.value;
+
 
     const selectedDate =
         dateFilter.value;
 
+
     const selectedCompletion =
         completionFilter.value;
 
-    const filtered =
+
+    const filteredOrders =
         allOrders.filter(
             function(order) {
 
-                const fullText =
-                    [
-                        order.first_name,
-                        order.last_name,
-                        order.medicine,
-                        order.phone,
-                        order.message
-                    ]
-                    .filter(Boolean)
-                    .join(" ")
-                    .toLowerCase();
+                const fullText = `
+
+                    ${order.first_name || ""}
+
+                    ${order.last_name || ""}
+
+                    ${order.medicine || ""}
+
+                    ${order.phone || ""}
+
+                    ${order.message || ""}
+
+                `.toLowerCase();
+
 
                 const matchesSearch =
-                    !searchTerm ||
                     fullText.includes(
                         searchTerm
                     );
 
+
                 const matchesStatus =
-                    selectedStatus === "all" ||
+                    selectedStatus === "all"
+                    ||
                     order.status ===
                         selectedStatus;
 
+
                 const matchesDate =
-                    matchesDateFilter(
-                        order.created_at,
-                        selectedDate
+                    selectedDate === "all"
+                    ||
+                    (
+                        selectedDate === "today"
+                        &&
+                        isToday(
+                            order.created_at
+                        )
+                    )
+                    ||
+                    (
+                        selectedDate === "week"
+                        &&
+                        isThisWeek(
+                            order.created_at
+                        )
                     );
 
+
                 const matchesCompletion =
-                    selectedCompletion ===
-                        "all"
+                    selectedCompletion === "all"
                     ||
                     (
                         selectedCompletion ===
@@ -3138,159 +3956,28 @@ function getFilteredOrders() {
                             "completed"
                     );
 
+
                 return (
-                    matchesSearch &&
-                    matchesStatus &&
-                    matchesDate &&
+
+                    matchesSearch
+                    &&
+                    matchesStatus
+                    &&
+                    matchesDate
+                    &&
                     matchesCompletion
+
                 );
 
             }
         );
 
-    /*
-        Neue und offene Bestellungen werden zuerst
-        angezeigt. Innerhalb desselben Prioritätslevels
-        bleibt die neueste Bestellung oben.
-    */
-
-    return filtered.sort(
-        function(a, b) {
-
-            const priorityA =
-                getOrderPriority(a);
-
-            const priorityB =
-                getOrderPriority(b);
-
-            if (
-                priorityA !==
-                priorityB
-            ) {
-
-                return (
-                    priorityA -
-                    priorityB
-                );
-
-            }
-
-            return (
-                new Date(
-                    b.created_at || 0
-                ) -
-                new Date(
-                    a.created_at || 0
-                )
-            );
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   ZEITFILTER
-===================================================== */
-
-function matchesDateFilter(
-    value,
-    filter
-) {
-
-    if (filter === "all") {
-        return true;
-    }
-
-    if (!value) {
-        return false;
-    }
-
-    const date =
-        new Date(value);
-
-    if (
-        Number.isNaN(
-            date.getTime()
-        )
-    ) {
-        return false;
-    }
-
-    const now =
-        new Date();
-
-    if (filter === "today") {
-        return isToday(value);
-    }
-
-    if (filter === "yesterday") {
-
-        const yesterday =
-            new Date(now);
-
-        yesterday.setDate(
-            yesterday.getDate() - 1
-        );
-
-        return (
-            date.getFullYear() ===
-                yesterday.getFullYear()
-            &&
-            date.getMonth() ===
-                yesterday.getMonth()
-            &&
-            date.getDate() ===
-                yesterday.getDate()
-        );
-
-    }
-
-    if (filter === "last7") {
-
-        const sevenDaysAgo =
-            new Date(now);
-
-        sevenDaysAgo.setDate(
-            sevenDaysAgo.getDate() - 7
-        );
-
-        return date >= sevenDaysAgo;
-
-    }
-
-    if (filter === "last30") {
-
-        const thirtyDaysAgo =
-            new Date(now);
-
-        thirtyDaysAgo.setDate(
-            thirtyDaysAgo.getDate() - 30
-        );
-
-        return date >= thirtyDaysAgo;
-
-    }
-
-    return true;
-
-}
-
-
-/* =====================================================
-   BESTELLUNGEN DARSTELLEN
-===================================================== */
-
-function renderOrders() {
-
-    const filteredOrders =
-        getFilteredOrders();
 
     updateOrdersSectionHeader(
-        completionFilter.value,
+        selectedCompletion,
         filteredOrders.length
     );
+
 
     if (
         filteredOrders.length === 0
@@ -3314,289 +4001,232 @@ function renderOrders() {
 
     }
 
+
     ordersContainer.innerHTML = "";
 
-    const fragment =
-        document.createDocumentFragment();
 
     filteredOrders.forEach(
         function(order) {
 
-            fragment.appendChild(
-                createOrderCard(order)
+            const card =
+                document.createElement("div");
+
+
+            card.className =
+                "order-card";
+
+
+            if (
+                order.status ===
+                "completed"
+            ) {
+
+                card.classList.add(
+                    "completed"
+                );
+
+            }
+
+
+            if (
+                highlightId !== null
+                &&
+                String(order.id) ===
+                    String(highlightId)
+            ) {
+
+                card.classList.add(
+                    "new-highlight"
+                );
+
+            }
+
+
+            card.dataset.orderId =
+                order.id;
+
+
+            const phoneHtml =
+                order.phone
+                ? `
+                    <a
+                        href="${getTelLink(order.phone)}"
+                        onclick="event.stopPropagation();"
+                    >
+                        📞 ${escapeHtml(order.phone)}
+                    </a>
+                `
+                : "📞 Keine Telefonnummer";
+
+
+            card.innerHTML = `
+
+                <div class="order-header">
+
+                    <div class="order-name">
+
+                        ${escapeHtml(
+                            order.first_name || ""
+                        )}
+
+                        ${escapeHtml(
+                            order.last_name || ""
+                        )}
+
+                    </div>
+
+
+                    <div class="order-date">
+
+                        ${formatDate(
+                            order.created_at
+                        )}
+
+                    </div>
+
+                </div>
+
+
+                <div class="order-medicine">
+
+                    💊
+
+                    ${escapeHtml(
+                        order.medicine ||
+                        "Kein Medikament angegeben"
+                    )}
+
+                </div>
+
+
+                <div class="order-details">
+
+                    ${phoneHtml}
+
+                    <br>
+
+                    📱 Rückruf:
+
+                    <strong>
+
+                        ${
+                            order.callback
+                            ? "Ja"
+                            : "Nein"
+                        }
+
+                    </strong>
+
+                </div>
+
+
+                <div class="order-card-status">
+
+                    ${getStatusLabel(
+                        order.status
+                    )}
+
+                </div>
+
+
+                <div class="order-card-actions">
+
+                    ${renderQuickStatusButtons(
+                        order
+                    )}
+
+                </div>
+
+            `;
+
+
+            ordersContainer.appendChild(
+                card
             );
 
         }
     );
 
-    ordersContainer.appendChild(
-        fragment
-    );
 
-}
+    if (highlightId !== null) {
+
+        requestAnimationFrame(
+            function() {
+
+                const highlighted =
+                    document.querySelector(
+                        `.order-card[data-order-id="${CSS.escape(String(highlightId))}"]`
+                    );
 
 
-/* =====================================================
-   BESTELLKARTE ERSTELLEN
-===================================================== */
+                if (highlighted) {
 
-function createOrderCard(order) {
+                    highlighted.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
 
-    const card =
-        document.createElement("div");
-
-    const status =
-        order.status || "new";
-
-    card.className =
-        "order-card";
-
-    card.dataset.orderId =
-        order.id;
-
-    if (status === "completed") {
-        card.classList.add("completed");
-    }
-
-    if (status === "new") {
-        card.classList.add("is-new");
-    }
-
-    if (status === "processing") {
-        card.classList.add("is-processing");
-    }
-
-    if (status === "ready") {
-        card.classList.add("is-ready");
-    }
-
-    const age =
-        getOrderAge(order.created_at);
-
-    if (
-        status !== "completed" &&
-        age.minutes >= 120
-    ) {
-        card.classList.add("urgent");
-    }
-
-    const phone =
-        order.phone || "";
-
-    const phoneHtml =
-        phone
-        ? `
-            <a
-                href="${getTelLink(phone)}"
-                class="phone-link"
-                data-phone-link="true"
-            >
-                📞 ${escapeHtml(phone)}
-            </a>
-        `
-        : `
-            📞 Keine Telefonnummer
-        `;
-
-    const callbackHtml =
-        order.callback
-        ? `<strong>Ja</strong>`
-        : `<strong>Nein</strong>`;
-
-    card.innerHTML = `
-
-        <div class="order-priority-bar"></div>
-
-        <div class="order-header">
-
-            <div>
-
-                <div class="order-name">
-
-                    ${escapeHtml(
-                        buildCustomerName(order)
-                    )}
-
-                </div>
-
-                ${
-                    status !== "completed"
-                    ? `
-                        <div class="
-                            order-age
-                            ${
-                                age.minutes >= 120
-                                ? "urgent"
-                                : ""
-                            }
-                        ">
-                            ${escapeHtml(
-                                formatOrderAge(
-                                    order.created_at
-                                )
-                            )}
-                        </div>
-                    `
-                    : ""
                 }
 
-            </div>
-
-            <div class="order-date">
-
-                ${formatDate(
-                    order.created_at
-                )}
-
-            </div>
-
-        </div>
-
-
-        <div class="order-medicine">
-
-            💊
-
-            ${escapeHtml(
-                order.medicine ||
-                "Medikament nicht angegeben"
-            )}
-
-        </div>
-
-
-        <div class="order-details">
-
-            ${phoneHtml}
-
-            <br>
-
-            📱 Rückruf:
-
-            ${callbackHtml}
-
-            ${
-                order.message
-                ? `
-                    <div class="order-message">
-                        💬
-                        ${escapeHtml(
-                            order.message
-                        )}
-                    </div>
-                `
-                : ""
             }
+        );
 
-        </div>
-
-
-        <div class="order-bottom">
-
-            <div class="
-                order-card-status
-                ${getStatusClass(status)}
-            ">
-
-                ${getStatusLabel(status)}
-
-            </div>
-
-
-            <div class="quick-actions">
-
-                ${createQuickActionButton(
-                    order,
-                    "processing",
-                    "🟡 Bearbeiten"
-                )}
-
-                ${createQuickActionButton(
-                    order,
-                    "ready",
-                    "🟢 Abholbereit"
-                )}
-
-                ${createQuickActionButton(
-                    order,
-                    "completed",
-                    "⚪ Erledigt"
-                )}
-
-            </div>
-
-        </div>
-
-    `;
-
-    return card;
+    }
 
 }
 
 
 /* =====================================================
-   QUICK ACTION BUTTON
+   QUICK STATUS BUTTONS
 ===================================================== */
 
-function createQuickActionButton(
-    order,
-    status,
-    label
+function renderQuickStatusButtons(
+    order
 ) {
 
-    if (order.status === status) {
-
-        return `
-            <button
-                class="quick-action active"
-                type="button"
-                disabled
-                data-order-id="${escapeAttribute(
-                    order.id
-                )}"
-                data-status="${status}"
-            >
-                ✓ ${label}
-            </button>
-        `;
-
-    }
-
-    return `
-        <button
-            class="quick-action"
-            type="button"
-            data-order-id="${escapeAttribute(
-                order.id
-            )}"
-            data-status="${status}"
-        >
-            ${label}
-        </button>
-    `;
-
-}
+    const statuses = [
+        ["new", "🔴 Neu"],
+        ["processing", "🟡 Bearbeiten"],
+        ["ready", "🟢 Abholbereit"],
+        ["completed", "⚪ Erledigt"]
+    ];
 
 
-/* =====================================================
-   PRIORITÄT
-===================================================== */
+    return statuses
+        .map(
+            function(item) {
 
-function getOrderPriority(order) {
+                const status =
+                    item[0];
 
-    if (order.status === "new") {
-        return 0;
-    }
+                const label =
+                    item[1];
 
-    if (order.status === "processing") {
-        return 1;
-    }
 
-    if (order.status === "ready") {
-        return 2;
-    }
+                return `
 
-    return 3;
+                    <button
+                        type="button"
+                        class="status-button ${
+                            order.status === status
+                            ? "active"
+                            : ""
+                        }"
+                        data-order-id="${escapeHtml(
+                            String(order.id)
+                        )}"
+                        data-status="${status}"
+                    >
+
+                        ${label}
+
+                    </button>
+
+                `;
+
+            }
+        )
+        .join("");
 
 }
 
@@ -3613,6 +4243,7 @@ function updateOrdersSectionHeader(
     let title =
         "Bestellungen";
 
+
     if (
         selectedCompletion ===
         "active"
@@ -3622,6 +4253,7 @@ function updateOrdersSectionHeader(
             "Aktive Bestellungen";
 
     }
+
 
     if (
         selectedCompletion ===
@@ -3633,6 +4265,7 @@ function updateOrdersSectionHeader(
 
     }
 
+
     if (
         selectedCompletion ===
         "all"
@@ -3643,8 +4276,10 @@ function updateOrdersSectionHeader(
 
     }
 
+
     ordersSectionTitle.textContent =
         title;
+
 
     ordersSectionCount.textContent =
         count +
@@ -3658,53 +4293,68 @@ function updateOrdersSectionHeader(
 
 
 /* =====================================================
-   BESTELLUNG KLICK
+   ORDER KLICK
 ===================================================== */
 
 ordersContainer.addEventListener(
     "click",
     function(event) {
 
-        const quickButton =
+        const statusButton =
             event.target.closest(
-                ".quick-action"
+                "button[data-order-id]"
             );
 
-        if (quickButton) {
 
-            event.preventDefault();
+        if (statusButton) {
 
             event.stopPropagation();
 
-            handleQuickStatusChange(
-                quickButton
+            const orderId =
+                statusButton.dataset.orderId;
+
+            const newStatus =
+                statusButton.dataset.status;
+
+
+            updateOrderStatus(
+                orderId,
+                newStatus,
+                statusButton,
+                false
             );
+
 
             return;
 
         }
 
-        const phoneLink =
+
+        const link =
             event.target.closest(
-                "[data-phone-link]"
+                "a"
             );
 
-        if (phoneLink) {
 
-            event.stopPropagation();
+        if (link) {
 
             return;
 
         }
+
 
         const card =
             event.target.closest(
                 ".order-card"
             );
 
+
         if (!card) {
+
             return;
+
         }
+
 
         openOrderDetail(
             card.dataset.orderId
@@ -3715,31 +4365,7 @@ ordersContainer.addEventListener(
 
 
 /* =====================================================
-   QUICK STATUS
-===================================================== */
-
-async function handleQuickStatusChange(
-    button
-) {
-
-    const orderId =
-        button.dataset.orderId;
-
-    const newStatus =
-        button.dataset.status;
-
-    await updateOrderStatus(
-        orderId,
-        newStatus,
-        button,
-        false
-    );
-
-}
-
-
-/* =====================================================
-   DETAILANSICHT ÖFFNEN
+   DETAILANSICHT
 ===================================================== */
 
 function openOrderDetail(
@@ -3753,6 +4379,7 @@ function openOrderDetail(
                 String(orderId)
         );
 
+
     if (!order) {
 
         showToast(
@@ -3764,18 +4391,33 @@ function openOrderDetail(
 
     }
 
+
     selectedOrderId =
         order.id;
 
+
     modalTitle.textContent =
-        buildCustomerName(order);
+        (
+            order.first_name || ""
+        ) +
+        " " +
+        (
+            order.last_name || ""
+        );
+
 
     modalSubtitle.textContent =
         "Vorbestellung vom " +
-        formatDate(order.created_at);
+        formatDate(
+            order.created_at
+        );
 
-    const phone =
-        order.phone || "";
+
+    const internalNote =
+        getInternalNote(
+            order.id
+        );
+
 
     modalBody.innerHTML = `
 
@@ -3788,10 +4430,12 @@ function openOrderDetail(
                 </div>
 
                 <div class="detail-value">
+
                     ${escapeHtml(
                         order.first_name ||
                         "Nicht angegeben"
                     )}
+
                 </div>
 
             </div>
@@ -3804,10 +4448,12 @@ function openOrderDetail(
                 </div>
 
                 <div class="detail-value">
+
                     ${escapeHtml(
                         order.last_name ||
                         "Nicht angegeben"
                     )}
+
                 </div>
 
             </div>
@@ -3822,13 +4468,14 @@ function openOrderDetail(
                 <div class="detail-value">
 
                     ${
-                        phone
+                        order.phone
                         ? `
                             <a
-                                href="${getTelLink(phone)}"
+                                href="${getTelLink(order.phone)}"
                             >
-                                📞
-                                ${escapeHtml(phone)}
+                                📞 ${escapeHtml(
+                                    order.phone
+                                )}
                             </a>
                         `
                         : "Nicht angegeben"
@@ -3849,7 +4496,7 @@ function openOrderDetail(
 
                     ${
                         order.callback
-                        ? "📞 Ja"
+                        ? "Ja"
                         : "Nein"
                     }
 
@@ -3884,10 +4531,7 @@ function openOrderDetail(
                     Nachricht
                 </div>
 
-                <div class="
-                    detail-value
-                    detail-message
-                ">
+                <div class="detail-value detail-message">
 
                     ${escapeHtml(
                         order.message ||
@@ -3911,22 +4555,6 @@ function openOrderDetail(
                         order.created_at
                     )}
 
-                    <br>
-
-                    <span
-                        style="
-                            color:var(--muted);
-                            font-size:12px;
-                            font-weight:400;
-                        "
-                    >
-                        ${escapeHtml(
-                            formatOrderAge(
-                                order.created_at
-                            )
-                        )}
-                    </span>
-
                 </div>
 
             </div>
@@ -3936,29 +4564,33 @@ function openOrderDetail(
 
         <div class="modal-actions">
 
-            ${
-                phone
-                ? `
-                    <a
-                        class="modal-action"
-                        href="${getTelLink(phone)}"
-                        style="text-decoration:none;"
-                    >
-                        📞 Anrufen
-                    </a>
-                `
-                : ""
-            }
+            <button
+                type="button"
+                class="modal-action-button"
+                id="copyOrderButton"
+            >
+                📋 Daten kopieren
+            </button>
+
+
+            <button
+                type="button"
+                class="modal-action-button"
+                id="printOrderButton"
+            >
+                🖨️ Bestellung drucken
+            </button>
+
 
             ${
-                phone && order.callback
+                order.phone
                 ? `
                     <a
-                        class="modal-action"
-                        href="${getTelLink(phone)}"
-                        style="text-decoration:none;"
+                        class="modal-action-button primary-action"
+                        href="${getTelLink(order.phone)}"
+                        style="text-align:center;text-decoration:none;"
                     >
-                        📱 Rückruf
+                        📞 Anrufen
                     </a>
                 `
                 : ""
@@ -3979,29 +4611,43 @@ function openOrderDetail(
                 id="modalStatusButtons"
             >
 
-                ${createModalStatusButton(
-                    order,
-                    "new",
-                    "🔴 Neu"
+                ${renderModalStatusButtons(
+                    order
                 )}
 
-                ${createModalStatusButton(
-                    order,
-                    "processing",
-                    "🟡 In Bearbeitung"
-                )}
+            </div>
 
-                ${createModalStatusButton(
-                    order,
-                    "ready",
-                    "🟢 Abholbereit"
-                )}
+        </div>
 
-                ${createModalStatusButton(
-                    order,
-                    "completed",
-                    "⚪ Erledigt"
-                )}
+
+        <div class="internal-note-section">
+
+            <div class="internal-note-title">
+                📝 Interne Notiz
+            </div>
+
+            <div class="internal-note-info">
+                Diese Notiz wird nur in diesem Browser gespeichert
+                und ist für Kunden nicht sichtbar.
+            </div>
+
+            <textarea
+                id="internalNoteInput"
+                placeholder="Interne Notiz zu dieser Bestellung ..."
+            >${escapeHtml(
+                internalNote
+            )}</textarea>
+
+
+            <div class="note-actions">
+
+                <button
+                    type="button"
+                    class="note-save-button"
+                    id="saveInternalNoteButton"
+                >
+                    Notiz speichern
+                </button>
 
             </div>
 
@@ -4009,14 +4655,68 @@ function openOrderDetail(
 
     `;
 
+
+    document
+        .getElementById("copyOrderButton")
+        .addEventListener(
+            "click",
+            function() {
+
+                copyOrderData(
+                    order
+                );
+
+            }
+        );
+
+
+    document
+        .getElementById("printOrderButton")
+        .addEventListener(
+            "click",
+            function() {
+
+                printOrder(
+                    order
+                );
+
+            }
+        );
+
+
+    document
+        .getElementById(
+            "saveInternalNoteButton"
+        )
+        .addEventListener(
+            "click",
+            function() {
+
+                const input =
+                    document.getElementById(
+                        "internalNoteInput"
+                    );
+
+
+                saveInternalNote(
+                    order.id,
+                    input.value
+                );
+
+            }
+        );
+
+
     orderModalOverlay.classList.add(
         "open"
     );
+
 
     orderModalOverlay.setAttribute(
         "aria-hidden",
         "false"
     );
+
 
     document.body.style.overflow =
         "hidden";
@@ -4024,38 +4724,49 @@ function openOrderDetail(
 }
 
 
-/* =====================================================
-   MODAL STATUS BUTTON
-===================================================== */
-
-function createModalStatusButton(
-    order,
-    status,
-    label
+function renderModalStatusButtons(
+    order
 ) {
 
-    const active =
-        order.status === status;
+    const statuses = [
+        ["new", "🔴 Neu"],
+        ["processing", "🟡 In Bearbeitung"],
+        ["ready", "🟢 Abholbereit"],
+        ["completed", "⚪ Erledigt"]
+    ];
 
-    return `
 
-        <button
-            type="button"
-            data-modal-status="${status}"
-            class="${active ? "active" : ""}"
-            ${active ? "disabled" : ""}
-        >
-            ${active ? "✓ " : ""}
-            ${label}
-        </button>
+    return statuses
+        .map(
+            function(item) {
 
-    `;
+                return `
+
+                    <button
+                        type="button"
+                        data-modal-status="${item[0]}"
+                        class="${
+                            order.status === item[0]
+                            ? "active"
+                            : ""
+                        }"
+                    >
+
+                        ${item[1]}
+
+                    </button>
+
+                `;
+
+            }
+        )
+        .join("");
 
 }
 
 
 /* =====================================================
-   DETAILANSICHT SCHLIESSEN
+   MODAL SCHLIESSEN
 ===================================================== */
 
 function closeOrderDetail() {
@@ -4064,13 +4775,16 @@ function closeOrderDetail() {
         "open"
     );
 
+
     orderModalOverlay.setAttribute(
         "aria-hidden",
         "true"
     );
 
+
     document.body.style.overflow =
         "";
+
 
     selectedOrderId =
         null;
@@ -4083,10 +4797,12 @@ modalCloseButton.addEventListener(
     closeOrderDetail
 );
 
+
 modalFooterClose.addEventListener(
     "click",
     closeOrderDetail
 );
+
 
 orderModalOverlay.addEventListener(
     "click",
@@ -4111,13 +4827,18 @@ document.addEventListener(
 
         if (
             event.key ===
-            "Escape" &&
-            orderModalOverlay.classList.contains(
-                "open"
-            )
+            "Escape"
         ) {
 
-            closeOrderDetail();
+            if (
+                orderModalOverlay.classList.contains(
+                    "open"
+                )
+            ) {
+
+                closeOrderDetail();
+
+            }
 
         }
 
@@ -4138,16 +4859,24 @@ modalBody.addEventListener(
                 "button[data-modal-status]"
             );
 
+
         if (!button) {
+
             return;
+
         }
+
 
         const newStatus =
             button.dataset.modalStatus;
 
+
         if (!selectedOrderId) {
+
             return;
+
         }
+
 
         await updateOrderStatus(
             selectedOrderId,
@@ -4178,36 +4907,32 @@ async function updateOrderStatus(
                 String(orderId)
         );
 
+
     if (!order) {
+
         return;
+
     }
+
+
+    const oldStatus =
+        order.status;
+
 
     if (
-        order.status ===
-        newStatus
+        oldStatus === newStatus
     ) {
+
         return;
+
     }
 
-    const operationKey =
-        String(orderId);
-
-    if (
-        statusUpdateInProgress.has(
-            operationKey
-        )
-    ) {
-        return;
-    }
-
-    statusUpdateInProgress.add(
-        operationKey
-    );
 
     const originalText =
         clickedButton
-            ? clickedButton.textContent
-            : "";
+        ? clickedButton.textContent
+        : "";
+
 
     if (clickedButton) {
 
@@ -4219,29 +4944,78 @@ async function updateOrderStatus(
 
     }
 
-    const oldStatus =
-        order.status;
 
-    const {
-        error
-    } =
-    await supabaseClient
-        .from("orders")
-        .update({
-            status: newStatus
-        })
-        .eq(
-            "id",
-            orderId
+    try {
+
+        const {
+            error
+        } =
+        await supabaseClient
+            .from("orders")
+            .update({
+
+                status: newStatus
+
+            })
+            .eq(
+                "id",
+                orderId
+            );
+
+
+        if (error) {
+
+            console.error(error);
+
+            showToast(
+                "Der Status konnte nicht geändert werden.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        order.status =
+            newStatus;
+
+
+        updateDashboardCounts();
+
+        renderOrders();
+
+        updateLastUpdated();
+
+
+        createUndoAction(
+            orderId,
+            oldStatus,
+            newStatus
         );
 
-    statusUpdateInProgress.delete(
-        operationKey
-    );
 
-    if (error) {
+        if (
+            fromModal &&
+            selectedOrderId
+        ) {
+
+            openOrderDetail(
+                selectedOrderId
+            );
+
+        }
+
+    } catch (error) {
 
         console.error(error);
+
+        showToast(
+            "Beim Speichern ist ein Fehler aufgetreten.",
+            "error"
+        );
+
+    } finally {
 
         if (clickedButton) {
 
@@ -4253,8 +5027,186 @@ async function updateOrderStatus(
 
         }
 
+    }
+
+}
+
+
+/* =====================================================
+   UNDO STATUS
+===================================================== */
+
+function createUndoAction(
+    orderId,
+    oldStatus,
+    newStatus
+) {
+
+    undoAction = {
+
+        orderId:
+            orderId,
+
+        oldStatus:
+            oldStatus,
+
+        newStatus:
+            newStatus
+
+    };
+
+
+    showUndoToast();
+
+
+    if (undoTimeout) {
+
+        clearTimeout(
+            undoTimeout
+        );
+
+    }
+
+
+    undoTimeout =
+        setTimeout(
+            function() {
+
+                undoAction =
+                    null;
+
+            },
+            5000
+        );
+
+}
+
+
+function showUndoToast() {
+
+    removeExistingToast();
+
+
+    const toast =
+        document.createElement("div");
+
+
+    toast.className =
+        "toast";
+
+
+    toast.innerHTML = `
+
+        <div class="undo-toast">
+
+            <span>
+                Status geändert
+            </span>
+
+            <button
+                type="button"
+                class="undo-button"
+                id="undoStatusButton"
+            >
+                Rückgängig
+            </button>
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(
+        toast
+    );
+
+
+    document
+        .getElementById(
+            "undoStatusButton"
+        )
+        .addEventListener(
+            "click",
+            undoStatusChange
+        );
+
+
+    setTimeout(
+        function() {
+
+            if (
+                toast.parentNode
+            ) {
+
+                toast.remove();
+
+            }
+
+        },
+        5000
+    );
+
+}
+
+
+async function undoStatusChange() {
+
+    if (!undoAction) {
+
+        return;
+
+    }
+
+
+    const action =
+        undoAction;
+
+
+    undoAction =
+        null;
+
+
+    removeExistingToast();
+
+
+    const order =
+        allOrders.find(
+            item =>
+                String(item.id) ===
+                String(action.orderId)
+        );
+
+
+    if (!order) {
+
+        return;
+
+    }
+
+
+    const {
+        error
+    } =
+    await supabaseClient
+        .from("orders")
+        .update({
+
+            status:
+                action.oldStatus
+
+        })
+        .eq(
+            "id",
+            action.orderId
+        );
+
+
+    if (error) {
+
+        console.error(error);
+
         showToast(
-            "Der Status konnte nicht geändert werden.",
+            "Rückgängigmachen fehlgeschlagen.",
             "error"
         );
 
@@ -4262,14 +5214,10 @@ async function updateOrderStatus(
 
     }
 
-    /*
-        Optimistisches lokales Update.
-        Realtime kann danach dieselben Daten erneut liefern,
-        ohne dass dadurch ein Fehler entsteht.
-    */
 
     order.status =
-        newStatus;
+        action.oldStatus;
+
 
     updateDashboardCounts();
 
@@ -4277,109 +5225,1250 @@ async function updateOrderStatus(
 
     updateLastUpdated();
 
+
+    showToast(
+        "Status wurde zurückgesetzt.",
+        "success"
+    );
+
+
     if (
-        fromModal &&
-        selectedOrderId
+        selectedOrderId &&
+        String(selectedOrderId) ===
+            String(action.orderId)
     ) {
 
         openOrderDetail(
-            selectedOrderId
+            action.orderId
         );
 
     }
 
-    showToast(
-        getStatusChangeMessage(
-            oldStatus,
-            newStatus
-        ),
-        "success"
+}
+
+
+/* =====================================================
+   INTERNE NOTIZEN
+===================================================== */
+
+function getInternalNotes() {
+
+    try {
+
+        return JSON.parse(
+            localStorage.getItem(
+                "apotheke_internal_notes"
+            ) || "{}"
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Notizen konnten nicht gelesen werden:",
+            error
+        );
+
+        return {};
+
+    }
+
+}
+
+
+function getInternalNote(
+    orderId
+) {
+
+    const notes =
+        getInternalNotes();
+
+
+    return notes[
+        String(orderId)
+    ] || "";
+
+}
+
+
+function saveInternalNote(
+    orderId,
+    note
+) {
+
+    try {
+
+        const notes =
+            getInternalNotes();
+
+
+        const cleaned =
+            String(note || "")
+                .trim();
+
+
+        if (cleaned) {
+
+            notes[
+                String(orderId)
+            ] =
+                cleaned;
+
+        } else {
+
+            delete notes[
+                String(orderId)
+            ];
+
+        }
+
+
+        localStorage.setItem(
+            "apotheke_internal_notes",
+            JSON.stringify(notes)
+        );
+
+
+        showToast(
+            "Interne Notiz gespeichert.",
+            "success"
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+        showToast(
+            "Die interne Notiz konnte nicht gespeichert werden.",
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   DATEN KOPIEREN
+===================================================== */
+
+async function copyOrderData(
+    order
+) {
+
+    const text = `
+
+Apotheke am Stadtpark
+
+Name:
+${order.first_name || ""} ${order.last_name || ""}
+
+Medikament:
+${order.medicine || "Nicht angegeben"}
+
+Telefon:
+${order.phone || "Nicht angegeben"}
+
+Rückruf:
+${order.callback ? "Ja" : "Nein"}
+
+Nachricht:
+${order.message || "Keine Nachricht"}
+
+Eingegangen:
+${formatDate(order.created_at)}
+
+`.trim();
+
+
+    try {
+
+        await navigator.clipboard.writeText(
+            text
+        );
+
+
+        showToast(
+            "Bestelldaten kopiert.",
+            "success"
+        );
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        /*
+            Fallback für ältere Browser.
+        */
+
+        const textarea =
+            document.createElement(
+                "textarea"
+            );
+
+
+        textarea.value =
+            text;
+
+
+        textarea.style.position =
+            "fixed";
+
+        textarea.style.opacity =
+            "0";
+
+
+        document.body.appendChild(
+            textarea
+        );
+
+
+        textarea.focus();
+
+        textarea.select();
+
+
+        try {
+
+            document.execCommand(
+                "copy"
+            );
+
+            showToast(
+                "Bestelldaten kopiert.",
+                "success"
+            );
+
+        } catch (fallbackError) {
+
+            console.error(
+                fallbackError
+            );
+
+            showToast(
+                "Kopieren ist in diesem Browser nicht verfügbar.",
+                "error"
+            );
+
+        }
+
+
+        textarea.remove();
+
+    }
+
+}
+
+
+/* =====================================================
+   DRUCKEN
+===================================================== */
+
+function printOrder(
+    order
+) {
+
+    const printArea =
+        document.getElementById(
+            "printArea"
+        );
+
+
+    printArea.innerHTML = `
+
+        <div class="print-document">
+
+            <div class="print-title">
+                Apotheke am Stadtpark
+            </div>
+
+            <div class="print-subtitle">
+                Vorbestellung
+            </div>
+
+
+            <div class="print-row">
+
+                <div class="print-label">
+                    Name
+                </div>
+
+                <div class="print-value">
+                    ${escapeHtml(
+                        (
+                            order.first_name || ""
+                        ) +
+                        " " +
+                        (
+                            order.last_name || ""
+                        )
+                    )}
+                </div>
+
+            </div>
+
+
+            <div class="print-row">
+
+                <div class="print-label">
+                    Medikament
+                </div>
+
+                <div class="print-value">
+                    ${escapeHtml(
+                        order.medicine ||
+                        "Nicht angegeben"
+                    )}
+                </div>
+
+            </div>
+
+
+            <div class="print-row">
+
+                <div class="print-label">
+                    Telefonnummer
+                </div>
+
+                <div class="print-value">
+                    ${escapeHtml(
+                        order.phone ||
+                        "Nicht angegeben"
+                    )}
+                </div>
+
+            </div>
+
+
+            <div class="print-row">
+
+                <div class="print-label">
+                    Rückruf
+                </div>
+
+                <div class="print-value">
+                    ${
+                        order.callback
+                        ? "Ja"
+                        : "Nein"
+                    }
+                </div>
+
+            </div>
+
+
+            <div class="print-row">
+
+                <div class="print-label">
+                    Status
+                </div>
+
+                <div class="print-value">
+                    ${escapeHtml(
+                        getStatusLabelPlain(
+                            order.status
+                        )
+                    )}
+                </div>
+
+            </div>
+
+
+            <div class="print-row">
+
+                <div class="print-label">
+                    Eingegangen
+                </div>
+
+                <div class="print-value">
+                    ${escapeHtml(
+                        formatDate(
+                            order.created_at
+                        )
+                    )}
+                </div>
+
+            </div>
+
+
+            <div class="print-message">
+
+                <strong>
+                    Nachricht
+                </strong>
+
+                <p>
+                    ${escapeHtml(
+                        order.message ||
+                        "Keine Nachricht"
+                    )}
+                </p>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    window.print();
+
+}
+
+
+/* =====================================================
+   REALTIME STATUS
+===================================================== */
+
+function updateRealtimeStatus(
+    status
+) {
+
+    lastRealtimeStatus =
+        status;
+
+
+    const elements = [
+        realtimeStatusHeader,
+        realtimeStatusMobile
+    ];
+
+
+    const labels = [
+        realtimeStatusText,
+        realtimeStatusTextMobile
+    ];
+
+
+    let text =
+        "Nicht verbunden";
+
+
+    let className =
+        "error";
+
+
+    if (
+        status === "CONNECTING"
+    ) {
+
+        text =
+            "Verbinde ...";
+
+        className =
+            "warning";
+
+    }
+
+
+    if (
+        status === "SUBSCRIBED"
+    ) {
+
+        text =
+            "Live verbunden";
+
+        className =
+            "connected";
+
+    }
+
+
+    if (
+        status === "CHANNEL_ERROR"
+        ||
+        status === "TIMED_OUT"
+        ||
+        status === "CLOSED"
+    ) {
+
+        text =
+            "Verbindung verloren";
+
+        className =
+            "error";
+
+    }
+
+
+    elements.forEach(
+        function(element) {
+
+            if (!element) {
+
+                return;
+
+            }
+
+
+            element.classList.remove(
+                "connected",
+                "warning",
+                "error"
+            );
+
+
+            element.classList.add(
+                className
+            );
+
+        }
+    );
+
+
+    labels.forEach(
+        function(label) {
+
+            if (label) {
+
+                label.textContent =
+                    text;
+
+            }
+
+        }
+    );
+
+
+    if (
+        status === "SUBSCRIBED"
+    ) {
+
+        connectionWarning.classList.remove(
+            "visible"
+        );
+
+    } else if (
+        status === "CHANNEL_ERROR"
+        ||
+        status === "TIMED_OUT"
+        ||
+        status === "CLOSED"
+    ) {
+
+        connectionWarning.classList.add(
+            "visible"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   REALTIME STARTEN
+===================================================== */
+
+function startRealtime() {
+
+    if (
+        realtimeChannel
+    ) {
+
+        return;
+
+    }
+
+
+    updateRealtimeStatus(
+        "CONNECTING"
+    );
+
+
+    realtimeChannel =
+        supabaseClient
+            .channel(
+                "orders-realtime"
+            )
+
+
+            /* =========================================
+               INSERT
+            ========================================= */
+
+            .on(
+                "postgres_changes",
+                {
+                    event: "INSERT",
+                    schema: "public",
+                    table: "orders"
+                },
+
+                async function(payload) {
+
+                    console.log(
+                        "Neue Vorbestellung:",
+                        payload.new
+                    );
+
+
+                    const alreadyExists =
+                        allOrders.some(
+                            order =>
+                                String(order.id) ===
+                                String(payload.new.id)
+                        );
+
+
+                    if (
+                        alreadyExists
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    allOrders.unshift(
+                        payload.new
+                    );
+
+
+                    updateDashboardCounts();
+
+                    renderOrders(
+                        payload.new.id
+                    );
+
+                    updateLastUpdated();
+
+
+                    const shouldNotify =
+                        shouldNotifyForNewOrder(
+                            payload.new.id
+                        );
+
+
+                    if (
+                        shouldNotify
+                    ) {
+
+                        markOrderAsNotified(
+                            payload.new.id
+                        );
+
+
+                        showNewOrderNotification(
+                            payload.new
+                        );
+
+
+                        updateTabTitle(
+                            true
+                        );
+
+
+                        await playNewOrderSound();
+
+                    }
+
+                }
+            )
+
+
+            /* =========================================
+               UPDATE
+            ========================================= */
+
+            .on(
+                "postgres_changes",
+                {
+                    event: "UPDATE",
+                    schema: "public",
+                    table: "orders"
+                },
+
+                function(payload) {
+
+                    console.log(
+                        "Vorbestellung aktualisiert:",
+                        payload.new
+                    );
+
+
+                    const index =
+                        allOrders.findIndex(
+                            order =>
+                                String(order.id) ===
+                                String(payload.new.id)
+                        );
+
+
+                    if (
+                        index !== -1
+                    ) {
+
+                        allOrders[index] =
+                            payload.new;
+
+                    } else {
+
+                        allOrders.unshift(
+                            payload.new
+                        );
+
+                    }
+
+
+                    updateDashboardCounts();
+
+                    renderOrders();
+
+                    updateLastUpdated();
+
+
+                    if (
+                        selectedOrderId
+                        &&
+                        String(selectedOrderId) ===
+                            String(payload.new.id)
+                    ) {
+
+                        openOrderDetail(
+                            payload.new.id
+                        );
+
+                    }
+
+                }
+            )
+
+
+            .subscribe(
+                function(status) {
+
+                    console.log(
+                        "Realtime Status:",
+                        status
+                    );
+
+
+                    updateRealtimeStatus(
+                        status
+                    );
+
+
+                    if (
+                        status === "SUBSCRIBED"
+                    ) {
+
+                        realtimeReconnectAttempts =
+                            0;
+
+                        clearReconnectTimer();
+
+                    }
+
+
+                    if (
+                        status === "CHANNEL_ERROR"
+                        ||
+                        status === "TIMED_OUT"
+                        ||
+                        status === "CLOSED"
+                    ) {
+
+                        scheduleRealtimeReconnect();
+
+                    }
+
+                }
+            );
+
+}
+
+
+/* =====================================================
+   REALTIME AUTOMATISCHE WIEDERVERBINDUNG
+===================================================== */
+
+function scheduleRealtimeReconnect() {
+
+    if (
+        realtimeReconnectTimer
+    ) {
+
+        return;
+
+    }
+
+
+    updateRealtimeStatus(
+        "CHANNEL_ERROR"
+    );
+
+
+    realtimeReconnectAttempts++;
+
+
+    const delay =
+        Math.min(
+            30000,
+            2000 *
+            Math.pow(
+                2,
+                Math.min(
+                    realtimeReconnectAttempts - 1,
+                    4
+                )
+            )
+        );
+
+
+    console.log(
+        "Realtime Wiederverbindung in:",
+        delay,
+        "ms"
+    );
+
+
+    realtimeReconnectTimer =
+        setTimeout(
+            async function() {
+
+                realtimeReconnectTimer =
+                    null;
+
+
+                if (
+                    realtimeChannel
+                ) {
+
+                    try {
+
+                        await supabaseClient.removeChannel(
+                            realtimeChannel
+                        );
+
+                    } catch (error) {
+
+                        console.error(
+                            error
+                        );
+
+                    }
+
+                    realtimeChannel =
+                        null;
+
+                }
+
+
+                updateRealtimeStatus(
+                    "CONNECTING"
+                );
+
+
+                /*
+                    Vor der Wiederverbindung
+                    aktualisieren wir einmal die Daten.
+                */
+
+                await loadOrders(
+                    false
+                );
+
+
+                startRealtime();
+
+            },
+            delay
+        );
+
+}
+
+
+function clearReconnectTimer() {
+
+    if (
+        realtimeReconnectTimer
+    ) {
+
+        clearTimeout(
+            realtimeReconnectTimer
+        );
+
+        realtimeReconnectTimer =
+            null;
+
+    }
+
+}
+
+
+/* =====================================================
+   NEUE BESTELLUNG BENACHRICHTIGUNG
+===================================================== */
+
+function getNotifiedOrders() {
+
+    try {
+
+        return JSON.parse(
+            sessionStorage.getItem(
+                "apotheke_notified_orders"
+            ) || "[]"
+        );
+
+    } catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+function shouldNotifyForNewOrder(
+    orderId
+) {
+
+    const ids =
+        getNotifiedOrders();
+
+
+    return !ids.includes(
+        String(orderId)
+    );
+
+}
+
+
+function markOrderAsNotified(
+    orderId
+) {
+
+    try {
+
+        const ids =
+            getNotifiedOrders();
+
+
+        ids.push(
+            String(orderId)
+        );
+
+
+        /*
+            Nur die letzten 100 IDs behalten,
+            damit sessionStorage nicht unnötig wächst.
+        */
+
+        const limited =
+            ids.slice(-100);
+
+
+        sessionStorage.setItem(
+            "apotheke_notified_orders",
+            JSON.stringify(
+                limited
+            )
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Notification-State konnte nicht gespeichert werden:",
+            error
+        );
+
+    }
+
+}
+
+
+function showNewOrderNotification(
+    order
+) {
+
+    const oldNotification =
+        document.querySelector(
+            ".notification"
+        );
+
+
+    if (
+        oldNotification
+    ) {
+
+        oldNotification.remove();
+
+    }
+
+
+    if (
+        notificationTimer
+    ) {
+
+        clearTimeout(
+            notificationTimer
+        );
+
+    }
+
+
+    const notification =
+        document.createElement("div");
+
+
+    notification.className =
+        "notification";
+
+
+    notification.innerHTML = `
+
+        <div class="notification-title">
+
+            🔴 Neue Vorbestellung
+
+        </div>
+
+
+        <div class="notification-name">
+
+            ${escapeHtml(
+                order.first_name || ""
+            )}
+
+            ${escapeHtml(
+                order.last_name || ""
+            )}
+
+            <br>
+
+            💊
+
+            ${escapeHtml(
+                order.medicine ||
+                "Kein Medikament angegeben"
+            )}
+
+        </div>
+
+
+        <div class="notification-action">
+
+            Klicken, um Bestellung zu öffnen →
+
+        </div>
+
+    `;
+
+
+    notification.addEventListener(
+        "click",
+        function() {
+
+            openOrderDetail(
+                order.id
+            );
+
+
+            updateTabTitle(
+                false
+            );
+
+
+            notification.remove();
+
+        }
+    );
+
+
+    document.body.appendChild(
+        notification
+    );
+
+
+    notificationTimer =
+        setTimeout(
+            function() {
+
+                if (
+                    notification.parentNode
+                ) {
+
+                    notification.remove();
+
+                }
+
+            },
+            7000
+        );
+
+}
+
+
+/* =====================================================
+   BROWSER TAB TITEL
+===================================================== */
+
+const originalPageTitle =
+    "Apotheke am Stadtpark – Verwaltung";
+
+
+function updateTabTitle(
+    hasNewOrder
+) {
+
+    if (
+        hasNewOrder
+    ) {
+
+        document.title =
+            "🔴 Neue Bestellung – Apotheke";
+
+    } else {
+
+        document.title =
+            originalPageTitle;
+
+    }
+
+}
+
+
+/*
+    Wenn der Tab wieder sichtbar wird,
+    bleibt der normale Titel erhalten.
+*/
+
+document.addEventListener(
+    "visibilitychange",
+    function() {
+
+        if (
+            !document.hidden
+        ) {
+
+            updateTabTitle(
+                false
+            );
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function removeExistingToast() {
+
+    const existing =
+        document.querySelector(
+            ".toast"
+        );
+
+
+    if (
+        existing
+    ) {
+
+        existing.remove();
+
+    }
+
+}
+
+
+function showToast(
+    message,
+    type = "normal"
+) {
+
+    removeExistingToast();
+
+
+    const toast =
+        document.createElement("div");
+
+
+    toast.className =
+        "toast";
+
+
+    if (
+        type === "success"
+    ) {
+
+        toast.classList.add(
+            "success"
+        );
+
+    }
+
+
+    if (
+        type === "error"
+    ) {
+
+        toast.classList.add(
+            "error-toast"
+        );
+
+    }
+
+
+    if (
+        type === "warning"
+    ) {
+
+        toast.classList.add(
+            "warning"
+        );
+
+    }
+
+
+    toast.textContent =
+        message;
+
+
+    document.body.appendChild(
+        toast
+    );
+
+
+    setTimeout(
+        function() {
+
+            if (
+                toast.parentNode
+            ) {
+
+                toast.remove();
+
+            }
+
+        },
+        3000
     );
 
 }
 
 
 /* =====================================================
-   STATUS MELDUNG
+   SICHERHEIT / HTML ESCAPING
 ===================================================== */
 
-function getStatusChangeMessage(
-    oldStatus,
-    newStatus
+function escapeHtml(
+    value
 ) {
 
-    if (newStatus === "processing") {
-        return "Bestellung ist jetzt in Bearbeitung.";
-    }
-
-    if (newStatus === "ready") {
-        return "Bestellung ist jetzt abholbereit.";
-    }
-
-    if (newStatus === "completed") {
-        return "Bestellung wurde als erledigt markiert.";
-    }
-
-    if (newStatus === "new") {
-        return "Bestellung wurde wieder auf Neu gesetzt.";
-    }
-
-    return "Status erfolgreich geändert.";
-
-}
-
-
-/* =====================================================
-   DATEN / SICHERHEIT
-===================================================== */
-
-function escapeHtml(value) {
-
     const div =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
+
 
     div.textContent =
         value ?? "";
 
+
     return div.innerHTML;
-
-}
-
-
-function escapeAttribute(value) {
-
-    return escapeHtml(
-        String(value ?? "")
-    )
-    .replace(
-        /"/g,
-        "&quot;"
-    );
-
-}
-
-
-/* =====================================================
-   KUNDENNAME
-===================================================== */
-
-function buildCustomerName(order) {
-
-    const first =
-        String(
-            order.first_name || ""
-        ).trim();
-
-    const last =
-        String(
-            order.last_name || ""
-        ).trim();
-
-    const name =
-        `${first} ${last}`.trim();
-
-    return name ||
-        "Unbekannter Kunde";
 
 }
 
@@ -4388,11 +6477,16 @@ function buildCustomerName(order) {
    TELEFON
 ===================================================== */
 
-function getTelLink(phone) {
+function getTelLink(
+    phone
+) {
 
     if (!phone) {
+
         return "#";
+
     }
+
 
     const cleaned =
         String(phone)
@@ -4401,12 +6495,11 @@ function getTelLink(phone) {
                 ""
             );
 
-    return (
-        "tel:" +
+
+    return "tel:" +
         encodeURIComponent(
             cleaned
-        )
-    );
+        );
 
 }
 
@@ -4415,14 +6508,20 @@ function getTelLink(phone) {
    DATUM
 ===================================================== */
 
-function formatDate(value) {
+function formatDate(
+    value
+) {
 
     if (!value) {
+
         return "Zeitpunkt unbekannt";
+
     }
+
 
     const date =
         new Date(value);
+
 
     if (
         Number.isNaN(
@@ -4433,6 +6532,7 @@ function formatDate(value) {
         return "Zeitpunkt unbekannt";
 
     }
+
 
     return date.toLocaleString(
         "de-DE",
@@ -4452,48 +6552,74 @@ function formatDate(value) {
    HEUTE
 ===================================================== */
 
-function isToday(value) {
+function isToday(
+    value
+) {
 
     if (!value) {
+
         return false;
+
     }
+
 
     const date =
         new Date(value);
+
 
     if (
         Number.isNaN(
             date.getTime()
         )
     ) {
+
         return false;
+
     }
+
 
     const now =
         new Date();
 
+
     return (
+
         date.getFullYear() ===
             now.getFullYear()
+
         &&
+
         date.getMonth() ===
             now.getMonth()
+
         &&
+
         date.getDate() ===
             now.getDate()
+
     );
 
 }
 
 
 /* =====================================================
-   ALTER DER BESTELLUNG
+   DIESE WOCHE
 ===================================================== */
 
-function getOrderAge(value) {
+function isThisWeek(
+    value
+) {
+
+    if (!value) {
+
+        return false;
+
+    }
+
 
     const date =
         new Date(value);
+
 
     if (
         Number.isNaN(
@@ -4501,91 +6627,60 @@ function getOrderAge(value) {
         )
     ) {
 
-        return {
-            minutes: 0,
-            hours: 0,
-            days: 0
-        };
+        return false;
 
     }
 
-    const milliseconds =
-        Math.max(
-            0,
-            Date.now() -
-            date.getTime()
-        );
 
-    const minutes =
-        Math.floor(
-            milliseconds /
-            60000
-        );
-
-    const hours =
-        Math.floor(
-            minutes / 60
-        );
-
-    const days =
-        Math.floor(
-            hours / 24
-        );
-
-    return {
-        minutes,
-        hours,
-        days
-    };
-
-}
+    const now =
+        new Date();
 
 
-function formatOrderAge(value) {
+    /*
+        Montag als Wochenbeginn.
+    */
 
-    const age =
-        getOrderAge(value);
+    const currentDay =
+        now.getDay();
 
-    if (age.minutes < 1) {
-        return "Gerade eben eingegangen";
-    }
 
-    if (age.minutes < 60) {
+    const difference =
+        currentDay === 0
+        ? 6
+        : currentDay - 1;
 
-        return (
-            "Vor " +
-            age.minutes +
-            (
-                age.minutes === 1
-                ? " Minute"
-                : " Minuten"
-            )
-        );
 
-    }
+    const monday =
+        new Date(now);
 
-    if (age.hours < 24) {
 
-        return (
-            "Vor " +
-            age.hours +
-            (
-                age.hours === 1
-                ? " Stunde"
-                : " Stunden"
-            )
-        );
+    monday.setHours(
+        0,
+        0,
+        0,
+        0
+    );
 
-    }
+
+    monday.setDate(
+        now.getDate() -
+        difference
+    );
+
+
+    const nextMonday =
+        new Date(monday);
+
+
+    nextMonday.setDate(
+        monday.getDate() + 7
+    );
+
 
     return (
-        "Vor " +
-        age.days +
-        (
-            age.days === 1
-            ? " Tag"
-            : " Tagen"
-        )
+        date >= monday
+        &&
+        date < nextMonday
     );
 
 }
@@ -4595,48 +6690,92 @@ function formatOrderAge(value) {
    STATUS
 ===================================================== */
 
-function getStatusLabel(status) {
+function getStatusLabel(
+    status
+) {
 
-    if (status === "new") {
+    if (
+        status === "new"
+    ) {
+
         return "🔴 Neu";
+
     }
 
-    if (status === "processing") {
+
+    if (
+        status === "processing"
+    ) {
+
         return "🟡 In Bearbeitung";
+
     }
 
-    if (status === "ready") {
+
+    if (
+        status === "ready"
+    ) {
+
         return "🟢 Abholbereit";
+
     }
 
-    if (status === "completed") {
+
+    if (
+        status === "completed"
+    ) {
+
         return "⚪ Erledigt";
+
     }
+
 
     return "Unbekannt";
 
 }
 
 
-function getStatusClass(status) {
+function getStatusLabelPlain(
+    status
+) {
 
-    if (status === "new") {
-        return "status-new";
+    if (
+        status === "new"
+    ) {
+
+        return "Neu";
+
     }
 
-    if (status === "processing") {
-        return "status-processing";
+
+    if (
+        status === "processing"
+    ) {
+
+        return "In Bearbeitung";
+
     }
 
-    if (status === "ready") {
-        return "status-ready";
+
+    if (
+        status === "ready"
+    ) {
+
+        return "Abholbereit";
+
     }
 
-    if (status === "completed") {
-        return "status-completed";
+
+    if (
+        status === "completed"
+    ) {
+
+        return "Erledigt";
+
     }
 
-    return "";
+
+    return "Unbekannt";
 
 }
 
@@ -4647,9 +6786,13 @@ function getStatusClass(status) {
 
 function updateLastUpdated() {
 
+    const now =
+        new Date();
+
+
     lastUpdated.textContent =
         "Zuletzt aktualisiert: " +
-        new Date().toLocaleTimeString(
+        now.toLocaleTimeString(
             "de-DE",
             {
                 hour: "2-digit",
@@ -4667,9 +6810,14 @@ function updateLastUpdated() {
 
 async function manualRefresh() {
 
-    if (isLoadingOrders) {
+    if (
+        isLoadingOrders
+    ) {
+
         return;
+
     }
+
 
     refreshButton.classList.add(
         "loading"
@@ -4679,8 +6827,10 @@ async function manualRefresh() {
         "loading"
     );
 
+
     const success =
         await loadOrders();
+
 
     refreshButton.classList.remove(
         "loading"
@@ -4689,6 +6839,7 @@ async function manualRefresh() {
     refreshButtonMobile.classList.remove(
         "loading"
     );
+
 
     if (success) {
 
@@ -4714,111 +6865,11 @@ refreshButton.addEventListener(
     manualRefresh
 );
 
+
 refreshButtonMobile.addEventListener(
     "click",
     manualRefresh
 );
-
-
-/* =====================================================
-   DASHBOARD KLICK
-===================================================== */
-
-document
-    .querySelectorAll(
-        "[data-dashboard-filter]"
-    )
-    .forEach(
-        function(card) {
-
-            card.addEventListener(
-                "click",
-                function() {
-
-                    const filter =
-                        card.dataset
-                            .dashboardFilter;
-
-                    if (
-                        filter === "new" ||
-                        filter === "processing" ||
-                        filter === "ready"
-                    ) {
-
-                        statusFilter.value =
-                            filter;
-
-                        completionFilter.value =
-                            "active";
-
-                        dateFilter.value =
-                            "all";
-
-                    }
-
-                    else if (
-                        filter === "today"
-                    ) {
-
-                        statusFilter.value =
-                            "all";
-
-                        completionFilter.value =
-                            "all";
-
-                        dateFilter.value =
-                            "today";
-
-                    }
-
-                    else if (
-                        filter === "open"
-                    ) {
-
-                        statusFilter.value =
-                            "all";
-
-                        completionFilter.value =
-                            "active";
-
-                        dateFilter.value =
-                            "all";
-
-                    }
-
-                    else if (
-                        filter === "all"
-                    ) {
-
-                        statusFilter.value =
-                            "all";
-
-                        completionFilter.value =
-                            "all";
-
-                        dateFilter.value =
-                            "all";
-
-                    }
-
-                    renderOrders();
-
-                    document
-                        .querySelector(
-                            ".orders-section-header"
-                        )
-                        ?.scrollIntoView({
-                            behavior:
-                                "smooth",
-                            block:
-                                "start"
-                        });
-
-                }
-            );
-
-        }
-    );
 
 
 /* =====================================================
@@ -4829,26 +6880,45 @@ logoutButton.addEventListener(
     "click",
     async function() {
 
-        if (realtimeChannel) {
+        try {
 
-            await supabaseClient
-                .removeChannel(
+            if (
+                realtimeChannel
+            ) {
+
+                await supabaseClient.removeChannel(
                     realtimeChannel
                 );
 
-            realtimeChannel = null;
+                realtimeChannel =
+                    null;
+
+            }
+
+
+            clearReconnectTimer();
+
+
+            await supabaseClient.auth.signOut();
+
+
+        } catch (error) {
+
+            console.error(
+                error
+            );
 
         }
 
-        await supabaseClient
-            .auth
-            .signOut();
 
         closeOrderDetail();
 
+
         allOrders = [];
 
+
         soundEnabled = false;
+
 
         if (audioContext) {
 
@@ -4859,7 +6929,6 @@ logoutButton.addEventListener(
             } catch (error) {
 
                 console.error(
-                    "AudioContext konnte nicht geschlossen werden:",
                     error
                 );
 
@@ -4867,76 +6936,119 @@ logoutButton.addEventListener(
 
         }
 
-        audioContext = null;
+
+        audioContext =
+            null;
+
 
         adminSection.style.display =
             "none";
 
+
         loginSection.style.display =
             "block";
+
 
         logoutButton.style.display =
             "none";
 
+
         refreshButton.style.display =
             "none";
+
 
         soundButton.style.display =
             "none";
 
+
+        darkModeButton.style.display =
+            "none";
+
+
         ordersContainer.innerHTML =
             "";
+
 
         orderSearch.value =
             "";
 
+
         statusFilter.value =
             "all";
+
 
         dateFilter.value =
             "all";
 
+
         completionFilter.value =
             "active";
+
 
         updateDashboardCounts();
 
         updateSoundButtons();
 
+        updateRealtimeStatus(
+            "DISCONNECTED"
+        );
+
+
+        connectionWarning.classList.remove(
+            "visible"
+        );
+
+
         lastUpdated.textContent =
             "Noch nicht aktualisiert";
+
+
+        updateTabTitle(
+            false
+        );
 
     }
 );
 
 
 /* =====================================================
-   SESSION
+   SESSION PRÜFEN
 ===================================================== */
 
 async function checkSession() {
 
-    const {
-        data,
-        error
-    } =
-    await supabaseClient
-        .auth
-        .getUser();
+    try {
 
-    if (error) {
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth.getUser();
 
-        console.log(
-            "Keine aktive Sitzung."
+
+        if (error) {
+
+            console.log(
+                "Keine aktive Sitzung."
+            );
+
+            return;
+
+        }
+
+
+        if (data.user) {
+
+            await showAdmin();
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Sessionprüfung fehlgeschlagen:",
+            error
         );
-
-        return;
-
-    }
-
-    if (data.user) {
-
-        await showAdmin();
 
     }
 
@@ -4947,438 +7059,59 @@ checkSession();
 
 
 /* =====================================================
-   REALTIME STARTEN
-===================================================== */
-
-function startRealtime() {
-
-    if (realtimeChannel) {
-        return;
-    }
-
-    realtimeChannel =
-        supabaseClient
-            .channel(
-                "orders-realtime"
-            )
-
-            /* =========================================
-               INSERT
-            ========================================= */
-
-            .on(
-                "postgres_changes",
-                {
-                    event: "INSERT",
-                    schema: "public",
-                    table: "orders"
-                },
-
-                async function(payload) {
-
-                    console.log(
-                        "Neue Vorbestellung:",
-                        payload.new
-                    );
-
-                    const alreadyExists =
-                        allOrders.some(
-                            order =>
-                                String(order.id) ===
-                                String(payload.new.id)
-                        );
-
-                    if (!alreadyExists) {
-
-                        allOrders.unshift(
-                            payload.new
-                        );
-
-                    }
-
-                    updateDashboardCounts();
-
-                    renderOrders();
-
-                    updateLastUpdated();
-
-                    showNewOrderNotification(
-                        payload.new
-                    );
-
-                    await playNewOrderSound();
-
-                }
-            )
-
-            /* =========================================
-               UPDATE
-            ========================================= */
-
-            .on(
-                "postgres_changes",
-                {
-                    event: "UPDATE",
-                    schema: "public",
-                    table: "orders"
-                },
-
-                function(payload) {
-
-                    console.log(
-                        "Vorbestellung aktualisiert:",
-                        payload.new
-                    );
-
-                    const index =
-                        allOrders.findIndex(
-                            order =>
-                                String(order.id) ===
-                                String(payload.new.id)
-                        );
-
-                    if (index !== -1) {
-
-                        allOrders[index] =
-                            payload.new;
-
-                    } else {
-
-                        allOrders.unshift(
-                            payload.new
-                        );
-
-                    }
-
-                    updateDashboardCounts();
-
-                    renderOrders();
-
-                    updateLastUpdated();
-
-                    if (
-                        selectedOrderId &&
-                        String(
-                            selectedOrderId
-                        ) ===
-                        String(
-                            payload.new.id
-                        )
-                    ) {
-
-                        openOrderDetail(
-                            payload.new.id
-                        );
-
-                    }
-
-                }
-            )
-
-            /* =========================================
-               DELETE
-            ========================================= */
-
-            .on(
-                "postgres_changes",
-                {
-                    event: "DELETE",
-                    schema: "public",
-                    table: "orders"
-                },
-
-                function(payload) {
-
-                    console.log(
-                        "Vorbestellung gelöscht:",
-                        payload.old
-                    );
-
-                    const deletedId =
-                        payload.old?.id;
-
-                    allOrders =
-                        allOrders.filter(
-                            order =>
-                                String(order.id) !==
-                                String(deletedId)
-                        );
-
-                    if (
-                        selectedOrderId &&
-                        String(
-                            selectedOrderId
-                        ) ===
-                        String(deletedId)
-                    ) {
-
-                        closeOrderDetail();
-
-                        showToast(
-                            "Die aktuell geöffnete Bestellung wurde gelöscht.",
-                            "error"
-                        );
-
-                    }
-
-                    updateDashboardCounts();
-
-                    renderOrders();
-
-                    updateLastUpdated();
-
-                }
-            )
-
-            .subscribe(
-                function(status) {
-
-                    console.log(
-                        "Realtime Status:",
-                        status
-                    );
-
-                    if (
-                        status ===
-                        "SUBSCRIBED"
-                    ) {
-
-                        console.log(
-                            "Realtime für Bestellungen ist aktiv."
-                        );
-
-                    }
-
-                    if (
-                        status ===
-                        "CHANNEL_ERROR"
-                    ) {
-
-                        console.error(
-                            "Supabase Realtime Channel Error."
-                        );
-
-                    }
-
-                    if (
-                        status ===
-                        "TIMED_OUT"
-                    ) {
-
-                        console.error(
-                            "Supabase Realtime Verbindung Timeout."
-                        );
-
-                    }
-
-                }
-            );
-
-}
-
-
-/* =====================================================
-   NEUE BESTELLUNG BENACHRICHTIGUNG
-===================================================== */
-
-function showNewOrderNotification(
-    order
-) {
-
-    const notification =
-        document.createElement("div");
-
-    notification.className =
-        "notification";
-
-    const notificationId =
-        ++notificationSequence;
-
-    notification.dataset.notificationId =
-        notificationId;
-
-    notification.innerHTML = `
-
-        <div class="notification-title">
-
-            🔴 Neue Vorbestellung
-
-        </div>
-
-
-        <div class="notification-name">
-
-            ${escapeHtml(
-                buildCustomerName(order)
-            )}
-
-            <br>
-
-            💊
-
-            ${escapeHtml(
-                order.medicine ||
-                "Medikament nicht angegeben"
-            )}
-
-        </div>
-
-    `;
-
-    notification.addEventListener(
-        "click",
-        function() {
-
-            openOrderDetail(
-                order.id
-            );
-
-            notification.remove();
-
-        }
-    );
-
-    notificationStack.prepend(
-        notification
-    );
-
-    /*
-        Nicht nur eine Notification zulassen.
-        Maximal 4 gleichzeitig, damit der Bildschirm
-        nicht überfüllt wird.
-    */
-
-    while (
-        notificationStack.children.length >
-        4
-    ) {
-
-        notificationStack.lastElementChild
-            ?.remove();
-
-    }
-
-    setTimeout(
-        function() {
-
-            if (
-                notification.parentNode
-            ) {
-
-                notification.remove();
-
-            }
-
-        },
-        7000
-    );
-
-}
-
-
-/* =====================================================
-   TOAST
-===================================================== */
-
-function showToast(
-    message,
-    type = "normal"
-) {
-
-    const existingToast =
-        document.querySelector(
-            ".toast"
-        );
-
-    if (existingToast) {
-        existingToast.remove();
-    }
-
-    const toast =
-        document.createElement("div");
-
-    toast.className =
-        "toast";
-
-    if (type === "success") {
-
-        toast.classList.add(
-            "success"
-        );
-
-    }
-
-    if (type === "error") {
-
-        toast.classList.add(
-            "error-toast"
-        );
-
-    }
-
-    toast.textContent =
-        message;
-
-    document.body.appendChild(
-        toast
-    );
-
-    setTimeout(
-        function() {
-
-            if (
-                toast.parentNode
-            ) {
-
-                toast.remove();
-
-            }
-
-        },
-        3000
-    );
-
-}
-
-
-/* =====================================================
    SUCHE & FILTER
 ===================================================== */
 
 orderSearch.addEventListener(
     "input",
     function() {
+
         renderOrders();
+
     }
 );
+
 
 statusFilter.addEventListener(
     "change",
     function() {
+
         renderOrders();
+
     }
 );
+
 
 dateFilter.addEventListener(
     "change",
     function() {
+
         renderOrders();
+
     }
 );
+
 
 completionFilter.addEventListener(
     "change",
     function() {
+
         renderOrders();
+
     }
 );
 
 
 /* =====================================================
-   INIT
+   INITIALER SOUND-STATUS
 ===================================================== */
 
 updateSoundButtons();
+
+
+/* =====================================================
+   ENDE
+===================================================== */
 
 </script>
 
