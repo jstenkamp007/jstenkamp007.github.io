@@ -7,13 +7,10 @@
 
 <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
 >
 
-<title>
-    Apotheke am Stadtpark – Verwaltung
-</title>
-
+<title>Apotheke am Stadtpark – Verwaltung</title>
 
 <style>
 
@@ -24,20 +21,38 @@
 :root {
 
     --blue: #102a43;
+    --blue-dark: #0b1f33;
     --green: #15966f;
+    --green-light: #e8f7f2;
     --light: #f5f7f8;
     --muted: #627d98;
 
     --red: #d92d20;
+    --red-light: #fff1f0;
+
     --yellow: #b7791f;
+    --yellow-light: #fff8e6;
+
     --ready: #15966f;
+    --ready-light: #e8f7f2;
+
+    --border: #e5eaed;
+    --border-light: #eef1f3;
+
+    --shadow:
+        0 8px 25px rgba(16,42,67,0.06);
+
+    --shadow-large:
+        0 20px 60px rgba(16,42,67,0.16);
 
 }
 
 * {
-
     box-sizing: border-box;
+}
 
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -54,6 +69,25 @@ body {
 
     color: var(--blue);
 
+    -webkit-font-smoothing: antialiased;
+
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 3px solid rgba(21,150,111,0.18);
+    outline-offset: 2px;
 }
 
 
@@ -63,13 +97,13 @@ body {
 
 header {
 
-    background: white;
+    background: rgba(255,255,255,0.96);
 
     padding:
-        20px 24px;
+        18px 24px;
 
     border-bottom:
-        1px solid #e5eaed;
+        1px solid var(--border);
 
     display: flex;
 
@@ -83,6 +117,8 @@ header {
 
     z-index: 100;
 
+    backdrop-filter: blur(12px);
+
 }
 
 .logo {
@@ -90,6 +126,8 @@ header {
     font-weight: 700;
 
     font-size: 18px;
+
+    letter-spacing: -0.2px;
 
 }
 
@@ -99,7 +137,7 @@ header {
 
     align-items: center;
 
-    gap: 10px;
+    gap: 8px;
 
 }
 
@@ -113,7 +151,7 @@ header {
 
     color: var(--blue);
 
-    padding: 10px 16px;
+    padding: 10px 15px;
 
     border-radius: 12px;
 
@@ -124,8 +162,9 @@ header {
     font-family: inherit;
 
     transition:
-        transform 0.2s ease,
-        background 0.2s ease;
+        transform 0.18s ease,
+        background 0.18s ease,
+        opacity 0.18s ease;
 
 }
 
@@ -141,7 +180,7 @@ header {
 
 .refresh-button.loading {
 
-    opacity: 0.6;
+    opacity: 0.55;
 
     pointer-events: none;
 
@@ -149,7 +188,7 @@ header {
 
 .sound-button.enabled {
 
-    background: #e8f7f2;
+    background: var(--green-light);
 
     color: var(--green);
 
@@ -162,19 +201,20 @@ header {
 
 .container {
 
-    max-width: 1000px;
+    max-width: 1080px;
 
     margin: 0 auto;
 
-    padding: 40px 20px;
+    padding: 36px 20px 60px;
 
 }
 
 h1 {
 
-    margin-top: 0;
+    margin:
+        0 0 7px;
 
-    margin-bottom: 8px;
+    letter-spacing: -0.5px;
 
 }
 
@@ -182,7 +222,8 @@ h1 {
 
     color: var(--muted);
 
-    margin-bottom: 25px;
+    margin:
+        0 0 25px;
 
 }
 
@@ -211,9 +252,7 @@ h1 {
 }
 
 .form-group {
-
     margin-bottom: 18px;
-
 }
 
 label {
@@ -241,6 +280,8 @@ input {
     font-family: inherit;
 
     outline: none;
+
+    background: white;
 
 }
 
@@ -276,7 +317,8 @@ button.primary {
 
     transition:
         transform 0.2s ease,
-        box-shadow 0.2s ease;
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
 
 }
 
@@ -325,7 +367,7 @@ button.primary:disabled {
 
     display: flex;
 
-    gap: 10px;
+    gap: 8px;
 
     flex-wrap: wrap;
 
@@ -346,24 +388,28 @@ button.primary:disabled {
 
 .order-filters {
 
-    display: flex;
+    display: grid;
 
-    gap: 12px;
+    grid-template-columns:
+        minmax(240px, 1fr)
+        auto
+        auto
+        auto;
 
-    margin-bottom: 25px;
+    gap: 10px;
 
-    flex-wrap: wrap;
+    margin-bottom: 24px;
 
 }
 
 .order-filters input,
 .order-filters select {
 
-    padding: 14px 16px;
+    padding: 13px 15px;
 
     border: 1px solid #dce3e7;
 
-    border-radius: 14px;
+    border-radius: 13px;
 
     background: white;
 
@@ -371,30 +417,13 @@ button.primary:disabled {
 
     font-family: inherit;
 
-    font-size: 15px;
+    font-size: 14px;
 
     outline: none;
 
     transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        transform 0.2s ease;
-
-}
-
-.order-filters input {
-
-    flex: 1;
-
-    min-width: 240px;
-
-}
-
-.order-filters select {
-
-    min-width: 170px;
-
-    cursor: pointer;
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
 
 }
 
@@ -409,11 +438,8 @@ button.primary:disabled {
 
 }
 
-.order-filters input:hover,
-.order-filters select:hover {
-
-    transform: translateY(-1px);
-
+.order-filters select {
+    cursor: pointer;
 }
 
 
@@ -426,11 +452,11 @@ button.primary:disabled {
     display: grid;
 
     grid-template-columns:
-        repeat(3, 1fr);
+        repeat(6, 1fr);
 
-    gap: 15px;
+    gap: 12px;
 
-    margin-bottom: 35px;
+    margin-bottom: 34px;
 
 }
 
@@ -438,37 +464,62 @@ button.primary:disabled {
 
     background: white;
 
-    padding: 22px;
+    padding: 18px;
 
-    border-radius: 20px;
+    border-radius: 18px;
+
+    box-shadow: var(--shadow);
+
+    cursor: pointer;
+
+    border:
+        1px solid transparent;
+
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease;
+
+}
+
+.stat-card:hover {
+
+    transform: translateY(-2px);
 
     box-shadow:
-        0 8px 25px
-        rgba(16,42,67,0.06);
+        0 12px 30px
+        rgba(16,42,67,0.09);
+
+    border-color:
+        #e1e7ea;
 
 }
 
 .stat-number {
 
-    font-size: 30px;
+    font-size: 28px;
 
-    font-weight: 700;
+    font-weight: 750;
+
+    line-height: 1;
 
 }
 
 .stat-label {
 
-    margin-top: 6px;
+    margin-top: 7px;
 
     color: var(--muted);
 
-    font-size: 14px;
+    font-size: 13px;
+
+    line-height: 1.3;
 
 }
 
 
 /* =====================================================
-   BESTELLUNGEN-BEREICH
+   BESTELLUNGEN HEADER
 ===================================================== */
 
 .orders-section-header {
@@ -481,13 +532,13 @@ button.primary:disabled {
 
     gap: 15px;
 
-    margin-bottom: 15px;
+    margin-bottom: 13px;
 
 }
 
 .orders-section-title {
 
-    font-size: 18px;
+    font-size: 19px;
 
     font-weight: 700;
 
@@ -508,21 +559,25 @@ button.primary:disabled {
 
 .order-card {
 
+    position: relative;
+
     background: white;
 
-    padding: 22px;
+    padding: 20px;
 
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 
-    border-radius: 20px;
+    border-radius: 19px;
 
-    box-shadow:
-        0 8px 25px
-        rgba(16,42,67,0.06);
+    box-shadow: var(--shadow);
 
     transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease;
+
+    border:
+        1px solid transparent;
 
     cursor: pointer;
 
@@ -534,13 +589,67 @@ button.primary:disabled {
 
     box-shadow:
         0 12px 30px
-        rgba(16,42,67,0.08);
+        rgba(16,42,67,0.09);
+
+}
+
+.order-card.is-new {
+
+    border-color:
+        rgba(217,45,32,0.30);
+
+    box-shadow:
+        0 8px 28px
+        rgba(217,45,32,0.08);
 
 }
 
 .order-card.completed {
 
-    opacity: 0.78;
+    opacity: 0.76;
+
+}
+
+.order-card.completed:hover {
+    opacity: 0.9;
+}
+
+.order-priority-bar {
+
+    position: absolute;
+
+    left: 0;
+
+    top: 18px;
+
+    bottom: 18px;
+
+    width: 4px;
+
+    border-radius: 0 5px 5px 0;
+
+    background: #dce3e7;
+
+}
+
+.order-card.is-new
+.order-priority-bar {
+
+    background: var(--red);
+
+}
+
+.order-card.is-processing
+.order-priority-bar {
+
+    background: var(--yellow);
+
+}
+
+.order-card.is-ready
+.order-priority-bar {
+
+    background: var(--green);
 
 }
 
@@ -552,11 +661,13 @@ button.primary:disabled {
 
     gap: 15px;
 
+    padding-left: 5px;
+
 }
 
 .order-name {
 
-    font-size: 18px;
+    font-size: 17px;
 
     font-weight: 700;
 
@@ -566,9 +677,29 @@ button.primary:disabled {
 
     color: var(--muted);
 
-    font-size: 13px;
+    font-size: 12px;
 
     text-align: right;
+
+    white-space: nowrap;
+
+}
+
+.order-age {
+
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+}
+
+.order-age.urgent {
+
+    color: var(--red);
+
+    font-weight: 700;
 
 }
 
@@ -576,21 +707,27 @@ button.primary:disabled {
 
     margin-top: 12px;
 
-    font-weight: 600;
+    font-weight: 650;
 
     color: var(--green);
 
-    font-size: 16px;
+    font-size: 15px;
+
+    padding-left: 5px;
 
 }
 
 .order-details {
 
-    margin-top: 15px;
+    margin-top: 12px;
 
     color: var(--muted);
 
     line-height: 1.7;
+
+    font-size: 14px;
+
+    padding-left: 5px;
 
 }
 
@@ -605,14 +742,12 @@ button.primary:disabled {
 }
 
 .order-details a:hover {
-
     text-decoration: underline;
-
 }
 
 .order-message {
 
-    margin-top: 6px;
+    margin-top: 8px;
 
     padding: 10px 12px;
 
@@ -626,9 +761,28 @@ button.primary:disabled {
 
 }
 
-.order-card-status {
+.order-bottom {
 
     margin-top: 15px;
+
+    padding-top: 14px;
+
+    border-top:
+        1px solid var(--border-light);
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 12px;
+
+    flex-wrap: wrap;
+
+}
+
+.order-card-status {
 
     display: inline-flex;
 
@@ -640,13 +794,39 @@ button.primary:disabled {
 
     background: #f1f3f4;
 
-    font-size: 13px;
+    font-size: 12px;
 
-    font-weight: 600;
+    font-weight: 700;
 
 }
 
-.order-card.completed .order-card-status {
+.order-card-status.status-new {
+
+    color: var(--red);
+
+    background: var(--red-light);
+
+}
+
+.order-card-status.status-processing {
+
+    color: var(--yellow);
+
+    background: var(--yellow-light);
+
+}
+
+.order-card-status.status-ready {
+
+    color: var(--green);
+
+    background: var(--ready-light);
+
+}
+
+.order-card-status.status-completed {
+
+    color: var(--muted);
 
     background: #eef1f3;
 
@@ -654,47 +834,20 @@ button.primary:disabled {
 
 
 /* =====================================================
-   STATUS
+   SCHNELL-AKTIONEN
 ===================================================== */
 
-.order-status {
-
-    margin-top: 18px;
-
-    padding-top: 15px;
-
-    border-top:
-        1px solid #eef1f3;
+.quick-actions {
 
     display: flex;
 
-    align-items: center;
-
-    gap: 8px;
+    gap: 7px;
 
     flex-wrap: wrap;
 
 }
 
-.status-label {
-
-    font-weight: 600;
-
-}
-
-.status-buttons {
-
-    display: flex;
-
-    flex-wrap: wrap;
-
-    gap: 8px;
-
-    margin-top: 15px;
-
-}
-
-.status-buttons button {
+.quick-action {
 
     border: none;
 
@@ -702,25 +855,24 @@ button.primary:disabled {
 
     color: var(--blue);
 
-    padding: 10px 13px;
+    padding: 8px 10px;
 
-    border-radius: 10px;
+    border-radius: 9px;
 
     cursor: pointer;
 
-    font-family: inherit;
+    font-size: 12px;
 
-    font-size: 13px;
+    font-weight: 650;
 
     transition:
-        transform 0.2s ease,
-        background 0.2s ease,
-        box-shadow 0.2s ease,
-        opacity 0.2s ease;
+        background 0.16s ease,
+        transform 0.16s ease,
+        opacity 0.16s ease;
 
 }
 
-.status-buttons button:hover {
+.quick-action:hover {
 
     transform: translateY(-1px);
 
@@ -728,21 +880,17 @@ button.primary:disabled {
 
 }
 
-.status-buttons button.active {
+.quick-action.active {
 
     background: var(--green);
 
     color: white;
 
-    box-shadow:
-        0 4px 12px
-        rgba(21,150,111,0.20);
-
 }
 
-.status-buttons button:disabled {
+.quick-action:disabled {
 
-    opacity: 0.55;
+    opacity: 0.5;
 
     cursor: default;
 
@@ -762,7 +910,7 @@ button.primary:disabled {
     inset: 0;
 
     background:
-        rgba(16,42,67,0.42);
+        rgba(16,42,67,0.45);
 
     z-index: 5000;
 
@@ -795,7 +943,7 @@ button.primary:disabled {
 
     width: 100%;
 
-    max-width: 650px;
+    max-width: 680px;
 
     max-height: 90vh;
 
@@ -805,9 +953,7 @@ button.primary:disabled {
 
     border-radius: 24px;
 
-    box-shadow:
-        0 25px 70px
-        rgba(16,42,67,0.22);
+    box-shadow: var(--shadow-large);
 
     transform:
         translateY(10px)
@@ -828,10 +974,10 @@ button.primary:disabled {
 
 .modal-header {
 
-    padding: 22px 24px;
+    padding: 20px 23px;
 
     border-bottom:
-        1px solid #eef1f3;
+        1px solid var(--border-light);
 
     display: flex;
 
@@ -845,9 +991,9 @@ button.primary:disabled {
 
 .modal-title {
 
-    font-size: 22px;
+    font-size: 21px;
 
-    font-weight: 700;
+    font-weight: 750;
 
 }
 
@@ -857,7 +1003,7 @@ button.primary:disabled {
 
     color: var(--muted);
 
-    font-size: 13px;
+    font-size: 12px;
 
 }
 
@@ -884,15 +1030,11 @@ button.primary:disabled {
 }
 
 .modal-close:hover {
-
     background: #e5e9eb;
-
 }
 
 .modal-body {
-
-    padding: 24px;
-
+    padding: 23px;
 }
 
 .detail-grid {
@@ -902,7 +1044,7 @@ button.primary:disabled {
     grid-template-columns:
         repeat(2, 1fr);
 
-    gap: 14px;
+    gap: 12px;
 
 }
 
@@ -910,23 +1052,21 @@ button.primary:disabled {
 
     background: #f7f9fa;
 
-    padding: 15px;
+    padding: 14px;
 
-    border-radius: 14px;
+    border-radius: 13px;
 
 }
 
 .detail-item.full {
-
     grid-column: 1 / -1;
-
 }
 
 .detail-label {
 
     color: var(--muted);
 
-    font-size: 12px;
+    font-size: 11px;
 
     margin-bottom: 5px;
 
@@ -934,7 +1074,7 @@ button.primary:disabled {
 
 .detail-value {
 
-    font-weight: 600;
+    font-weight: 650;
 
     word-break: break-word;
 
@@ -948,6 +1088,10 @@ button.primary:disabled {
 
 }
 
+.detail-value a:hover {
+    text-decoration: underline;
+}
+
 .detail-message {
 
     white-space: pre-wrap;
@@ -958,14 +1102,50 @@ button.primary:disabled {
 
 }
 
+.modal-actions {
+
+    display: flex;
+
+    gap: 9px;
+
+    flex-wrap: wrap;
+
+    margin-top: 18px;
+
+}
+
+.modal-action {
+
+    border: none;
+
+    background: #f1f3f4;
+
+    color: var(--blue);
+
+    padding: 10px 13px;
+
+    border-radius: 11px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    font-weight: 650;
+
+}
+
+.modal-action:hover {
+    background: #e5e9eb;
+}
+
 .modal-status {
 
-    margin-top: 22px;
+    margin-top: 21px;
 
-    padding-top: 20px;
+    padding-top: 19px;
 
     border-top:
-        1px solid #eef1f3;
+        1px solid var(--border-light);
 
 }
 
@@ -973,7 +1153,7 @@ button.primary:disabled {
 
     font-weight: 700;
 
-    margin-bottom: 12px;
+    margin-bottom: 11px;
 
 }
 
@@ -984,7 +1164,7 @@ button.primary:disabled {
     grid-template-columns:
         repeat(2, 1fr);
 
-    gap: 10px;
+    gap: 9px;
 
 }
 
@@ -998,19 +1178,20 @@ button.primary:disabled {
 
     padding: 12px;
 
-    border-radius: 12px;
+    border-radius: 11px;
 
     cursor: pointer;
 
     font-family: inherit;
 
-    font-size: 14px;
+    font-size: 13px;
 
-    font-weight: 600;
+    font-weight: 650;
 
     transition:
-        background 0.2s ease,
-        transform 0.2s ease;
+        background 0.16s ease,
+        transform 0.16s ease,
+        opacity 0.16s ease;
 
 }
 
@@ -1032,7 +1213,7 @@ button.primary:disabled {
 
 .modal-status-buttons button:disabled {
 
-    opacity: 0.6;
+    opacity: 0.55;
 
     cursor: default;
 
@@ -1042,10 +1223,10 @@ button.primary:disabled {
 
 .modal-footer {
 
-    padding: 18px 24px;
+    padding: 17px 23px;
 
     border-top:
-        1px solid #eef1f3;
+        1px solid var(--border-light);
 
     display: flex;
 
@@ -1061,15 +1242,15 @@ button.primary:disabled {
 
     color: var(--blue);
 
-    padding: 11px 16px;
+    padding: 10px 15px;
 
-    border-radius: 12px;
+    border-radius: 11px;
 
     cursor: pointer;
 
     font-family: inherit;
 
-    font-weight: 600;
+    font-weight: 650;
 
 }
 
@@ -1098,13 +1279,15 @@ button.primary:disabled {
 
     border-radius: 20px;
 
+    box-shadow: var(--shadow);
+
 }
 
 .loading {
 
     text-align: center;
 
-    padding: 30px 20px;
+    padding: 35px 20px;
 
     color: var(--muted);
 
@@ -1112,47 +1295,90 @@ button.primary:disabled {
 
     border-radius: 20px;
 
+    box-shadow: var(--shadow);
+
+}
+
+.retry-button {
+
+    margin-top: 14px;
+
+    border: none;
+
+    background: var(--green);
+
+    color: white;
+
+    padding: 10px 15px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-weight: 650;
+
 }
 
 
 /* =====================================================
-   BENACHRICHTIGUNG
+   NEUE BESTELLUNGEN
 ===================================================== */
 
-.notification {
+.notification-stack {
 
     position: fixed;
 
-    top: 20px;
+    top: 18px;
 
-    right: 20px;
+    right: 18px;
 
     z-index: 9999;
+
+    width: min(370px, calc(100% - 36px));
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 9px;
+
+    pointer-events: none;
+
+}
+
+.notification {
 
     background: white;
 
     color: var(--blue);
 
-    padding: 18px 22px;
+    padding: 16px 18px;
 
-    border-radius: 18px;
+    border-radius: 17px;
 
     box-shadow:
         0 15px 40px
         rgba(0,0,0,0.15);
 
-    max-width: 340px;
+    border-left:
+        4px solid var(--red);
 
     animation:
         notificationIn 0.25s ease;
 
     cursor: pointer;
 
+    pointer-events: auto;
+
+}
+
+.notification:hover {
+    transform: translateY(-1px);
 }
 
 .notification-title {
 
-    font-weight: 700;
+    font-weight: 750;
 
 }
 
@@ -1162,26 +1388,20 @@ button.primary:disabled {
 
     color: var(--muted);
 
+    line-height: 1.5;
+
 }
 
 @keyframes notificationIn {
 
     from {
-
         opacity: 0;
-
-        transform:
-            translateY(-10px);
-
+        transform: translateY(-10px);
     }
 
     to {
-
         opacity: 1;
-
-        transform:
-            translateY(0);
-
+        transform: translateY(0);
     }
 
 }
@@ -1195,7 +1415,8 @@ button.primary:disabled {
 
     position: fixed;
 
-    bottom: 20px;
+    bottom:
+        calc(20px + env(safe-area-inset-bottom));
 
     left: 50%;
 
@@ -1208,7 +1429,7 @@ button.primary:disabled {
 
     color: white;
 
-    padding: 13px 18px;
+    padding: 12px 17px;
 
     border-radius: 12px;
 
@@ -1216,47 +1437,36 @@ button.primary:disabled {
         0 10px 30px
         rgba(0,0,0,0.15);
 
-    font-size: 14px;
+    font-size: 13px;
 
     animation:
         toastIn 0.2s ease;
 
-    max-width: calc(100% - 30px);
+    max-width:
+        calc(100% - 30px);
 
     text-align: center;
 
 }
 
 .toast.success {
-
     background: var(--green);
-
 }
 
 .toast.error-toast {
-
     background: #b42318;
-
 }
 
 @keyframes toastIn {
 
     from {
-
         opacity: 0;
-
-        transform:
-            translate(-50%, 10px);
-
+        transform: translate(-50%, 10px);
     }
 
     to {
-
         opacity: 1;
-
-        transform:
-            translate(-50%, 0);
-
+        transform: translate(-50%, 0);
     }
 
 }
@@ -1266,25 +1476,71 @@ button.primary:disabled {
    MOBILE
 ===================================================== */
 
+@media(max-width:900px) {
+
+    .dashboard {
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+    }
+
+    .order-filters {
+
+        grid-template-columns:
+            1fr 1fr;
+
+    }
+
+    .order-filters input {
+
+        grid-column: 1 / -1;
+
+    }
+
+}
+
+
 @media(max-width:700px) {
 
     header {
 
         padding:
-            16px 18px;
+            14px 16px;
 
     }
 
     .logo {
 
-        font-size: 16px;
+        font-size: 15px;
+
+    }
+
+    .header-actions {
+
+        gap: 5px;
+
+    }
+
+    .header-actions .sound-button {
+
+        display: none !important;
+
+    }
+
+    .header-actions button {
+
+        padding:
+            9px 11px;
+
+        font-size: 13px;
 
     }
 
     .container {
 
         padding:
-            28px 15px;
+            27px 14px 50px;
 
     }
 
@@ -1313,33 +1569,25 @@ button.primary:disabled {
         grid-template-columns:
             repeat(2, 1fr);
 
+        gap: 9px;
+
     }
 
     .stat-card {
 
-        padding: 18px;
+        padding: 16px;
 
     }
 
     .stat-number {
 
-        font-size: 26px;
-
-    }
-
-    .order-header {
-
-        flex-direction: column;
-
-    }
-
-    .order-date {
-
-        text-align: left;
+        font-size: 25px;
 
     }
 
     .order-filters {
+
+        display: flex;
 
         flex-direction: column;
 
@@ -1350,31 +1598,54 @@ button.primary:disabled {
 
         width: 100%;
 
-        min-width: 0;
+    }
+
+    .order-header {
+
+        flex-direction: column;
+
+        gap: 5px;
 
     }
 
-    .status-buttons {
+    .order-date {
+
+        text-align: left;
+
+    }
+
+    .order-bottom {
+
+        align-items: stretch;
 
         flex-direction: column;
 
     }
 
-    .status-buttons button {
+    .quick-actions {
 
-        width: 100%;
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, 1fr);
 
     }
 
-    .notification {
+    .quick-action {
+
+        min-height: 42px;
+
+    }
+
+    .notification-stack {
 
         left: 15px;
 
         right: 15px;
 
-        top: 15px;
+        top: 12px;
 
-        max-width: none;
+        width: auto;
 
     }
 
@@ -1393,7 +1664,7 @@ button.primary:disabled {
 
     .modal-overlay {
 
-        padding: 10px;
+        padding: 0;
 
         align-items: flex-end;
 
@@ -1415,19 +1686,54 @@ button.primary:disabled {
 
     }
 
+    .modal-body {
+
+        padding: 19px;
+
+    }
+
 }
 
-
-/* =====================================================
-   SEHR KLEINE GERÄTE
-===================================================== */
 
 @media(max-width:380px) {
 
     .dashboard {
 
         grid-template-columns:
+            1fr 1fr;
+
+    }
+
+    .quick-actions {
+
+        grid-template-columns:
             1fr;
+
+    }
+
+}
+
+
+/* =====================================================
+   REDUZIERTE BEWEGUNG
+===================================================== */
+
+@media(prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        scroll-behavior: auto !important;
+
+        transition-duration:
+            0.01ms !important;
+
+        animation-duration:
+            0.01ms !important;
+
+        animation-iteration-count:
+            1 !important;
 
     }
 
@@ -1444,9 +1750,7 @@ button.primary:disabled {
 <header>
 
     <div class="logo">
-
         Apotheke am Stadtpark
-
     </div>
 
 
@@ -1459,9 +1763,7 @@ button.primary:disabled {
             type="button"
             title="Ton für neue Bestellungen aktivieren"
         >
-
             🔔 Ton aktivieren
-
         </button>
 
 
@@ -1471,9 +1773,7 @@ button.primary:disabled {
             style="display:none;"
             type="button"
         >
-
             ↻ Aktualisieren
-
         </button>
 
 
@@ -1483,9 +1783,7 @@ button.primary:disabled {
             style="display:none;"
             type="button"
         >
-
             Abmelden
-
         </button>
 
     </div>
@@ -1514,7 +1812,6 @@ button.primary:disabled {
 
 
     <form id="loginForm">
-
 
         <div class="form-group">
 
@@ -1553,9 +1850,7 @@ button.primary:disabled {
             id="loginButton"
             type="submit"
         >
-
             Anmelden
-
         </button>
 
 
@@ -1563,7 +1858,6 @@ button.primary:disabled {
             id="loginError"
             class="error"
         ></div>
-
 
     </form>
 
@@ -1590,10 +1884,6 @@ button.primary:disabled {
     </p>
 
 
-    <!-- =================================================
-         TOOLBAR
-    ================================================= -->
-
     <div class="admin-toolbar">
 
         <div
@@ -1611,9 +1901,7 @@ button.primary:disabled {
                 id="soundButtonMobile"
                 type="button"
             >
-
                 🔔 Ton aktivieren
-
             </button>
 
 
@@ -1622,9 +1910,7 @@ button.primary:disabled {
                 id="refreshButtonMobile"
                 type="button"
             >
-
                 ↻ Aktualisieren
-
             </button>
 
         </div>
@@ -1682,6 +1968,18 @@ button.primary:disabled {
                 Heute
             </option>
 
+            <option value="yesterday">
+                Gestern
+            </option>
+
+            <option value="last7">
+                Letzte 7 Tage
+            </option>
+
+            <option value="last30">
+                Letzte 30 Tage
+            </option>
+
         </select>
 
 
@@ -1712,7 +2010,11 @@ button.primary:disabled {
     <div class="dashboard">
 
 
-        <div class="stat-card">
+        <div
+            class="stat-card"
+            data-dashboard-filter="new"
+            title="Neue Bestellungen anzeigen"
+        >
 
             <div
                 class="stat-number"
@@ -1728,7 +2030,11 @@ button.primary:disabled {
         </div>
 
 
-        <div class="stat-card">
+        <div
+            class="stat-card"
+            data-dashboard-filter="processing"
+            title="Bestellungen in Bearbeitung anzeigen"
+        >
 
             <div
                 class="stat-number"
@@ -1744,7 +2050,11 @@ button.primary:disabled {
         </div>
 
 
-        <div class="stat-card">
+        <div
+            class="stat-card"
+            data-dashboard-filter="ready"
+            title="Abholbereite Bestellungen anzeigen"
+        >
 
             <div
                 class="stat-number"
@@ -1760,7 +2070,11 @@ button.primary:disabled {
         </div>
 
 
-        <div class="stat-card">
+        <div
+            class="stat-card"
+            data-dashboard-filter="all"
+            title="Alle Bestellungen anzeigen"
+        >
 
             <div
                 class="stat-number"
@@ -1776,7 +2090,11 @@ button.primary:disabled {
         </div>
 
 
-        <div class="stat-card">
+        <div
+            class="stat-card"
+            data-dashboard-filter="today"
+            title="Heute eingegangene Bestellungen anzeigen"
+        >
 
             <div
                 class="stat-number"
@@ -1792,7 +2110,11 @@ button.primary:disabled {
         </div>
 
 
-        <div class="stat-card">
+        <div
+            class="stat-card"
+            data-dashboard-filter="open"
+            title="Offene Bestellungen anzeigen"
+        >
 
             <div
                 class="stat-number"
@@ -1806,7 +2128,6 @@ button.primary:disabled {
             </div>
 
         </div>
-
 
     </div>
 
@@ -1836,9 +2157,7 @@ button.primary:disabled {
     </div>
 
 
-    <div id="orders">
-
-    </div>
+    <div id="orders"></div>
 
 </main>
 
@@ -1888,9 +2207,7 @@ button.primary:disabled {
                 type="button"
                 aria-label="Detailansicht schließen"
             >
-
                 ×
-
             </button>
 
         </div>
@@ -1899,9 +2216,7 @@ button.primary:disabled {
         <div
             class="modal-body"
             id="modalBody"
-        >
-
-        </div>
+        ></div>
 
 
         <div class="modal-footer">
@@ -1911,9 +2226,7 @@ button.primary:disabled {
                 id="modalFooterClose"
                 type="button"
             >
-
                 Zurück
-
             </button>
 
         </div>
@@ -1921,6 +2234,16 @@ button.primary:disabled {
     </div>
 
 </div>
+
+
+<!-- =====================================================
+     BENACHRICHTIGUNGEN
+===================================================== -->
+
+<div
+    class="notification-stack"
+    id="notificationStack"
+></div>
 
 
 
@@ -1933,7 +2256,6 @@ button.primary:disabled {
 
 <script>
 
-
 /* =====================================================
    SUPABASE
 ===================================================== */
@@ -1941,17 +2263,14 @@ button.primary:disabled {
 const SUPABASE_URL =
     "https://iezjojbuyzugfguhizyw.supabase.co";
 
-
 const SUPABASE_KEY =
     "sb_publishable_M-EP4v8yBM092Lkgau701Q_EISGyFfe";
-
 
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
     );
-
 
 
 /* =====================================================
@@ -2064,6 +2383,15 @@ const modalBody =
         "modalBody"
     );
 
+const notificationStack =
+    document.getElementById(
+        "notificationStack"
+    );
+
+
+/* =====================================================
+   ZUSTAND
+===================================================== */
 
 let allOrders = [];
 
@@ -2073,19 +2401,14 @@ let isLoadingOrders = false;
 
 let selectedOrderId = null;
 
+let statusUpdateInProgress = new Set();
+
+let notificationSequence = 0;
+
 
 /* =====================================================
    AUDIO
 ===================================================== */
-
-/*
-    Der AudioContext wird erst durch eine echte
-    Benutzerinteraktion aktiviert.
-
-    Das ist besonders wichtig für iPad / iPhone /
-    Safari, da diese Browser Audio außerhalb einer
-    Benutzerinteraktion blockieren können.
-*/
 
 let audioContext = null;
 
@@ -2093,37 +2416,31 @@ let soundEnabled = false;
 
 
 /* =====================================================
-   AUDIO CONTEXT ERSTELLEN
+   AUDIO CONTEXT
 ===================================================== */
 
 function createAudioContext() {
 
     if (audioContext) {
-
         return audioContext;
-
     }
-
 
     const AudioContext =
         window.AudioContext ||
         window.webkitAudioContext;
 
-
     if (!AudioContext) {
 
         console.error(
-            "Dieser Browser unterstützt Web Audio API nicht."
+            "Web Audio API wird nicht unterstützt."
         );
 
         return null;
 
     }
 
-
     audioContext =
         new AudioContext();
-
 
     return audioContext;
 
@@ -2143,7 +2460,6 @@ async function initializeAudio(
         const context =
             createAudioContext();
 
-
         if (!context) {
 
             showToast(
@@ -2155,12 +2471,6 @@ async function initializeAudio(
 
         }
 
-
-        /*
-            Safari / iPad kann den AudioContext zunächst
-            auf "suspended" setzen.
-        */
-
         if (
             context.state ===
             "suspended"
@@ -2170,16 +2480,10 @@ async function initializeAudio(
 
         }
 
-
         if (
             context.state !==
             "running"
         ) {
-
-            console.error(
-                "AudioContext konnte nicht gestartet werden. Status:",
-                context.state
-            );
 
             showToast(
                 "Der Ton konnte nicht aktiviert werden.",
@@ -2190,19 +2494,9 @@ async function initializeAudio(
 
         }
 
-
         soundEnabled = true;
 
         updateSoundButtons();
-
-
-        /*
-            Wichtig:
-            Der Testton wird direkt während der
-            Benutzerinteraktion abgespielt.
-            Dadurch wird Audio auf iPad/Safari
-            zuverlässig freigeschaltet.
-        */
 
         if (playTestSound) {
 
@@ -2214,7 +2508,6 @@ async function initializeAudio(
             );
 
         }
-
 
         return true;
 
@@ -2229,12 +2522,10 @@ async function initializeAudio(
 
         updateSoundButtons();
 
-
         showToast(
             "Der Ton konnte nicht aktiviert werden.",
             "error"
         );
-
 
         return false;
 
@@ -2250,11 +2541,8 @@ async function initializeAudio(
 async function playActivationSound() {
 
     if (!audioContext) {
-
         return;
-
     }
-
 
     try {
 
@@ -2267,10 +2555,8 @@ async function playActivationSound() {
 
         }
 
-
         const now =
             audioContext.currentTime;
-
 
         const oscillator =
             audioContext.createOscillator();
@@ -2278,46 +2564,38 @@ async function playActivationSound() {
         const gain =
             audioContext.createGain();
 
-
         oscillator.type =
             "sine";
-
 
         oscillator.frequency.setValueAtTime(
             660,
             now
         );
 
-
         oscillator.frequency.setValueAtTime(
             880,
             now + 0.12
         );
-
 
         oscillator.frequency.setValueAtTime(
             1046,
             now + 0.24
         );
 
-
         gain.gain.setValueAtTime(
             0.0001,
             now
         );
-
 
         gain.gain.exponentialRampToValueAtTime(
             0.30,
             now + 0.025
         );
 
-
         gain.gain.exponentialRampToValueAtTime(
             0.0001,
             now + 0.38
         );
-
 
         oscillator.connect(gain);
 
@@ -2325,13 +2603,11 @@ async function playActivationSound() {
             audioContext.destination
         );
 
-
         oscillator.start(now);
 
         oscillator.stop(
             now + 0.40
         );
-
 
     } catch (error) {
 
@@ -2346,40 +2622,20 @@ async function playActivationSound() {
 
 
 /* =====================================================
-   BENACHRICHTIGUNGSTON
+   NEUE BESTELLUNG TON
 ===================================================== */
 
 async function playNewOrderSound() {
 
     if (!soundEnabled) {
-
-        console.log(
-            "Neue Bestellung erkannt, aber Ton ist deaktiviert."
-        );
-
         return;
-
     }
-
 
     try {
 
         if (!audioContext) {
-
-            console.warn(
-                "Kein AudioContext vorhanden."
-            );
-
             return;
-
         }
-
-
-        /*
-            Falls Safari den AudioContext zwischenzeitlich
-            wieder pausiert hat, versuchen wir ihn erneut
-            zu aktivieren.
-        */
 
         if (
             audioContext.state ===
@@ -2390,45 +2646,27 @@ async function playNewOrderSound() {
 
         }
 
-
         if (
             audioContext.state !==
             "running"
         ) {
-
-            console.warn(
-                "AudioContext ist nicht aktiv:",
-                audioContext.state
-            );
-
             return;
-
         }
-
 
         const now =
             audioContext.currentTime;
 
-
-        /*
-            Zwei kurze Töne.
-            Dadurch ist die Benachrichtigung deutlich
-            besser hörbar als ein einzelner kurzer Ton.
-        */
-
         createNotificationBeep(
             880,
             now,
-            0.00
+            0
         );
-
 
         createNotificationBeep(
             1174,
             now,
             0.18
         );
-
 
     } catch (error) {
 
@@ -2442,10 +2680,6 @@ async function playNewOrderSound() {
 }
 
 
-/* =====================================================
-   EINZELNEN BENACHRICHTIGUNGSTON ERZEUGEN
-===================================================== */
-
 function createNotificationBeep(
     frequency,
     startTime,
@@ -2453,11 +2687,8 @@ function createNotificationBeep(
 ) {
 
     if (!audioContext) {
-
         return;
-
     }
-
 
     const oscillator =
         audioContext.createOscillator();
@@ -2465,45 +2696,37 @@ function createNotificationBeep(
     const gain =
         audioContext.createGain();
 
-
     const start =
         startTime + offset;
 
-
     oscillator.type =
         "sine";
-
 
     oscillator.frequency.setValueAtTime(
         frequency,
         start
     );
 
-
     gain.gain.setValueAtTime(
         0.0001,
         start
     );
-
 
     gain.gain.exponentialRampToValueAtTime(
         0.30,
         start + 0.02
     );
 
-
     gain.gain.exponentialRampToValueAtTime(
         0.0001,
         start + 0.16
     );
-
 
     oscillator.connect(gain);
 
     gain.connect(
         audioContext.destination
     );
-
 
     oscillator.start(start);
 
@@ -2515,26 +2738,20 @@ function createNotificationBeep(
 
 
 /* =====================================================
-   SOUND BUTTONS AKTUALISIEREN
+   SOUND BUTTONS
 ===================================================== */
 
 function updateSoundButtons() {
 
-    const buttons = [
+    [
         soundButton,
         soundButtonMobile
-    ];
-
-
-    buttons.forEach(
+    ].forEach(
         function(button) {
 
             if (!button) {
-
                 return;
-
             }
-
 
             if (soundEnabled) {
 
@@ -2568,39 +2785,19 @@ function updateSoundButtons() {
 }
 
 
-/* =====================================================
-   SOUND BUTTONS
-===================================================== */
-
 soundButton.addEventListener(
     "click",
-    async function() {
-
-        await initializeAudio(true);
-
+    function() {
+        initializeAudio(true);
     }
 );
-
 
 soundButtonMobile.addEventListener(
     "click",
-    async function() {
-
-        await initializeAudio(true);
-
+    function() {
+        initializeAudio(true);
     }
 );
-
-
-/*
-    KEIN automatisches Audio mehr bei jedem beliebigen
-    Klick auf der Seite.
-
-    Stattdessen muss der Benutzer bewusst auf
-    "Ton aktivieren" drücken.
-
-    Das ist auf iPad/Safari wesentlich zuverlässiger.
-*/
 
 
 /* =====================================================
@@ -2620,7 +2817,6 @@ loginForm.addEventListener(
         loginButton.textContent =
             "Anmeldung läuft ...";
 
-
         const email =
             document
                 .getElementById("email")
@@ -2632,18 +2828,16 @@ loginForm.addEventListener(
                 .getElementById("password")
                 .value;
 
-
         const {
             error
         } =
-        await supabaseClient.auth.signInWithPassword({
+        await supabaseClient.auth
+            .signInWithPassword({
 
-            email: email,
+                email,
+                password
 
-            password: password
-
-        });
-
+            });
 
         if (error) {
 
@@ -2661,18 +2855,15 @@ loginForm.addEventListener(
 
         }
 
-
         loginButton.disabled = false;
 
         loginButton.textContent =
             "Anmelden";
 
-
         await showAdmin();
 
     }
 );
-
 
 
 /* =====================================================
@@ -2696,16 +2887,13 @@ async function showAdmin() {
     soundButton.style.display =
         "block";
 
-
     updateSoundButtons();
-
 
     await loadOrders();
 
     startRealtime();
 
 }
-
 
 
 /* =====================================================
@@ -2717,14 +2905,10 @@ async function loadOrders(
 ) {
 
     if (isLoadingOrders) {
-
-        return;
-
+        return false;
     }
 
-
     isLoadingOrders = true;
-
 
     if (showLoading) {
 
@@ -2740,7 +2924,6 @@ async function loadOrders(
 
     }
 
-
     const {
         data,
         error
@@ -2755,9 +2938,7 @@ async function loadOrders(
             }
         );
 
-
     isLoadingOrders = false;
-
 
     if (error) {
 
@@ -2767,18 +2948,40 @@ async function loadOrders(
 
             ordersContainer.innerHTML = `
 
-                <div class="error">
+                <div class="empty">
 
-                    Fehler beim Laden der
-                    Vorbestellungen.
+                    <strong>
+                        Vorbestellungen konnten nicht geladen werden.
+                    </strong>
 
                     <br>
 
                     Bitte versuchen Sie es erneut.
 
+                    <br>
+
+                    <button
+                        class="retry-button"
+                        type="button"
+                        id="retryLoadButton"
+                    >
+                        Erneut versuchen
+                    </button>
+
                 </div>
 
             `;
+
+            document
+                .getElementById(
+                    "retryLoadButton"
+                )
+                ?.addEventListener(
+                    "click",
+                    function() {
+                        loadOrders();
+                    }
+                );
 
         }
 
@@ -2786,10 +2989,10 @@ async function loadOrders(
 
     }
 
-
     allOrders =
-        data || [];
-
+        Array.isArray(data)
+        ? data
+        : [];
 
     updateDashboardCounts();
 
@@ -2797,95 +3000,64 @@ async function loadOrders(
 
     updateLastUpdated();
 
-
     return true;
 
 }
 
 
-
 /* =====================================================
-   DASHBOARD ZAHLEN
+   DASHBOARD
 ===================================================== */
 
 function updateDashboardCounts() {
 
     const newOrders =
         allOrders.filter(
-            function(order) {
-
-                return order.status === "new";
-
-            }
+            order =>
+                order.status === "new"
         ).length;
-
 
     const processingOrders =
         allOrders.filter(
-            function(order) {
-
-                return order.status === "processing";
-
-            }
+            order =>
+                order.status === "processing"
         ).length;
-
 
     const readyOrders =
         allOrders.filter(
-            function(order) {
-
-                return order.status === "ready";
-
-            }
+            order =>
+                order.status === "ready"
         ).length;
-
 
     const totalOrders =
         allOrders.length;
 
-
     const todayOrders =
         allOrders.filter(
-            function(order) {
-
-                return isToday(
-                    order.created_at
-                );
-
-            }
+            order =>
+                isToday(order.created_at)
         ).length;
-
 
     const openOrders =
         allOrders.filter(
-            function(order) {
-
-                return order.status !==
-                    "completed";
-
-            }
+            order =>
+                order.status !== "completed"
         ).length;
-
 
     newCount.textContent =
         newOrders;
 
-
     processingCount.textContent =
         processingOrders;
-
 
     readyCount.textContent =
         readyOrders;
 
-
     totalCount.textContent =
         totalOrders;
 
-
     todayCount.textContent =
         todayOrders;
-
 
     openCount.textContent =
         openOrders;
@@ -2893,78 +3065,62 @@ function updateDashboardCounts() {
 }
 
 
-
 /* =====================================================
-   BESTELLUNGEN DARSTELLEN
+   BESTELLUNGEN FILTERN
 ===================================================== */
 
-function renderOrders() {
+function getFilteredOrders() {
 
     const searchTerm =
         orderSearch.value
             .toLowerCase()
             .trim();
 
-
     const selectedStatus =
         statusFilter.value;
-
 
     const selectedDate =
         dateFilter.value;
 
-
     const selectedCompletion =
         completionFilter.value;
 
-
-    const filteredOrders =
+    const filtered =
         allOrders.filter(
             function(order) {
 
-
-                const fullText = `
-
-                    ${order.first_name || ""}
-
-                    ${order.last_name || ""}
-
-                    ${order.medicine || ""}
-
-                    ${order.phone || ""}
-
-                    ${order.message || ""}
-
-                `.toLowerCase();
-
+                const fullText =
+                    [
+                        order.first_name,
+                        order.last_name,
+                        order.medicine,
+                        order.phone,
+                        order.message
+                    ]
+                    .filter(Boolean)
+                    .join(" ")
+                    .toLowerCase();
 
                 const matchesSearch =
+                    !searchTerm ||
                     fullText.includes(
                         searchTerm
                     );
 
-
                 const matchesStatus =
-                    selectedStatus === "all"
-                    ||
+                    selectedStatus === "all" ||
                     order.status ===
                         selectedStatus;
 
-
                 const matchesDate =
-                    selectedDate === "all"
-                    ||
-                    (
-                        selectedDate === "today"
-                        &&
-                        isToday(
-                            order.created_at
-                        )
+                    matchesDateFilter(
+                        order.created_at,
+                        selectedDate
                     );
 
-
                 const matchesCompletion =
-                    selectedCompletion === "all"
+                    selectedCompletion ===
+                        "all"
                     ||
                     (
                         selectedCompletion ===
@@ -2982,28 +3138,159 @@ function renderOrders() {
                             "completed"
                     );
 
-
                 return (
-
-                    matchesSearch
-                    &&
-                    matchesStatus
-                    &&
-                    matchesDate
-                    &&
+                    matchesSearch &&
+                    matchesStatus &&
+                    matchesDate &&
                     matchesCompletion
-
                 );
 
             }
         );
 
+    /*
+        Neue und offene Bestellungen werden zuerst
+        angezeigt. Innerhalb desselben Prioritätslevels
+        bleibt die neueste Bestellung oben.
+    */
 
-    updateOrdersSectionHeader(
-        selectedCompletion,
-        filteredOrders.length
+    return filtered.sort(
+        function(a, b) {
+
+            const priorityA =
+                getOrderPriority(a);
+
+            const priorityB =
+                getOrderPriority(b);
+
+            if (
+                priorityA !==
+                priorityB
+            ) {
+
+                return (
+                    priorityA -
+                    priorityB
+                );
+
+            }
+
+            return (
+                new Date(
+                    b.created_at || 0
+                ) -
+                new Date(
+                    a.created_at || 0
+                )
+            );
+
+        }
     );
 
+}
+
+
+/* =====================================================
+   ZEITFILTER
+===================================================== */
+
+function matchesDateFilter(
+    value,
+    filter
+) {
+
+    if (filter === "all") {
+        return true;
+    }
+
+    if (!value) {
+        return false;
+    }
+
+    const date =
+        new Date(value);
+
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+        return false;
+    }
+
+    const now =
+        new Date();
+
+    if (filter === "today") {
+        return isToday(value);
+    }
+
+    if (filter === "yesterday") {
+
+        const yesterday =
+            new Date(now);
+
+        yesterday.setDate(
+            yesterday.getDate() - 1
+        );
+
+        return (
+            date.getFullYear() ===
+                yesterday.getFullYear()
+            &&
+            date.getMonth() ===
+                yesterday.getMonth()
+            &&
+            date.getDate() ===
+                yesterday.getDate()
+        );
+
+    }
+
+    if (filter === "last7") {
+
+        const sevenDaysAgo =
+            new Date(now);
+
+        sevenDaysAgo.setDate(
+            sevenDaysAgo.getDate() - 7
+        );
+
+        return date >= sevenDaysAgo;
+
+    }
+
+    if (filter === "last30") {
+
+        const thirtyDaysAgo =
+            new Date(now);
+
+        thirtyDaysAgo.setDate(
+            thirtyDaysAgo.getDate() - 30
+        );
+
+        return date >= thirtyDaysAgo;
+
+    }
+
+    return true;
+
+}
+
+
+/* =====================================================
+   BESTELLUNGEN DARSTELLEN
+===================================================== */
+
+function renderOrders() {
+
+    const filteredOrders =
+        getFilteredOrders();
+
+    updateOrdersSectionHeader(
+        completionFilter.value,
+        filteredOrders.length
+    );
 
     if (
         filteredOrders.length === 0
@@ -3027,128 +3314,291 @@ function renderOrders() {
 
     }
 
-
     ordersContainer.innerHTML = "";
 
+    const fragment =
+        document.createDocumentFragment();
 
     filteredOrders.forEach(
         function(order) {
 
-            const date =
-                formatDate(
-                    order.created_at
-                );
-
-
-            const card =
-                document.createElement("div");
-
-
-            card.className =
-                "order-card";
-
-
-            if (
-                order.status ===
-                "completed"
-            ) {
-
-                card.classList.add(
-                    "completed"
-                );
-
-            }
-
-
-            card.dataset.orderId =
-                order.id;
-
-
-            card.innerHTML = `
-
-                <div class="order-header">
-
-                    <div class="order-name">
-
-                        ${escapeHtml(
-                            order.first_name
-                        )}
-
-                        ${escapeHtml(
-                            order.last_name
-                        )}
-
-                    </div>
-
-
-                    <div class="order-date">
-
-                        ${date}
-
-                    </div>
-
-                </div>
-
-
-                <div class="order-medicine">
-
-                    💊
-
-                    ${escapeHtml(
-                        order.medicine
-                    )}
-
-                </div>
-
-
-                <div class="order-details">
-
-                    📞
-
-                    ${escapeHtml(
-                        order.phone ||
-                        "Keine Telefonnummer"
-                    )}
-
-
-                    <br>
-
-
-                    📱 Rückruf:
-
-                    <strong>
-
-                        ${
-                            order.callback
-                            ? "Ja"
-                            : "Nein"
-                        }
-
-                    </strong>
-
-                </div>
-
-
-                <div class="order-card-status">
-
-                    ${getStatusLabel(
-                        order.status
-                    )}
-
-                </div>
-
-            `;
-
-
-            ordersContainer.appendChild(
-                card
+            fragment.appendChild(
+                createOrderCard(order)
             );
 
         }
     );
 
+    ordersContainer.appendChild(
+        fragment
+    );
+
 }
 
+
+/* =====================================================
+   BESTELLKARTE ERSTELLEN
+===================================================== */
+
+function createOrderCard(order) {
+
+    const card =
+        document.createElement("div");
+
+    const status =
+        order.status || "new";
+
+    card.className =
+        "order-card";
+
+    card.dataset.orderId =
+        order.id;
+
+    if (status === "completed") {
+        card.classList.add("completed");
+    }
+
+    if (status === "new") {
+        card.classList.add("is-new");
+    }
+
+    if (status === "processing") {
+        card.classList.add("is-processing");
+    }
+
+    if (status === "ready") {
+        card.classList.add("is-ready");
+    }
+
+    const age =
+        getOrderAge(order.created_at);
+
+    if (
+        status !== "completed" &&
+        age.minutes >= 120
+    ) {
+        card.classList.add("urgent");
+    }
+
+    const phone =
+        order.phone || "";
+
+    const phoneHtml =
+        phone
+        ? `
+            <a
+                href="${getTelLink(phone)}"
+                class="phone-link"
+                data-phone-link="true"
+            >
+                📞 ${escapeHtml(phone)}
+            </a>
+        `
+        : `
+            📞 Keine Telefonnummer
+        `;
+
+    const callbackHtml =
+        order.callback
+        ? `<strong>Ja</strong>`
+        : `<strong>Nein</strong>`;
+
+    card.innerHTML = `
+
+        <div class="order-priority-bar"></div>
+
+        <div class="order-header">
+
+            <div>
+
+                <div class="order-name">
+
+                    ${escapeHtml(
+                        buildCustomerName(order)
+                    )}
+
+                </div>
+
+                ${
+                    status !== "completed"
+                    ? `
+                        <div class="
+                            order-age
+                            ${
+                                age.minutes >= 120
+                                ? "urgent"
+                                : ""
+                            }
+                        ">
+                            ${escapeHtml(
+                                formatOrderAge(
+                                    order.created_at
+                                )
+                            )}
+                        </div>
+                    `
+                    : ""
+                }
+
+            </div>
+
+            <div class="order-date">
+
+                ${formatDate(
+                    order.created_at
+                )}
+
+            </div>
+
+        </div>
+
+
+        <div class="order-medicine">
+
+            💊
+
+            ${escapeHtml(
+                order.medicine ||
+                "Medikament nicht angegeben"
+            )}
+
+        </div>
+
+
+        <div class="order-details">
+
+            ${phoneHtml}
+
+            <br>
+
+            📱 Rückruf:
+
+            ${callbackHtml}
+
+            ${
+                order.message
+                ? `
+                    <div class="order-message">
+                        💬
+                        ${escapeHtml(
+                            order.message
+                        )}
+                    </div>
+                `
+                : ""
+            }
+
+        </div>
+
+
+        <div class="order-bottom">
+
+            <div class="
+                order-card-status
+                ${getStatusClass(status)}
+            ">
+
+                ${getStatusLabel(status)}
+
+            </div>
+
+
+            <div class="quick-actions">
+
+                ${createQuickActionButton(
+                    order,
+                    "processing",
+                    "🟡 Bearbeiten"
+                )}
+
+                ${createQuickActionButton(
+                    order,
+                    "ready",
+                    "🟢 Abholbereit"
+                )}
+
+                ${createQuickActionButton(
+                    order,
+                    "completed",
+                    "⚪ Erledigt"
+                )}
+
+            </div>
+
+        </div>
+
+    `;
+
+    return card;
+
+}
+
+
+/* =====================================================
+   QUICK ACTION BUTTON
+===================================================== */
+
+function createQuickActionButton(
+    order,
+    status,
+    label
+) {
+
+    if (order.status === status) {
+
+        return `
+            <button
+                class="quick-action active"
+                type="button"
+                disabled
+                data-order-id="${escapeAttribute(
+                    order.id
+                )}"
+                data-status="${status}"
+            >
+                ✓ ${label}
+            </button>
+        `;
+
+    }
+
+    return `
+        <button
+            class="quick-action"
+            type="button"
+            data-order-id="${escapeAttribute(
+                order.id
+            )}"
+            data-status="${status}"
+        >
+            ${label}
+        </button>
+    `;
+
+}
+
+
+/* =====================================================
+   PRIORITÄT
+===================================================== */
+
+function getOrderPriority(order) {
+
+    if (order.status === "new") {
+        return 0;
+    }
+
+    if (order.status === "processing") {
+        return 1;
+    }
+
+    if (order.status === "ready") {
+        return 2;
+    }
+
+    return 3;
+
+}
 
 
 /* =====================================================
@@ -3163,7 +3613,6 @@ function updateOrdersSectionHeader(
     let title =
         "Bestellungen";
 
-
     if (
         selectedCompletion ===
         "active"
@@ -3173,7 +3622,6 @@ function updateOrdersSectionHeader(
             "Aktive Bestellungen";
 
     }
-
 
     if (
         selectedCompletion ===
@@ -3185,7 +3633,6 @@ function updateOrdersSectionHeader(
 
     }
 
-
     if (
         selectedCompletion ===
         "all"
@@ -3196,10 +3643,8 @@ function updateOrdersSectionHeader(
 
     }
 
-
     ordersSectionTitle.textContent =
         title;
-
 
     ordersSectionCount.textContent =
         count +
@@ -3212,52 +3657,85 @@ function updateOrdersSectionHeader(
 }
 
 
-
 /* =====================================================
-   ORDER-KLICK
+   BESTELLUNG KLICK
 ===================================================== */
 
 ordersContainer.addEventListener(
     "click",
     function(event) {
 
-        const statusButton =
+        const quickButton =
             event.target.closest(
-                "button[data-order-id]"
+                ".quick-action"
             );
 
+        if (quickButton) {
 
-        if (statusButton) {
+            event.preventDefault();
+
+            event.stopPropagation();
+
+            handleQuickStatusChange(
+                quickButton
+            );
 
             return;
 
         }
 
+        const phoneLink =
+            event.target.closest(
+                "[data-phone-link]"
+            );
+
+        if (phoneLink) {
+
+            event.stopPropagation();
+
+            return;
+
+        }
 
         const card =
             event.target.closest(
                 ".order-card"
             );
 
-
         if (!card) {
-
             return;
-
         }
 
-
-        const orderId =
-            card.dataset.orderId;
-
-
         openOrderDetail(
-            orderId
+            card.dataset.orderId
         );
 
     }
 );
 
+
+/* =====================================================
+   QUICK STATUS
+===================================================== */
+
+async function handleQuickStatusChange(
+    button
+) {
+
+    const orderId =
+        button.dataset.orderId;
+
+    const newStatus =
+        button.dataset.status;
+
+    await updateOrderStatus(
+        orderId,
+        newStatus,
+        button,
+        false
+    );
+
+}
 
 
 /* =====================================================
@@ -3270,14 +3748,10 @@ function openOrderDetail(
 
     const order =
         allOrders.find(
-            function(item) {
-
-                return String(item.id) ===
-                    String(orderId);
-
-            }
+            item =>
+                String(item.id) ===
+                String(orderId)
         );
-
 
     if (!order) {
 
@@ -3290,48 +3764,34 @@ function openOrderDetail(
 
     }
 
-
     selectedOrderId =
         order.id;
 
-
     modalTitle.textContent =
-        (
-            order.first_name || ""
-        ) +
-        " " +
-        (
-            order.last_name || ""
-        );
-
+        buildCustomerName(order);
 
     modalSubtitle.textContent =
         "Vorbestellung vom " +
-        formatDate(
-            order.created_at
-        );
+        formatDate(order.created_at);
 
+    const phone =
+        order.phone || "";
 
     modalBody.innerHTML = `
 
         <div class="detail-grid">
 
-
             <div class="detail-item">
 
                 <div class="detail-label">
-
                     Vorname
-
                 </div>
 
                 <div class="detail-value">
-
                     ${escapeHtml(
                         order.first_name ||
                         "Nicht angegeben"
                     )}
-
                 </div>
 
             </div>
@@ -3340,18 +3800,14 @@ function openOrderDetail(
             <div class="detail-item">
 
                 <div class="detail-label">
-
                     Nachname
-
                 </div>
 
                 <div class="detail-value">
-
                     ${escapeHtml(
                         order.last_name ||
                         "Nicht angegeben"
                     )}
-
                 </div>
 
             </div>
@@ -3360,24 +3816,19 @@ function openOrderDetail(
             <div class="detail-item">
 
                 <div class="detail-label">
-
                     Telefonnummer
-
                 </div>
 
                 <div class="detail-value">
 
                     ${
-                        order.phone
+                        phone
                         ? `
                             <a
-                                href="${getTelLink(
-                                    order.phone
-                                )}"
+                                href="${getTelLink(phone)}"
                             >
-                                ${escapeHtml(
-                                    order.phone
-                                )}
+                                📞
+                                ${escapeHtml(phone)}
                             </a>
                         `
                         : "Nicht angegeben"
@@ -3391,16 +3842,14 @@ function openOrderDetail(
             <div class="detail-item">
 
                 <div class="detail-label">
-
                     Rückruf gewünscht
-
                 </div>
 
                 <div class="detail-value">
 
                     ${
                         order.callback
-                        ? "Ja"
+                        ? "📞 Ja"
                         : "Nein"
                     }
 
@@ -3412,9 +3861,7 @@ function openOrderDetail(
             <div class="detail-item full">
 
                 <div class="detail-label">
-
                     Medikament
-
                 </div>
 
                 <div class="detail-value">
@@ -3434,12 +3881,13 @@ function openOrderDetail(
             <div class="detail-item full">
 
                 <div class="detail-label">
-
                     Nachricht
-
                 </div>
 
-                <div class="detail-value detail-message">
+                <div class="
+                    detail-value
+                    detail-message
+                ">
 
                     ${escapeHtml(
                         order.message ||
@@ -3454,9 +3902,7 @@ function openOrderDetail(
             <div class="detail-item full">
 
                 <div class="detail-label">
-
                     Eingegangen
-
                 </div>
 
                 <div class="detail-value">
@@ -3465,10 +3911,58 @@ function openOrderDetail(
                         order.created_at
                     )}
 
+                    <br>
+
+                    <span
+                        style="
+                            color:var(--muted);
+                            font-size:12px;
+                            font-weight:400;
+                        "
+                    >
+                        ${escapeHtml(
+                            formatOrderAge(
+                                order.created_at
+                            )
+                        )}
+                    </span>
+
                 </div>
 
             </div>
 
+        </div>
+
+
+        <div class="modal-actions">
+
+            ${
+                phone
+                ? `
+                    <a
+                        class="modal-action"
+                        href="${getTelLink(phone)}"
+                        style="text-decoration:none;"
+                    >
+                        📞 Anrufen
+                    </a>
+                `
+                : ""
+            }
+
+            ${
+                phone && order.callback
+                ? `
+                    <a
+                        class="modal-action"
+                        href="${getTelLink(phone)}"
+                        style="text-decoration:none;"
+                    >
+                        📱 Rückruf
+                    </a>
+                `
+                : ""
+            }
 
         </div>
 
@@ -3476,9 +3970,7 @@ function openOrderDetail(
         <div class="modal-status">
 
             <div class="modal-status-title">
-
                 Status ändern
-
             </div>
 
 
@@ -3487,64 +3979,29 @@ function openOrderDetail(
                 id="modalStatusButtons"
             >
 
-                <button
-                    type="button"
-                    data-modal-status="new"
-                    class="${
-                        order.status === "new"
-                        ? "active"
-                        : ""
-                    }"
-                >
+                ${createModalStatusButton(
+                    order,
+                    "new",
+                    "🔴 Neu"
+                )}
 
-                    🔴 Neu
+                ${createModalStatusButton(
+                    order,
+                    "processing",
+                    "🟡 In Bearbeitung"
+                )}
 
-                </button>
+                ${createModalStatusButton(
+                    order,
+                    "ready",
+                    "🟢 Abholbereit"
+                )}
 
-
-                <button
-                    type="button"
-                    data-modal-status="processing"
-                    class="${
-                        order.status === "processing"
-                        ? "active"
-                        : ""
-                    }"
-                >
-
-                    🟡 In Bearbeitung
-
-                </button>
-
-
-                <button
-                    type="button"
-                    data-modal-status="ready"
-                    class="${
-                        order.status === "ready"
-                        ? "active"
-                        : ""
-                    }"
-                >
-
-                    🟢 Abholbereit
-
-                </button>
-
-
-                <button
-                    type="button"
-                    data-modal-status="completed"
-                    class="${
-                        order.status === "completed"
-                        ? "active"
-                        : ""
-                    }"
-                >
-
-                    ⚪ Erledigt
-
-                </button>
+                ${createModalStatusButton(
+                    order,
+                    "completed",
+                    "⚪ Erledigt"
+                )}
 
             </div>
 
@@ -3552,23 +4009,49 @@ function openOrderDetail(
 
     `;
 
-
     orderModalOverlay.classList.add(
         "open"
     );
-
 
     orderModalOverlay.setAttribute(
         "aria-hidden",
         "false"
     );
 
-
     document.body.style.overflow =
         "hidden";
 
 }
 
+
+/* =====================================================
+   MODAL STATUS BUTTON
+===================================================== */
+
+function createModalStatusButton(
+    order,
+    status,
+    label
+) {
+
+    const active =
+        order.status === status;
+
+    return `
+
+        <button
+            type="button"
+            data-modal-status="${status}"
+            class="${active ? "active" : ""}"
+            ${active ? "disabled" : ""}
+        >
+            ${active ? "✓ " : ""}
+            ${label}
+        </button>
+
+    `;
+
+}
 
 
 /* =====================================================
@@ -3581,16 +4064,13 @@ function closeOrderDetail() {
         "open"
     );
 
-
     orderModalOverlay.setAttribute(
         "aria-hidden",
         "true"
     );
 
-
     document.body.style.overflow =
         "";
-
 
     selectedOrderId =
         null;
@@ -3603,12 +4083,10 @@ modalCloseButton.addEventListener(
     closeOrderDetail
 );
 
-
 modalFooterClose.addEventListener(
     "click",
     closeOrderDetail
 );
-
 
 orderModalOverlay.addEventListener(
     "click",
@@ -3633,18 +4111,13 @@ document.addEventListener(
 
         if (
             event.key ===
-            "Escape"
+            "Escape" &&
+            orderModalOverlay.classList.contains(
+                "open"
+            )
         ) {
 
-            if (
-                orderModalOverlay.classList.contains(
-                    "open"
-                )
-            ) {
-
-                closeOrderDetail();
-
-            }
+            closeOrderDetail();
 
         }
 
@@ -3652,9 +4125,8 @@ document.addEventListener(
 );
 
 
-
 /* =====================================================
-   DETAIL-STATUSBUTTONS
+   MODAL STATUS
 ===================================================== */
 
 modalBody.addEventListener(
@@ -3666,24 +4138,16 @@ modalBody.addEventListener(
                 "button[data-modal-status]"
             );
 
-
         if (!button) {
-
             return;
-
         }
-
 
         const newStatus =
             button.dataset.modalStatus;
 
-
         if (!selectedOrderId) {
-
             return;
-
         }
-
 
         await updateOrderStatus(
             selectedOrderId,
@@ -3694,49 +4158,6 @@ modalBody.addEventListener(
 
     }
 );
-
-
-
-/* =====================================================
-   STATUS-BUTTONS AUF LISTE
-===================================================== */
-
-function handleListStatusClick(
-    event
-) {
-
-    const button =
-        event.target.closest(
-            "button[data-order-id]"
-        );
-
-
-    if (!button) {
-
-        return;
-
-    }
-
-
-    event.stopPropagation();
-
-
-    const orderId =
-        button.dataset.orderId;
-
-    const newStatus =
-        button.dataset.status;
-
-
-    updateOrderStatus(
-        orderId,
-        newStatus,
-        button,
-        false
-    );
-
-}
-
 
 
 /* =====================================================
@@ -3752,41 +4173,54 @@ async function updateOrderStatus(
 
     const order =
         allOrders.find(
-            function(item) {
-
-                return String(item.id) ===
-                    String(orderId);
-
-            }
+            item =>
+                String(item.id) ===
+                String(orderId)
         );
 
-
     if (!order) {
-
         return;
-
     }
-
 
     if (
-        order.status === newStatus
+        order.status ===
+        newStatus
     ) {
-
         return;
+    }
+
+    const operationKey =
+        String(orderId);
+
+    if (
+        statusUpdateInProgress.has(
+            operationKey
+        )
+    ) {
+        return;
+    }
+
+    statusUpdateInProgress.add(
+        operationKey
+    );
+
+    const originalText =
+        clickedButton
+            ? clickedButton.textContent
+            : "";
+
+    if (clickedButton) {
+
+        clickedButton.disabled =
+            true;
+
+        clickedButton.textContent =
+            "Speichern ...";
 
     }
 
-
-    const originalText =
-        clickedButton.textContent;
-
-
-    clickedButton.disabled =
-        true;
-
-    clickedButton.textContent =
-        "Speichern ...";
-
+    const oldStatus =
+        order.status;
 
     const {
         error
@@ -3794,26 +4228,30 @@ async function updateOrderStatus(
     await supabaseClient
         .from("orders")
         .update({
-
             status: newStatus
-
         })
         .eq(
             "id",
             orderId
         );
 
-
-    clickedButton.disabled =
-        false;
-
-    clickedButton.textContent =
-        originalText;
-
+    statusUpdateInProgress.delete(
+        operationKey
+    );
 
     if (error) {
 
         console.error(error);
+
+        if (clickedButton) {
+
+            clickedButton.disabled =
+                false;
+
+            clickedButton.textContent =
+                originalText;
+
+        }
 
         showToast(
             "Der Status konnte nicht geändert werden.",
@@ -3824,17 +4262,20 @@ async function updateOrderStatus(
 
     }
 
+    /*
+        Optimistisches lokales Update.
+        Realtime kann danach dieselben Daten erneut liefern,
+        ohne dass dadurch ein Fehler entsteht.
+    */
 
     order.status =
         newStatus;
-
 
     updateDashboardCounts();
 
     renderOrders();
 
     updateLastUpdated();
-
 
     if (
         fromModal &&
@@ -3847,29 +4288,49 @@ async function updateOrderStatus(
 
     }
 
-
     showToast(
-        "Status erfolgreich geändert.",
+        getStatusChangeMessage(
+            oldStatus,
+            newStatus
+        ),
         "success"
     );
 
 }
 
 
-
 /* =====================================================
-   LISTEN-STATUS BUTTON EVENT DELEGATION
+   STATUS MELDUNG
 ===================================================== */
 
-ordersContainer.addEventListener(
-    "click",
-    handleListStatusClick
-);
+function getStatusChangeMessage(
+    oldStatus,
+    newStatus
+) {
 
+    if (newStatus === "processing") {
+        return "Bestellung ist jetzt in Bearbeitung.";
+    }
+
+    if (newStatus === "ready") {
+        return "Bestellung ist jetzt abholbereit.";
+    }
+
+    if (newStatus === "completed") {
+        return "Bestellung wurde als erledigt markiert.";
+    }
+
+    if (newStatus === "new") {
+        return "Bestellung wurde wieder auf Neu gesetzt.";
+    }
+
+    return "Status erfolgreich geändert.";
+
+}
 
 
 /* =====================================================
-   SICHERHEIT / HTML ESCAPING
+   DATEN / SICHERHEIT
 ===================================================== */
 
 function escapeHtml(value) {
@@ -3877,29 +4338,61 @@ function escapeHtml(value) {
     const div =
         document.createElement("div");
 
-
     div.textContent =
         value ?? "";
-
 
     return div.innerHTML;
 
 }
 
 
+function escapeAttribute(value) {
+
+    return escapeHtml(
+        String(value ?? "")
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    );
+
+}
+
 
 /* =====================================================
-   TELEFONNUMMER
+   KUNDENNAME
+===================================================== */
+
+function buildCustomerName(order) {
+
+    const first =
+        String(
+            order.first_name || ""
+        ).trim();
+
+    const last =
+        String(
+            order.last_name || ""
+        ).trim();
+
+    const name =
+        `${first} ${last}`.trim();
+
+    return name ||
+        "Unbekannter Kunde";
+
+}
+
+
+/* =====================================================
+   TELEFON
 ===================================================== */
 
 function getTelLink(phone) {
 
     if (!phone) {
-
         return "#";
-
     }
-
 
     const cleaned =
         String(phone)
@@ -3908,32 +4401,28 @@ function getTelLink(phone) {
                 ""
             );
 
-
-    return "tel:" +
+    return (
+        "tel:" +
         encodeURIComponent(
             cleaned
-        );
+        )
+    );
 
 }
 
 
-
 /* =====================================================
-   DATUM FORMATIEREN
+   DATUM
 ===================================================== */
 
 function formatDate(value) {
 
     if (!value) {
-
         return "Zeitpunkt unbekannt";
-
     }
-
 
     const date =
         new Date(value);
-
 
     if (
         Number.isNaN(
@@ -3944,7 +4433,6 @@ function formatDate(value) {
         return "Zeitpunkt unbekannt";
 
     }
-
 
     return date.toLocaleString(
         "de-DE",
@@ -3960,23 +4448,52 @@ function formatDate(value) {
 }
 
 
-
 /* =====================================================
-   HEUTE PRÜFEN
+   HEUTE
 ===================================================== */
 
 function isToday(value) {
 
     if (!value) {
-
         return false;
-
     }
-
 
     const date =
         new Date(value);
 
+    if (
+        Number.isNaN(
+            date.getTime()
+        )
+    ) {
+        return false;
+    }
+
+    const now =
+        new Date();
+
+    return (
+        date.getFullYear() ===
+            now.getFullYear()
+        &&
+        date.getMonth() ===
+            now.getMonth()
+        &&
+        date.getDate() ===
+            now.getDate()
+    );
+
+}
+
+
+/* =====================================================
+   ALTER DER BESTELLUNG
+===================================================== */
+
+function getOrderAge(value) {
+
+    const date =
+        new Date(value);
 
     if (
         Number.isNaN(
@@ -3984,82 +4501,144 @@ function isToday(value) {
         )
     ) {
 
-        return false;
+        return {
+            minutes: 0,
+            hours: 0,
+            days: 0
+        };
 
     }
 
+    const milliseconds =
+        Math.max(
+            0,
+            Date.now() -
+            date.getTime()
+        );
 
-    const now =
-        new Date();
+    const minutes =
+        Math.floor(
+            milliseconds /
+            60000
+        );
 
+    const hours =
+        Math.floor(
+            minutes / 60
+        );
+
+    const days =
+        Math.floor(
+            hours / 24
+        );
+
+    return {
+        minutes,
+        hours,
+        days
+    };
+
+}
+
+
+function formatOrderAge(value) {
+
+    const age =
+        getOrderAge(value);
+
+    if (age.minutes < 1) {
+        return "Gerade eben eingegangen";
+    }
+
+    if (age.minutes < 60) {
+
+        return (
+            "Vor " +
+            age.minutes +
+            (
+                age.minutes === 1
+                ? " Minute"
+                : " Minuten"
+            )
+        );
+
+    }
+
+    if (age.hours < 24) {
+
+        return (
+            "Vor " +
+            age.hours +
+            (
+                age.hours === 1
+                ? " Stunde"
+                : " Stunden"
+            )
+        );
+
+    }
 
     return (
-
-        date.getFullYear() ===
-            now.getFullYear()
-
-        &&
-
-        date.getMonth() ===
-            now.getMonth()
-
-        &&
-
-        date.getDate() ===
-            now.getDate()
-
+        "Vor " +
+        age.days +
+        (
+            age.days === 1
+            ? " Tag"
+            : " Tagen"
+        )
     );
 
 }
 
 
-
 /* =====================================================
-   STATUS ANZEIGEN
+   STATUS
 ===================================================== */
 
 function getStatusLabel(status) {
 
-    if (
-        status === "new"
-    ) {
-
+    if (status === "new") {
         return "🔴 Neu";
-
     }
 
-
-    if (
-        status === "processing"
-    ) {
-
+    if (status === "processing") {
         return "🟡 In Bearbeitung";
-
     }
 
-
-    if (
-        status === "ready"
-    ) {
-
+    if (status === "ready") {
         return "🟢 Abholbereit";
-
     }
 
-
-    if (
-        status === "completed"
-    ) {
-
+    if (status === "completed") {
         return "⚪ Erledigt";
-
     }
-
 
     return "Unbekannt";
 
 }
 
+
+function getStatusClass(status) {
+
+    if (status === "new") {
+        return "status-new";
+    }
+
+    if (status === "processing") {
+        return "status-processing";
+    }
+
+    if (status === "ready") {
+        return "status-ready";
+    }
+
+    if (status === "completed") {
+        return "status-completed";
+    }
+
+    return "";
+
+}
 
 
 /* =====================================================
@@ -4068,13 +4647,9 @@ function getStatusLabel(status) {
 
 function updateLastUpdated() {
 
-    const now =
-        new Date();
-
-
     lastUpdated.textContent =
         "Zuletzt aktualisiert: " +
-        now.toLocaleTimeString(
+        new Date().toLocaleTimeString(
             "de-DE",
             {
                 hour: "2-digit",
@@ -4086,45 +4661,34 @@ function updateLastUpdated() {
 }
 
 
-
 /* =====================================================
    MANUELLES AKTUALISIEREN
 ===================================================== */
 
 async function manualRefresh() {
 
-    if (
-        isLoadingOrders
-    ) {
-
+    if (isLoadingOrders) {
         return;
-
     }
-
 
     refreshButton.classList.add(
         "loading"
     );
 
-
     refreshButtonMobile.classList.add(
         "loading"
     );
 
-
     const success =
         await loadOrders();
-
 
     refreshButton.classList.remove(
         "loading"
     );
 
-
     refreshButtonMobile.classList.remove(
         "loading"
     );
-
 
     if (success) {
 
@@ -4150,12 +4714,111 @@ refreshButton.addEventListener(
     manualRefresh
 );
 
-
 refreshButtonMobile.addEventListener(
     "click",
     manualRefresh
 );
 
+
+/* =====================================================
+   DASHBOARD KLICK
+===================================================== */
+
+document
+    .querySelectorAll(
+        "[data-dashboard-filter]"
+    )
+    .forEach(
+        function(card) {
+
+            card.addEventListener(
+                "click",
+                function() {
+
+                    const filter =
+                        card.dataset
+                            .dashboardFilter;
+
+                    if (
+                        filter === "new" ||
+                        filter === "processing" ||
+                        filter === "ready"
+                    ) {
+
+                        statusFilter.value =
+                            filter;
+
+                        completionFilter.value =
+                            "active";
+
+                        dateFilter.value =
+                            "all";
+
+                    }
+
+                    else if (
+                        filter === "today"
+                    ) {
+
+                        statusFilter.value =
+                            "all";
+
+                        completionFilter.value =
+                            "all";
+
+                        dateFilter.value =
+                            "today";
+
+                    }
+
+                    else if (
+                        filter === "open"
+                    ) {
+
+                        statusFilter.value =
+                            "all";
+
+                        completionFilter.value =
+                            "active";
+
+                        dateFilter.value =
+                            "all";
+
+                    }
+
+                    else if (
+                        filter === "all"
+                    ) {
+
+                        statusFilter.value =
+                            "all";
+
+                        completionFilter.value =
+                            "all";
+
+                        dateFilter.value =
+                            "all";
+
+                    }
+
+                    renderOrders();
+
+                    document
+                        .querySelector(
+                            ".orders-section-header"
+                        )
+                        ?.scrollIntoView({
+                            behavior:
+                                "smooth",
+                            block:
+                                "start"
+                        });
+
+                }
+            );
+
+        }
+    );
 
 
 /* =====================================================
@@ -4166,29 +4829,26 @@ logoutButton.addEventListener(
     "click",
     async function() {
 
-
         if (realtimeChannel) {
 
-            await supabaseClient.removeChannel(
-                realtimeChannel
-            );
+            await supabaseClient
+                .removeChannel(
+                    realtimeChannel
+                );
 
             realtimeChannel = null;
 
         }
 
-
-        await supabaseClient.auth.signOut();
-
+        await supabaseClient
+            .auth
+            .signOut();
 
         closeOrderDetail();
 
-
         allOrders = [];
 
-
         soundEnabled = false;
-
 
         if (audioContext) {
 
@@ -4207,54 +4867,41 @@ logoutButton.addEventListener(
 
         }
 
-
         audioContext = null;
-
 
         adminSection.style.display =
             "none";
 
-
         loginSection.style.display =
             "block";
-
 
         logoutButton.style.display =
             "none";
 
-
         refreshButton.style.display =
             "none";
-
 
         soundButton.style.display =
             "none";
 
-
         ordersContainer.innerHTML =
             "";
-
 
         orderSearch.value =
             "";
 
-
         statusFilter.value =
             "all";
-
 
         dateFilter.value =
             "all";
 
-
         completionFilter.value =
             "active";
-
 
         updateDashboardCounts();
 
         updateSoundButtons();
-
 
         lastUpdated.textContent =
             "Noch nicht aktualisiert";
@@ -4263,9 +4910,8 @@ logoutButton.addEventListener(
 );
 
 
-
 /* =====================================================
-   BESTEHENDE SESSION PRÜFEN
+   SESSION
 ===================================================== */
 
 async function checkSession() {
@@ -4274,8 +4920,9 @@ async function checkSession() {
         data,
         error
     } =
-    await supabaseClient.auth.getUser();
-
+    await supabaseClient
+        .auth
+        .getUser();
 
     if (error) {
 
@@ -4286,7 +4933,6 @@ async function checkSession() {
         return;
 
     }
-
 
     if (data.user) {
 
@@ -4300,19 +4946,15 @@ async function checkSession() {
 checkSession();
 
 
-
 /* =====================================================
-   SUPABASE REALTIME
+   REALTIME STARTEN
 ===================================================== */
 
 function startRealtime() {
 
     if (realtimeChannel) {
-
         return;
-
     }
-
 
     realtimeChannel =
         supabaseClient
@@ -4320,9 +4962,8 @@ function startRealtime() {
                 "orders-realtime"
             )
 
-
             /* =========================================
-               NEUE BESTELLUNG
+               INSERT
             ========================================= */
 
             .on(
@@ -4340,26 +4981,12 @@ function startRealtime() {
                         payload.new
                     );
 
-
-                    /*
-                        Neue Bestellung lokal hinzufügen,
-                        statt die komplette Liste unnötig
-                        neu zu laden.
-                    */
-
                     const alreadyExists =
                         allOrders.some(
-                            function(order) {
-
-                                return String(
-                                    order.id
-                                ) === String(
-                                    payload.new.id
-                                );
-
-                            }
+                            order =>
+                                String(order.id) ===
+                                String(payload.new.id)
                         );
-
 
                     if (!alreadyExists) {
 
@@ -4369,44 +4996,23 @@ function startRealtime() {
 
                     }
 
-
                     updateDashboardCounts();
 
                     renderOrders();
 
                     updateLastUpdated();
 
-
-                    /*
-                        Visuelle Benachrichtigung
-                    */
-
                     showNewOrderNotification(
                         payload.new
                     );
-
-
-                    /*
-                        Akustische Benachrichtigung
-
-                        WICHTIG:
-                        Dieser Ton wird ausschließlich bei
-                        einem INSERT abgespielt, also wenn
-                        Supabase tatsächlich eine NEUE
-                        Bestellung meldet.
-
-                        Änderungen an bestehenden Bestellungen
-                        lösen KEINEN Ton aus.
-                    */
 
                     await playNewOrderSound();
 
                 }
             )
 
-
             /* =========================================
-               STATUSÄNDERUNG
+               UPDATE
             ========================================= */
 
             .on(
@@ -4424,24 +5030,14 @@ function startRealtime() {
                         payload.new
                     );
 
-
                     const index =
                         allOrders.findIndex(
-                            function(order) {
-
-                                return String(
-                                    order.id
-                                ) === String(
-                                    payload.new.id
-                                );
-
-                            }
+                            order =>
+                                String(order.id) ===
+                                String(payload.new.id)
                         );
 
-
-                    if (
-                        index !== -1
-                    ) {
+                    if (index !== -1) {
 
                         allOrders[index] =
                             payload.new;
@@ -4454,25 +5050,18 @@ function startRealtime() {
 
                     }
 
-
                     updateDashboardCounts();
 
                     renderOrders();
 
                     updateLastUpdated();
 
-
-                    /*
-                        Falls gerade die Detailansicht
-                        dieser Bestellung geöffnet ist,
-                        aktualisieren wir sie ebenfalls.
-                    */
-
                     if (
                         selectedOrderId &&
                         String(
                             selectedOrderId
-                        ) === String(
+                        ) ===
+                        String(
                             payload.new.id
                         )
                     ) {
@@ -4486,6 +5075,60 @@ function startRealtime() {
                 }
             )
 
+            /* =========================================
+               DELETE
+            ========================================= */
+
+            .on(
+                "postgres_changes",
+                {
+                    event: "DELETE",
+                    schema: "public",
+                    table: "orders"
+                },
+
+                function(payload) {
+
+                    console.log(
+                        "Vorbestellung gelöscht:",
+                        payload.old
+                    );
+
+                    const deletedId =
+                        payload.old?.id;
+
+                    allOrders =
+                        allOrders.filter(
+                            order =>
+                                String(order.id) !==
+                                String(deletedId)
+                        );
+
+                    if (
+                        selectedOrderId &&
+                        String(
+                            selectedOrderId
+                        ) ===
+                        String(deletedId)
+                    ) {
+
+                        closeOrderDetail();
+
+                        showToast(
+                            "Die aktuell geöffnete Bestellung wurde gelöscht.",
+                            "error"
+                        );
+
+                    }
+
+                    updateDashboardCounts();
+
+                    renderOrders();
+
+                    updateLastUpdated();
+
+                }
+            )
 
             .subscribe(
                 function(status) {
@@ -4495,20 +5138,20 @@ function startRealtime() {
                         status
                     );
 
-
                     if (
-                        status === "SUBSCRIBED"
+                        status ===
+                        "SUBSCRIBED"
                     ) {
 
                         console.log(
-                            "Realtime für neue Bestellungen ist aktiv."
+                            "Realtime für Bestellungen ist aktiv."
                         );
 
                     }
 
-
                     if (
-                        status === "CHANNEL_ERROR"
+                        status ===
+                        "CHANNEL_ERROR"
                     ) {
 
                         console.error(
@@ -4517,9 +5160,9 @@ function startRealtime() {
 
                     }
 
-
                     if (
-                        status === "TIMED_OUT"
+                        status ===
+                        "TIMED_OUT"
                     ) {
 
                         console.error(
@@ -4534,37 +5177,25 @@ function startRealtime() {
 }
 
 
-
 /* =====================================================
-   NEUE VORBESTELLUNG BENACHRICHTIGUNG
+   NEUE BESTELLUNG BENACHRICHTIGUNG
 ===================================================== */
 
 function showNewOrderNotification(
     order
 ) {
 
-    const oldNotification =
-        document.querySelector(
-            ".notification"
-        );
-
-
-    if (
-        oldNotification
-    ) {
-
-        oldNotification.remove();
-
-    }
-
-
     const notification =
         document.createElement("div");
-
 
     notification.className =
         "notification";
 
+    const notificationId =
+        ++notificationSequence;
+
+    notification.dataset.notificationId =
+        notificationId;
 
     notification.innerHTML = `
 
@@ -4578,11 +5209,7 @@ function showNewOrderNotification(
         <div class="notification-name">
 
             ${escapeHtml(
-                order.first_name
-            )}
-
-            ${escapeHtml(
-                order.last_name
+                buildCustomerName(order)
             )}
 
             <br>
@@ -4590,13 +5217,13 @@ function showNewOrderNotification(
             💊
 
             ${escapeHtml(
-                order.medicine
+                order.medicine ||
+                "Medikament nicht angegeben"
             )}
 
         </div>
 
     `;
-
 
     notification.addEventListener(
         "click",
@@ -4606,17 +5233,30 @@ function showNewOrderNotification(
                 order.id
             );
 
-
             notification.remove();
 
         }
     );
 
-
-    document.body.appendChild(
+    notificationStack.prepend(
         notification
     );
 
+    /*
+        Nicht nur eine Notification zulassen.
+        Maximal 4 gleichzeitig, damit der Bildschirm
+        nicht überfüllt wird.
+    */
+
+    while (
+        notificationStack.children.length >
+        4
+    ) {
+
+        notificationStack.lastElementChild
+            ?.remove();
+
+    }
 
     setTimeout(
         function() {
@@ -4630,11 +5270,10 @@ function showNewOrderNotification(
             }
 
         },
-        5000
+        7000
     );
 
 }
-
 
 
 /* =====================================================
@@ -4651,27 +5290,17 @@ function showToast(
             ".toast"
         );
 
-
-    if (
-        existingToast
-    ) {
-
+    if (existingToast) {
         existingToast.remove();
-
     }
-
 
     const toast =
         document.createElement("div");
 
-
     toast.className =
         "toast";
 
-
-    if (
-        type === "success"
-    ) {
+    if (type === "success") {
 
         toast.classList.add(
             "success"
@@ -4679,10 +5308,7 @@ function showToast(
 
     }
 
-
-    if (
-        type === "error"
-    ) {
+    if (type === "error") {
 
         toast.classList.add(
             "error-toast"
@@ -4690,15 +5316,12 @@ function showToast(
 
     }
 
-
     toast.textContent =
         message;
-
 
     document.body.appendChild(
         toast
     );
-
 
     setTimeout(
         function() {
@@ -4718,7 +5341,6 @@ function showToast(
 }
 
 
-
 /* =====================================================
    SUCHE & FILTER
 ===================================================== */
@@ -4726,49 +5348,37 @@ function showToast(
 orderSearch.addEventListener(
     "input",
     function() {
-
         renderOrders();
-
     }
 );
-
 
 statusFilter.addEventListener(
     "change",
     function() {
-
         renderOrders();
-
     }
 );
-
 
 dateFilter.addEventListener(
     "change",
     function() {
-
         renderOrders();
-
     }
 );
-
 
 completionFilter.addEventListener(
     "change",
     function() {
-
         renderOrders();
-
     }
 );
 
 
 /* =====================================================
-   INITIALER SOUND-BUTTON STATUS
+   INIT
 ===================================================== */
 
 updateSoundButtons();
-
 
 </script>
 
