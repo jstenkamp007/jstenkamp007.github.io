@@ -372,6 +372,108 @@ button.primary {
 
 }
 
+/* ==============================
+   SUCHE & FILTER
+============================== */
+
+.order-filters {
+
+    display: flex;
+
+    gap: 12px;
+
+    margin-bottom: 25px;
+
+    flex-wrap: wrap;
+
+}
+
+
+.order-filters input,
+.order-filters select {
+
+    padding: 14px 16px;
+
+    border: 1px solid #dce3e7;
+
+    border-radius: 14px;
+
+    background: white;
+
+    color: var(--blue);
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+
+}
+
+
+.order-filters input {
+
+    flex: 1;
+
+    min-width: 240px;
+
+}
+
+
+.order-filters select {
+
+    min-width: 170px;
+
+    cursor: pointer;
+
+}
+
+
+.order-filters input:focus,
+.order-filters select:focus {
+
+    border-color: var(--green);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(21,150,111,0.10);
+
+}
+
+
+.order-filters input:hover,
+.order-filters select:hover {
+
+    transform: translateY(-1px);
+
+}
+
+
+@media(max-width:600px) {
+
+    .order-filters {
+
+        flex-direction: column;
+
+    }
+
+
+    .order-filters input,
+    .order-filters select {
+
+        width: 100%;
+
+        min-width: 0;
+
+    }
+
+}
+
 </style>
 
 </head>
