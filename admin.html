@@ -771,7 +771,13 @@ const logoutButton =
 const ordersContainer =
     document.getElementById("orders");
 
+const orderSearch =
+    document.getElementById("orderSearch");
 
+const statusFilter =
+    document.getElementById("statusFilter");
+
+let allOrders = [];
 
 /* =====================================================
    LOGIN
@@ -848,15 +854,15 @@ async function showAdmin() {
 
 
 
+
 /* =====================================================
    BESTELLUNGEN LADEN
 ===================================================== */
 
 async function loadOrders() {
 
-
     ordersContainer.innerHTML =
-        "<p>Vorbestellungen werden geladen ...</p>";
+        "<p>Vorbestellungen werden geladen ...";
 
 
     const {
@@ -882,8 +888,8 @@ async function loadOrders() {
 
             <div class="error">
 
-            Fehler beim Laden der
-            Vorbestellungen.
+                Fehler beim Laden der
+                Vorbestellungen.
 
             </div>
 
@@ -892,6 +898,250 @@ async function loadOrders() {
         return;
 
     }
+
+
+    allOrders = data || [];
+
+    renderOrders();
+
+}
+
+
+
+/* =====================================================
+   BESTELLUNGEN DARSTELLEN
+===================================================== */
+
+function renderOrders() {
+
+    const searchTerm =
+        orderSearch.value
+            .toLowerCase()
+            .trim();
+
+
+    const selectedStatus =
+        statusFilter.value;
+
+
+    const filteredOrders =
+        allOrders.filter(order => {
+
+            const fullText = `
+
+                ${order.first_name || ""}
+
+                ${order.last_name || ""}
+
+                ${order.medicine || ""}
+
+                ${order.phone || ""}
+
+            `.toLowerCase();
+
+
+            const matchesSearch =
+                fullText.includes(
+                    searchTerm
+                );
+
+
+            const matchesStatus =
+                selectedStatus === "all"
+                ||
+                order.status === selectedStatus;
+
+
+            return (
+                matchesSearch
+                &&
+                matchesStatus
+            );
+
+        });
+
+
+    if (filteredOrders.length === 0) {
+
+        ordersContainer.innerHTML = `
+
+            <div class="empty">
+
+                Keine passenden
+                Vorbestellungen gefunden.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    ordersContainer.innerHTML = "";
+
+
+    filteredOrders.forEach(order => {
+
+
+        const date =
+            order.created_at
+            ? new Date(
+                order.created_at
+              ).toLocaleString(
+                "de-DE"
+              )
+            : "Zeitpunkt unbekannt";
+
+
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "order-card";
+
+
+        card.innerHTML = `
+
+            <div class="order-header">
+
+                <div class="order-name">
+
+                    ${escapeHtml(
+                        order.first_name
+                    )}
+
+                    ${escapeHtml(
+                        order.last_name
+                    )}
+
+                </div>
+
+
+                <div class="order-date">
+
+                    ${date}
+
+                </div>
+
+            </div>
+
+
+            <div class="order-medicine">
+
+                💊
+
+                ${escapeHtml(
+                    order.medicine
+                )}
+
+            </div>
+
+
+            <div class="order-details">
+
+                📞
+
+                ${escapeHtml(
+                    order.phone
+                )}
+
+                <br>
+
+
+                📝
+
+                ${escapeHtml(
+                    order.message ||
+                    "Keine Nachricht"
+                )}
+
+                <br>
+
+
+                📱 Rückruf:
+
+                ${
+                    order.callback
+                    ? "Ja"
+                    : "Nein"
+                }
+
+            </div>
+
+
+            <div class="order-status">
+
+                <strong>
+                    Status:
+                </strong>
+
+                <span>
+
+                    ${getStatusLabel(
+                        order.status
+                    )}
+
+                </span>
+
+            </div>
+
+
+            <div class="status-buttons">
+
+                <button
+                    onclick="updateOrderStatus(
+                        ${order.id},
+                        'new'
+                    )"
+                >
+                    Neu
+                </button>
+
+
+                <button
+                    onclick="updateOrderStatus(
+                        ${order.id},
+                        'processing'
+                    )"
+                >
+                    In Bearbeitung
+                </button>
+
+
+                <button
+                    onclick="updateOrderStatus(
+                        ${order.id},
+                        'ready'
+                    )"
+                >
+                    Abholbereit
+                </button>
+
+
+                <button
+                    onclick="updateOrderStatus(
+                        ${order.id},
+                        'completed'
+                    )"
+                >
+                    Erledigt
+                </button>
+
+            </div>
+
+        `;
+
+
+        ordersContainer.appendChild(
+            card
+        );
+
+    });
+
+}
 
 /* =====================================================
    DASHBOARD ZAHLEN
@@ -1384,7 +1634,28 @@ function showNewOrderNotification(order) {
 
 }
 
+/* =====================================================
+   SUCHE & FILTER
+===================================================== */
 
+orderSearch.addEventListener(
+    "input",
+    function() {
+
+        renderOrders();
+
+    }
+);
+
+
+statusFilter.addEventListener(
+    "change",
+    function() {
+
+        renderOrders();
+
+    }
+);
 
 </script>
 
