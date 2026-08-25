@@ -104,7 +104,8 @@ header {
 }
 
 .logout,
-.refresh-button {
+.refresh-button,
+.sound-button {
 
     border: none;
 
@@ -129,7 +130,8 @@ header {
 }
 
 .logout:hover,
-.refresh-button:hover {
+.refresh-button:hover,
+.sound-button:hover {
 
     transform: translateY(-1px);
 
@@ -142,6 +144,14 @@ header {
     opacity: 0.6;
 
     pointer-events: none;
+
+}
+
+.sound-button.enabled {
+
+    background: #e8f7f2;
+
+    color: var(--green);
 
 }
 
@@ -311,6 +321,16 @@ button.primary:disabled {
 
 }
 
+.toolbar-actions {
+
+    display: flex;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+}
+
 .last-updated {
 
     color: var(--muted);
@@ -448,6 +468,41 @@ button.primary:disabled {
 
 
 /* =====================================================
+   BESTELLUNGEN-BEREICH
+===================================================== */
+
+.orders-section-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 15px;
+
+}
+
+.orders-section-title {
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+}
+
+.orders-section-count {
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+}
+
+
+/* =====================================================
    ORDER CARD
 ===================================================== */
 
@@ -469,6 +524,8 @@ button.primary:disabled {
         transform 0.2s ease,
         box-shadow 0.2s ease;
 
+    cursor: pointer;
+
 }
 
 .order-card:hover {
@@ -478,6 +535,12 @@ button.primary:disabled {
     box-shadow:
         0 12px 30px
         rgba(16,42,67,0.08);
+
+}
+
+.order-card.completed {
+
+    opacity: 0.78;
 
 }
 
@@ -560,6 +623,32 @@ button.primary:disabled {
     white-space: pre-wrap;
 
     word-break: break-word;
+
+}
+
+.order-card-status {
+
+    margin-top: 15px;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 7px 10px;
+
+    border-radius: 10px;
+
+    background: #f1f3f4;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+.order-card.completed .order-card-status {
+
+    background: #eef1f3;
 
 }
 
@@ -663,6 +752,329 @@ button.primary:disabled {
 
 
 /* =====================================================
+   DETAIL MODAL
+===================================================== */
+
+.modal-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(16,42,67,0.42);
+
+    z-index: 5000;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.2s ease;
+
+}
+
+.modal-overlay.open {
+
+    opacity: 1;
+
+    pointer-events: auto;
+
+}
+
+.order-modal {
+
+    width: 100%;
+
+    max-width: 650px;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background: white;
+
+    border-radius: 24px;
+
+    box-shadow:
+        0 25px 70px
+        rgba(16,42,67,0.22);
+
+    transform:
+        translateY(10px)
+        scale(0.98);
+
+    transition:
+        transform 0.2s ease;
+
+}
+
+.modal-overlay.open .order-modal {
+
+    transform:
+        translateY(0)
+        scale(1);
+
+}
+
+.modal-header {
+
+    padding: 22px 24px;
+
+    border-bottom:
+        1px solid #eef1f3;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+}
+
+.modal-title {
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+}
+
+.modal-subtitle {
+
+    margin-top: 5px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+}
+
+.modal-close {
+
+    border: none;
+
+    background: #f1f3f4;
+
+    color: var(--blue);
+
+    width: 40px;
+
+    height: 40px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    font-size: 20px;
+
+    flex-shrink: 0;
+
+}
+
+.modal-close:hover {
+
+    background: #e5e9eb;
+
+}
+
+.modal-body {
+
+    padding: 24px;
+
+}
+
+.detail-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 14px;
+
+}
+
+.detail-item {
+
+    background: #f7f9fa;
+
+    padding: 15px;
+
+    border-radius: 14px;
+
+}
+
+.detail-item.full {
+
+    grid-column: 1 / -1;
+
+}
+
+.detail-label {
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    margin-bottom: 5px;
+
+}
+
+.detail-value {
+
+    font-weight: 600;
+
+    word-break: break-word;
+
+}
+
+.detail-value a {
+
+    color: var(--blue);
+
+    text-decoration: none;
+
+}
+
+.detail-message {
+
+    white-space: pre-wrap;
+
+    line-height: 1.6;
+
+    font-weight: 400;
+
+}
+
+.modal-status {
+
+    margin-top: 22px;
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid #eef1f3;
+
+}
+
+.modal-status-title {
+
+    font-weight: 700;
+
+    margin-bottom: 12px;
+
+}
+
+.modal-status-buttons {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 10px;
+
+}
+
+.modal-status-buttons button {
+
+    border: none;
+
+    background: #f1f3f4;
+
+    color: var(--blue);
+
+    padding: 12px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+
+}
+
+.modal-status-buttons button:hover {
+
+    transform: translateY(-1px);
+
+    background: #e5e9eb;
+
+}
+
+.modal-status-buttons button.active {
+
+    background: var(--green);
+
+    color: white;
+
+}
+
+.modal-status-buttons button:disabled {
+
+    opacity: 0.6;
+
+    cursor: default;
+
+    transform: none;
+
+}
+
+.modal-footer {
+
+    padding: 18px 24px;
+
+    border-top:
+        1px solid #eef1f3;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+}
+
+.close-detail-button {
+
+    border: none;
+
+    background: #f1f3f4;
+
+    color: var(--blue);
+
+    padding: 11px 16px;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-weight: 600;
+
+}
+
+
+/* =====================================================
    FEHLER / LEER / LADEN
 ===================================================== */
 
@@ -733,6 +1145,8 @@ button.primary:disabled {
 
     animation:
         notificationIn 0.25s ease;
+
+    cursor: pointer;
 
 }
 
@@ -807,6 +1221,22 @@ button.primary:disabled {
     animation:
         toastIn 0.2s ease;
 
+    max-width: calc(100% - 30px);
+
+    text-align: center;
+
+}
+
+.toast.success {
+
+    background: var(--green);
+
+}
+
+.toast.error-toast {
+
+    background: #b42318;
+
 }
 
 @keyframes toastIn {
@@ -866,9 +1296,15 @@ button.primary:disabled {
 
     }
 
-    .refresh-button {
+    .toolbar-actions {
 
         width: 100%;
+
+    }
+
+    .toolbar-actions button {
+
+        flex: 1;
 
     }
 
@@ -942,6 +1378,43 @@ button.primary:disabled {
 
     }
 
+    .detail-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+    .detail-item.full {
+
+        grid-column: auto;
+
+    }
+
+    .modal-overlay {
+
+        padding: 10px;
+
+        align-items: flex-end;
+
+    }
+
+    .order-modal {
+
+        max-height: 94vh;
+
+        border-radius:
+            22px 22px 0 0;
+
+    }
+
+    .modal-status-buttons {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
 }
 
 
@@ -977,9 +1450,20 @@ button.primary:disabled {
     </div>
 
 
-    <div
-        class="header-actions"
-    >
+    <div class="header-actions">
+
+        <button
+            class="sound-button"
+            id="soundButton"
+            style="display:none;"
+            type="button"
+            title="Ton für neue Bestellungen aktivieren"
+        >
+
+            🔔 Ton aktivieren
+
+        </button>
+
 
         <button
             class="refresh-button"
@@ -1120,15 +1604,30 @@ button.primary:disabled {
         </div>
 
 
-        <button
-            class="refresh-button"
-            id="refreshButtonMobile"
-            type="button"
-        >
+        <div class="toolbar-actions">
 
-            ↻ Aktualisieren
+            <button
+                class="sound-button"
+                id="soundButtonMobile"
+                type="button"
+            >
 
-        </button>
+                🔔 Ton aktivieren
+
+            </button>
+
+
+            <button
+                class="refresh-button"
+                id="refreshButtonMobile"
+                type="button"
+            >
+
+                ↻ Aktualisieren
+
+            </button>
+
+        </div>
 
     </div>
 
@@ -1181,6 +1680,23 @@ button.primary:disabled {
 
             <option value="today">
                 Heute
+            </option>
+
+        </select>
+
+
+        <select id="completionFilter">
+
+            <option value="active">
+                Aktive Bestellungen
+            </option>
+
+            <option value="completed">
+                Erledigte Bestellungen
+            </option>
+
+            <option value="all">
+                Alle Bestellungen
             </option>
 
         </select>
@@ -1270,7 +1786,7 @@ button.primary:disabled {
             </div>
 
             <div class="stat-label">
-                📅 Heute
+                📅 Heute eingegangen
             </div>
 
         </div>
@@ -1300,11 +1816,111 @@ button.primary:disabled {
          BESTELLUNGEN
     ================================================= -->
 
+    <div class="orders-section-header">
+
+        <div
+            class="orders-section-title"
+            id="ordersSectionTitle"
+        >
+            Aktive Bestellungen
+        </div>
+
+
+        <div
+            class="orders-section-count"
+            id="ordersSectionCount"
+        >
+            0 Bestellungen
+        </div>
+
+    </div>
+
+
     <div id="orders">
 
     </div>
 
 </main>
+
+
+
+<!-- =====================================================
+     DETAIL MODAL
+===================================================== -->
+
+<div
+    class="modal-overlay"
+    id="orderModalOverlay"
+    aria-hidden="true"
+>
+
+    <div
+        class="order-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+    >
+
+        <div class="modal-header">
+
+            <div>
+
+                <div
+                    class="modal-title"
+                    id="modalTitle"
+                >
+                    Bestellung
+                </div>
+
+                <div
+                    class="modal-subtitle"
+                    id="modalSubtitle"
+                >
+                    Bestelldetails
+                </div>
+
+            </div>
+
+
+            <button
+                class="modal-close"
+                id="modalCloseButton"
+                type="button"
+                aria-label="Detailansicht schließen"
+            >
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div
+            class="modal-body"
+            id="modalBody"
+        >
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button
+                class="close-detail-button"
+                id="modalFooterClose"
+                type="button"
+            >
+
+                Zurück
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 
 
 
@@ -1363,6 +1979,12 @@ const refreshButton =
 const refreshButtonMobile =
     document.getElementById("refreshButtonMobile");
 
+const soundButton =
+    document.getElementById("soundButton");
+
+const soundButtonMobile =
+    document.getElementById("soundButtonMobile");
+
 const loginButton =
     document.getElementById("loginButton");
 
@@ -1377,6 +1999,9 @@ const statusFilter =
 
 const dateFilter =
     document.getElementById("dateFilter");
+
+const completionFilter =
+    document.getElementById("completionFilter");
 
 const lastUpdated =
     document.getElementById("lastUpdated");
@@ -1399,12 +2024,302 @@ const todayCount =
 const openCount =
     document.getElementById("openCount");
 
+const ordersSectionTitle =
+    document.getElementById(
+        "ordersSectionTitle"
+    );
+
+const ordersSectionCount =
+    document.getElementById(
+        "ordersSectionCount"
+    );
+
+const orderModalOverlay =
+    document.getElementById(
+        "orderModalOverlay"
+    );
+
+const modalCloseButton =
+    document.getElementById(
+        "modalCloseButton"
+    );
+
+const modalFooterClose =
+    document.getElementById(
+        "modalFooterClose"
+    );
+
+const modalTitle =
+    document.getElementById(
+        "modalTitle"
+    );
+
+const modalSubtitle =
+    document.getElementById(
+        "modalSubtitle"
+    );
+
+const modalBody =
+    document.getElementById(
+        "modalBody"
+    );
+
 
 let allOrders = [];
 
 let realtimeChannel = null;
 
 let isLoadingOrders = false;
+
+let selectedOrderId = null;
+
+
+/* =====================================================
+   AUDIO
+===================================================== */
+
+let audioContext = null;
+
+let soundEnabled = false;
+
+
+function initializeAudio() {
+
+    try {
+
+        if (!audioContext) {
+
+            const AudioContext =
+                window.AudioContext ||
+                window.webkitAudioContext;
+
+            if (!AudioContext) {
+
+                return false;
+
+            }
+
+            audioContext =
+                new AudioContext();
+
+        }
+
+
+        if (
+            audioContext.state ===
+            "suspended"
+        ) {
+
+            audioContext.resume();
+
+        }
+
+
+        soundEnabled = true;
+
+        updateSoundButtons();
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "Audio konnte nicht aktiviert werden:",
+            error
+        );
+
+        return false;
+
+    }
+
+}
+
+
+function updateSoundButtons() {
+
+    const buttons = [
+        soundButton,
+        soundButtonMobile
+    ];
+
+
+    buttons.forEach(
+        function(button) {
+
+            if (!button) {
+
+                return;
+
+            }
+
+
+            if (soundEnabled) {
+
+                button.textContent =
+                    "🔔 Ton aktiviert";
+
+                button.classList.add(
+                    "enabled"
+                );
+
+            } else {
+
+                button.textContent =
+                    "🔔 Ton aktivieren";
+
+                button.classList.remove(
+                    "enabled"
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+function playNewOrderSound() {
+
+    if (!soundEnabled) {
+
+        return;
+
+    }
+
+
+    try {
+
+        if (!audioContext) {
+
+            return;
+
+        }
+
+
+        if (
+            audioContext.state ===
+            "suspended"
+        ) {
+
+            audioContext.resume();
+
+        }
+
+
+        const oscillator =
+            audioContext.createOscillator();
+
+        const gain =
+            audioContext.createGain();
+
+
+        oscillator.type =
+            "sine";
+
+
+        oscillator.frequency.setValueAtTime(
+            880,
+            audioContext.currentTime
+        );
+
+
+        oscillator.frequency.setValueAtTime(
+            1174,
+            audioContext.currentTime + 0.12
+        );
+
+
+        oscillator.frequency.setValueAtTime(
+            880,
+            audioContext.currentTime + 0.24
+        );
+
+
+        gain.gain.setValueAtTime(
+            0.0001,
+            audioContext.currentTime
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.22,
+            audioContext.currentTime + 0.02
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            audioContext.currentTime + 0.45
+        );
+
+
+        oscillator.connect(gain);
+
+        gain.connect(
+            audioContext.destination
+        );
+
+
+        oscillator.start();
+
+        oscillator.stop(
+            audioContext.currentTime + 0.45
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Benachrichtigungston konnte nicht abgespielt werden:",
+            error
+        );
+
+    }
+
+}
+
+
+soundButton.addEventListener(
+    "click",
+    function() {
+
+        initializeAudio();
+
+    }
+);
+
+
+soundButtonMobile.addEventListener(
+    "click",
+    function() {
+
+        initializeAudio();
+
+    }
+);
+
+
+/*
+    Benutzerinteraktion nutzen, um Audio
+    möglichst zuverlässig für spätere
+    Realtime-Benachrichtigungen freizuschalten.
+*/
+
+document.addEventListener(
+    "click",
+    function() {
+
+        if (!soundEnabled) {
+
+            initializeAudio();
+
+        }
+
+    },
+    {
+        once: true
+    }
+);
 
 
 
@@ -1424,6 +2339,9 @@ loginForm.addEventListener(
 
         loginButton.textContent =
             "Anmeldung läuft ...";
+
+
+        initializeAudio();
 
 
         const email =
@@ -1498,6 +2416,9 @@ async function showAdmin() {
     refreshButton.style.display =
         "block";
 
+    soundButton.style.display =
+        "block";
+
 
     await loadOrders();
 
@@ -1511,7 +2432,9 @@ async function showAdmin() {
    BESTELLUNGEN LADEN
 ===================================================== */
 
-async function loadOrders() {
+async function loadOrders(
+    showLoading = true
+) {
 
     if (isLoadingOrders) {
 
@@ -1523,15 +2446,19 @@ async function loadOrders() {
     isLoadingOrders = true;
 
 
-    ordersContainer.innerHTML = `
+    if (showLoading) {
 
-        <div class="loading">
+        ordersContainer.innerHTML = `
 
-            Vorbestellungen werden geladen ...
+            <div class="loading">
 
-        </div>
+                Vorbestellungen werden geladen ...
 
-    `;
+            </div>
+
+        `;
+
+    }
 
 
     const {
@@ -1556,22 +2483,26 @@ async function loadOrders() {
 
         console.error(error);
 
-        ordersContainer.innerHTML = `
+        if (showLoading) {
 
-            <div class="error">
+            ordersContainer.innerHTML = `
 
-                Fehler beim Laden der
-                Vorbestellungen.
+                <div class="error">
 
-                <br>
+                    Fehler beim Laden der
+                    Vorbestellungen.
 
-                Bitte versuchen Sie es erneut.
+                    <br>
 
-            </div>
+                    Bitte versuchen Sie es erneut.
 
-        `;
+                </div>
 
-        return;
+            `;
+
+        }
+
+        return false;
 
     }
 
@@ -1585,6 +2516,9 @@ async function loadOrders() {
     renderOrders();
 
     updateLastUpdated();
+
+
+    return true;
 
 }
 
@@ -1646,9 +2580,8 @@ function updateDashboardCounts() {
         allOrders.filter(
             function(order) {
 
-                return (
-                    order.status !== "completed"
-                );
+                return order.status !==
+                    "completed";
 
             }
         ).length;
@@ -1701,6 +2634,10 @@ function renderOrders() {
         dateFilter.value;
 
 
+    const selectedCompletion =
+        completionFilter.value;
+
+
     const filteredOrders =
         allOrders.filter(
             function(order) {
@@ -1730,7 +2667,8 @@ function renderOrders() {
                 const matchesStatus =
                     selectedStatus === "all"
                     ||
-                    order.status === selectedStatus;
+                    order.status ===
+                        selectedStatus;
 
 
                 const matchesDate =
@@ -1745,6 +2683,26 @@ function renderOrders() {
                     );
 
 
+                const matchesCompletion =
+                    selectedCompletion === "all"
+                    ||
+                    (
+                        selectedCompletion ===
+                            "active"
+                        &&
+                        order.status !==
+                            "completed"
+                    )
+                    ||
+                    (
+                        selectedCompletion ===
+                            "completed"
+                        &&
+                        order.status ===
+                            "completed"
+                    );
+
+
                 return (
 
                     matchesSearch
@@ -1752,11 +2710,19 @@ function renderOrders() {
                     matchesStatus
                     &&
                     matchesDate
+                    &&
+                    matchesCompletion
 
                 );
 
             }
         );
+
+
+    updateOrdersSectionHeader(
+        selectedCompletion,
+        filteredOrders.length
+    );
 
 
     if (
@@ -1788,7 +2754,6 @@ function renderOrders() {
     filteredOrders.forEach(
         function(order) {
 
-
             const date =
                 formatDate(
                     order.created_at
@@ -1801,6 +2766,22 @@ function renderOrders() {
 
             card.className =
                 "order-card";
+
+
+            if (
+                order.status ===
+                "completed"
+            ) {
+
+                card.classList.add(
+                    "completed"
+                );
+
+            }
+
+
+            card.dataset.orderId =
+                order.id;
 
 
             card.innerHTML = `
@@ -1844,139 +2825,35 @@ function renderOrders() {
 
                     📞
 
-                    <a
-                        href="${getTelLink(
-                            order.phone
-                        )}"
-                    >
-
-                        ${escapeHtml(
-                            order.phone
-                        )}
-
-                    </a>
+                    ${escapeHtml(
+                        order.phone ||
+                        "Keine Telefonnummer"
+                    )}
 
 
                     <br>
 
 
-                    📝 Nachricht:
+                    📱 Rückruf:
 
-                    <div class="order-message">
+                    <strong>
 
-                        ${escapeHtml(
-                            order.message ||
-                            "Keine Nachricht"
-                        )}
+                        ${
+                            order.callback
+                            ? "Ja"
+                            : "Nein"
+                        }
 
-                    </div>
-
-
-                    <div style="margin-top:8px;">
-
-                        📱 Rückruf:
-
-                        <strong>
-
-                            ${
-                                order.callback
-                                ? "Ja"
-                                : "Nein"
-                            }
-
-                        </strong>
-
-                    </div>
+                    </strong>
 
                 </div>
 
 
-                <div class="order-status">
+                <div class="order-card-status">
 
-                    <span class="status-label">
-
-                        Status:
-
-                    </span>
-
-
-                    <span>
-
-                        ${getStatusLabel(
-                            order.status
-                        )}
-
-                    </span>
-
-                </div>
-
-
-                <div class="status-buttons">
-
-
-                    <button
-                        type="button"
-                        class="${
-                            order.status === "new"
-                            ? "active"
-                            : ""
-                        }"
-                        data-order-id="${order.id}"
-                        data-status="new"
-                    >
-
-                        🔴 Neu
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="${
-                            order.status === "processing"
-                            ? "active"
-                            : ""
-                        }"
-                        data-order-id="${order.id}"
-                        data-status="processing"
-                    >
-
-                        🟡 In Bearbeitung
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="${
-                            order.status === "ready"
-                            ? "active"
-                            : ""
-                        }"
-                        data-order-id="${order.id}"
-                        data-status="ready"
-                    >
-
-                        🟢 Abholbereit
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="${
-                            order.status === "completed"
-                            ? "active"
-                            : ""
-                        }"
-                        data-order-id="${order.id}"
-                        data-status="completed"
-                    >
-
-                        ⚪ Erledigt
-
-                    </button>
-
+                    ${getStatusLabel(
+                        order.status
+                    )}
 
                 </div>
 
@@ -1995,16 +2872,518 @@ function renderOrders() {
 
 
 /* =====================================================
-   STATUS-BUTTONS
+   BEREICH-TITEL
+===================================================== */
+
+function updateOrdersSectionHeader(
+    selectedCompletion,
+    count
+) {
+
+    let title =
+        "Bestellungen";
+
+
+    if (
+        selectedCompletion ===
+        "active"
+    ) {
+
+        title =
+            "Aktive Bestellungen";
+
+    }
+
+
+    if (
+        selectedCompletion ===
+        "completed"
+    ) {
+
+        title =
+            "Erledigte Bestellungen";
+
+    }
+
+
+    if (
+        selectedCompletion ===
+        "all"
+    ) {
+
+        title =
+            "Alle Bestellungen";
+
+    }
+
+
+    ordersSectionTitle.textContent =
+        title;
+
+
+    ordersSectionCount.textContent =
+        count +
+        (
+            count === 1
+            ? " Bestellung"
+            : " Bestellungen"
+        );
+
+}
+
+
+
+/* =====================================================
+   ORDER-KLICK
 ===================================================== */
 
 ordersContainer.addEventListener(
+    "click",
+    function(event) {
+
+        const statusButton =
+            event.target.closest(
+                "button[data-order-id]"
+            );
+
+
+        if (statusButton) {
+
+            return;
+
+        }
+
+
+        const card =
+            event.target.closest(
+                ".order-card"
+            );
+
+
+        if (!card) {
+
+            return;
+
+        }
+
+
+        const orderId =
+            card.dataset.orderId;
+
+
+        openOrderDetail(
+            orderId
+        );
+
+    }
+);
+
+
+
+/* =====================================================
+   DETAILANSICHT ÖFFNEN
+===================================================== */
+
+function openOrderDetail(
+    orderId
+) {
+
+    const order =
+        allOrders.find(
+            function(item) {
+
+                return String(item.id) ===
+                    String(orderId);
+
+            }
+        );
+
+
+    if (!order) {
+
+        showToast(
+            "Die Bestellung wurde nicht gefunden.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    selectedOrderId =
+        order.id;
+
+
+    modalTitle.textContent =
+        (
+            order.first_name || ""
+        ) +
+        " " +
+        (
+            order.last_name || ""
+        );
+
+
+    modalSubtitle.textContent =
+        "Vorbestellung vom " +
+        formatDate(
+            order.created_at
+        );
+
+
+    modalBody.innerHTML = `
+
+        <div class="detail-grid">
+
+
+            <div class="detail-item">
+
+                <div class="detail-label">
+
+                    Vorname
+
+                </div>
+
+                <div class="detail-value">
+
+                    ${escapeHtml(
+                        order.first_name ||
+                        "Nicht angegeben"
+                    )}
+
+                </div>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <div class="detail-label">
+
+                    Nachname
+
+                </div>
+
+                <div class="detail-value">
+
+                    ${escapeHtml(
+                        order.last_name ||
+                        "Nicht angegeben"
+                    )}
+
+                </div>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <div class="detail-label">
+
+                    Telefonnummer
+
+                </div>
+
+                <div class="detail-value">
+
+                    ${
+                        order.phone
+                        ? `
+                            <a
+                                href="${getTelLink(
+                                    order.phone
+                                )}"
+                            >
+                                ${escapeHtml(
+                                    order.phone
+                                )}
+                            </a>
+                        `
+                        : "Nicht angegeben"
+                    }
+
+                </div>
+
+            </div>
+
+
+            <div class="detail-item">
+
+                <div class="detail-label">
+
+                    Rückruf gewünscht
+
+                </div>
+
+                <div class="detail-value">
+
+                    ${
+                        order.callback
+                        ? "Ja"
+                        : "Nein"
+                    }
+
+                </div>
+
+            </div>
+
+
+            <div class="detail-item full">
+
+                <div class="detail-label">
+
+                    Medikament
+
+                </div>
+
+                <div class="detail-value">
+
+                    💊
+
+                    ${escapeHtml(
+                        order.medicine ||
+                        "Nicht angegeben"
+                    )}
+
+                </div>
+
+            </div>
+
+
+            <div class="detail-item full">
+
+                <div class="detail-label">
+
+                    Nachricht
+
+                </div>
+
+                <div class="detail-value detail-message">
+
+                    ${escapeHtml(
+                        order.message ||
+                        "Keine Nachricht"
+                    )}
+
+                </div>
+
+            </div>
+
+
+            <div class="detail-item full">
+
+                <div class="detail-label">
+
+                    Eingegangen
+
+                </div>
+
+                <div class="detail-value">
+
+                    ${formatDate(
+                        order.created_at
+                    )}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="modal-status">
+
+            <div class="modal-status-title">
+
+                Status ändern
+
+            </div>
+
+
+            <div
+                class="modal-status-buttons"
+                id="modalStatusButtons"
+            >
+
+                <button
+                    type="button"
+                    data-modal-status="new"
+                    class="${
+                        order.status === "new"
+                        ? "active"
+                        : ""
+                    }"
+                >
+
+                    🔴 Neu
+
+                </button>
+
+
+                <button
+                    type="button"
+                    data-modal-status="processing"
+                    class="${
+                        order.status === "processing"
+                        ? "active"
+                        : ""
+                    }"
+                >
+
+                    🟡 In Bearbeitung
+
+                </button>
+
+
+                <button
+                    type="button"
+                    data-modal-status="ready"
+                    class="${
+                        order.status === "ready"
+                        ? "active"
+                        : ""
+                    }"
+                >
+
+                    🟢 Abholbereit
+
+                </button>
+
+
+                <button
+                    type="button"
+                    data-modal-status="completed"
+                    class="${
+                        order.status === "completed"
+                        ? "active"
+                        : ""
+                    }"
+                >
+
+                    ⚪ Erledigt
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    orderModalOverlay.classList.add(
+        "open"
+    );
+
+
+    orderModalOverlay.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+
+/* =====================================================
+   DETAILANSICHT SCHLIESSEN
+===================================================== */
+
+function closeOrderDetail() {
+
+    orderModalOverlay.classList.remove(
+        "open"
+    );
+
+
+    orderModalOverlay.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+
+    document.body.style.overflow =
+        "";
+
+
+    selectedOrderId =
+        null;
+
+}
+
+
+modalCloseButton.addEventListener(
+    "click",
+    closeOrderDetail
+);
+
+
+modalFooterClose.addEventListener(
+    "click",
+    closeOrderDetail
+);
+
+
+orderModalOverlay.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            event.target ===
+            orderModalOverlay
+        ) {
+
+            closeOrderDetail();
+
+        }
+
+    }
+);
+
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key ===
+            "Escape"
+        ) {
+
+            if (
+                orderModalOverlay.classList.contains(
+                    "open"
+                )
+            ) {
+
+                closeOrderDetail();
+
+            }
+
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   DETAIL-STATUSBUTTONS
+===================================================== */
+
+modalBody.addEventListener(
     "click",
     async function(event) {
 
         const button =
             event.target.closest(
-                "button[data-order-id]"
+                "button[data-modal-status]"
             );
 
 
@@ -2015,21 +3394,68 @@ ordersContainer.addEventListener(
         }
 
 
-        const orderId =
-            button.dataset.orderId;
-
         const newStatus =
-            button.dataset.status;
+            button.dataset.modalStatus;
+
+
+        if (!selectedOrderId) {
+
+            return;
+
+        }
 
 
         await updateOrderStatus(
-            orderId,
+            selectedOrderId,
             newStatus,
-            button
+            button,
+            true
         );
 
     }
 );
+
+
+
+/* =====================================================
+   STATUS-BUTTONS AUF LISTE
+===================================================== */
+
+function handleListStatusClick(
+    event
+) {
+
+    const button =
+        event.target.closest(
+            "button[data-order-id]"
+        );
+
+
+    if (!button) {
+
+        return;
+
+    }
+
+
+    event.stopPropagation();
+
+
+    const orderId =
+        button.dataset.orderId;
+
+    const newStatus =
+        button.dataset.status;
+
+
+    updateOrderStatus(
+        orderId,
+        newStatus,
+        button,
+        false
+    );
+
+}
 
 
 
@@ -2040,7 +3466,8 @@ ordersContainer.addEventListener(
 async function updateOrderStatus(
     orderId,
     newStatus,
-    clickedButton
+    clickedButton,
+    fromModal = false
 ) {
 
     const order =
@@ -2109,7 +3536,8 @@ async function updateOrderStatus(
         console.error(error);
 
         showToast(
-            "Der Status konnte nicht geändert werden."
+            "Der Status konnte nicht geändert werden.",
+            "error"
         );
 
         return;
@@ -2127,8 +3555,28 @@ async function updateOrderStatus(
 
     updateLastUpdated();
 
+
+    /*
+        Detailansicht offen lassen.
+        Dadurch gibt es keinen unnötigen
+        Seiten- oder Listen-Sprung.
+    */
+
+    if (
+        fromModal &&
+        selectedOrderId
+    ) {
+
+        openOrderDetail(
+            selectedOrderId
+        );
+
+    }
+
+
     showToast(
-        "Status erfolgreich geändert."
+        "Status erfolgreich geändert.",
+        "success"
     );
 
 }
@@ -2136,7 +3584,18 @@ async function updateOrderStatus(
 
 
 /* =====================================================
-   SICHERHEIT
+   LISTEN-STATUS BUTTON EVENT DELEGATION
+===================================================== */
+
+ordersContainer.addEventListener(
+    "click",
+    handleListStatusClick
+);
+
+
+
+/* =====================================================
+   SICHERHEIT / HTML ESCAPING
 ===================================================== */
 
 function escapeHtml(value) {
@@ -2261,6 +3720,7 @@ function isToday(value) {
 
 
     return (
+
         date.getFullYear() ===
             now.getFullYear()
 
@@ -2273,6 +3733,7 @@ function isToday(value) {
 
         date.getDate() ===
             now.getDate()
+
     );
 
 }
@@ -2285,28 +3746,36 @@ function isToday(value) {
 
 function getStatusLabel(status) {
 
-    if (status === "new") {
+    if (
+        status === "new"
+    ) {
 
         return "🔴 Neu";
 
     }
 
 
-    if (status === "processing") {
+    if (
+        status === "processing"
+    ) {
 
         return "🟡 In Bearbeitung";
 
     }
 
 
-    if (status === "ready") {
+    if (
+        status === "ready"
+    ) {
 
         return "🟢 Abholbereit";
 
     }
 
 
-    if (status === "completed") {
+    if (
+        status === "completed"
+    ) {
 
         return "⚪ Erledigt";
 
@@ -2369,7 +3838,8 @@ async function manualRefresh() {
     );
 
 
-    await loadOrders();
+    const success =
+        await loadOrders();
 
 
     refreshButton.classList.remove(
@@ -2382,9 +3852,21 @@ async function manualRefresh() {
     );
 
 
-    showToast(
-        "Vorbestellungen aktualisiert."
-    );
+    if (success) {
+
+        showToast(
+            "Vorbestellungen aktualisiert.",
+            "success"
+        );
+
+    } else {
+
+        showToast(
+            "Aktualisierung fehlgeschlagen.",
+            "error"
+        );
+
+    }
 
 }
 
@@ -2425,6 +3907,9 @@ logoutButton.addEventListener(
         await supabaseClient.auth.signOut();
 
 
+        closeOrderDetail();
+
+
         allOrders = [];
 
 
@@ -2444,6 +3929,10 @@ logoutButton.addEventListener(
             "none";
 
 
+        soundButton.style.display =
+            "none";
+
+
         ordersContainer.innerHTML =
             "";
 
@@ -2460,7 +3949,12 @@ logoutButton.addEventListener(
             "all";
 
 
+        completionFilter.value =
+            "active";
+
+
         updateDashboardCounts();
+
 
         lastUpdated.textContent =
             "Noch nicht aktualisiert";
@@ -2526,6 +4020,7 @@ function startRealtime() {
                 "orders-realtime"
             )
 
+
             /* =========================================
                NEUE BESTELLUNG
             ========================================= */
@@ -2546,15 +4041,52 @@ function startRealtime() {
                     );
 
 
-                    loadOrders();
+                    /*
+                        Neue Bestellung lokal hinzufügen,
+                        statt die komplette Liste unnötig
+                        neu zu laden.
+                    */
+
+                    const alreadyExists =
+                        allOrders.some(
+                            function(order) {
+
+                                return String(
+                                    order.id
+                                ) === String(
+                                    payload.new.id
+                                );
+
+                            }
+                        );
+
+
+                    if (!alreadyExists) {
+
+                        allOrders.unshift(
+                            payload.new
+                        );
+
+                    }
+
+
+                    updateDashboardCounts();
+
+                    renderOrders();
+
+                    updateLastUpdated();
 
 
                     showNewOrderNotification(
                         payload.new
                     );
 
+
+                    playNewOrderSound();
+
                 }
             )
+
 
             /* =========================================
                STATUSÄNDERUNG
@@ -2576,10 +4108,67 @@ function startRealtime() {
                     );
 
 
-                    loadOrders();
+                    const index =
+                        allOrders.findIndex(
+                            function(order) {
+
+                                return String(
+                                    order.id
+                                ) === String(
+                                    payload.new.id
+                                );
+
+                            }
+                        );
+
+
+                    if (
+                        index !== -1
+                    ) {
+
+                        allOrders[index] =
+                            payload.new;
+
+                    } else {
+
+                        allOrders.unshift(
+                            payload.new
+                        );
+
+                    }
+
+
+                    updateDashboardCounts();
+
+                    renderOrders();
+
+                    updateLastUpdated();
+
+
+                    /*
+                        Falls gerade die Detailansicht
+                        dieser Bestellung geöffnet ist,
+                        aktualisieren wir sie ebenfalls.
+                    */
+
+                    if (
+                        selectedOrderId &&
+                        String(
+                            selectedOrderId
+                        ) === String(
+                            payload.new.id
+                        )
+                    ) {
+
+                        openOrderDetail(
+                            payload.new.id
+                        );
+
+                    }
 
                 }
             )
+
 
             .subscribe(
                 function(status) {
@@ -2659,6 +4248,21 @@ function showNewOrderNotification(
     `;
 
 
+    notification.addEventListener(
+        "click",
+        function() {
+
+            openOrderDetail(
+                order.id
+            );
+
+
+            notification.remove();
+
+        }
+    );
+
+
     document.body.appendChild(
         notification
     );
@@ -2687,7 +4291,10 @@ function showNewOrderNotification(
    TOAST
 ===================================================== */
 
-function showToast(message) {
+function showToast(
+    message,
+    type = "normal"
+) {
 
     const existingToast =
         document.querySelector(
@@ -2710,6 +4317,28 @@ function showToast(message) {
 
     toast.className =
         "toast";
+
+
+    if (
+        type === "success"
+    ) {
+
+        toast.classList.add(
+            "success"
+        );
+
+    }
+
+
+    if (
+        type === "error"
+    ) {
+
+        toast.classList.add(
+            "error-toast"
+        );
+
+    }
 
 
     toast.textContent =
@@ -2765,6 +4394,16 @@ statusFilter.addEventListener(
 
 
 dateFilter.addEventListener(
+    "change",
+    function() {
+
+        renderOrders();
+
+    }
+);
+
+
+completionFilter.addEventListener(
     "change",
     function() {
 
