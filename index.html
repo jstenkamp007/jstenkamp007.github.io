@@ -2601,6 +2601,8 @@ type="text"
 id="firstName"
 name="firstName"
 placeholder="Max"
+autocomplete="given-name"
+maxlength="100"
 required
 >
 
@@ -2618,6 +2620,8 @@ type="text"
 id="lastName"
 name="lastName"
 placeholder="Mustermann"
+autocomplete="family-name"
+maxlength="100"
 required
 >
 
@@ -2637,6 +2641,11 @@ type="tel"
 id="phone"
 name="phone"
 placeholder="0251 123456"
+autocomplete="tel"
+inputmode="tel"
+minlength="5"
+maxlength="50"
+pattern="[0-9+() ./-]+"
 required
 >
 
@@ -2654,6 +2663,7 @@ type="text"
 id="medicine"
 name="medicine"
 placeholder="Name des Medikaments"
+maxlength="500"
 required
 >
 
@@ -2671,6 +2681,7 @@ Nachricht
 id="message"
 name="message"
 rows="4"
+maxlength="2000"
 placeholder="Weitere Informationen ..."
 ></textarea>
 
@@ -2814,19 +2825,19 @@ orderForm.addEventListener(
         --------------------------------------------- */
 
         const firstName =
-            document.getElementById("firstName").value;
+            document.getElementById("firstName").value.trim();
 
         const lastName =
-            document.getElementById("lastName").value;
+            document.getElementById("lastName").value.trim();
 
         const phone =
-            document.getElementById("phone").value;
+            document.getElementById("phone").value.trim();
 
         const medicine =
-            document.getElementById("medicine").value;
+            document.getElementById("medicine").value.trim();
 
         const message =
-            document.getElementById("message").value;
+            document.getElementById("message").value.trim();
 
         const callback =
             document.getElementById("callback").checked;
@@ -2839,7 +2850,7 @@ orderForm.addEventListener(
         try {
 
             const response = await fetch(
-                "https://iezjojbuyzugfguhizyw.supabase.co/rest/v1/orders",
+                "https://iezjojbuyzugfguhizyw.supabase.co/functions/v1/submit-order",
                 {
 
                     method: "POST",
@@ -2851,9 +2862,6 @@ orderForm.addEventListener(
 
                         "apikey":
                             "sb_publishable_M-EP4v8yBM092Lkgau701Q_EISGyFfe",
-
-                        "Authorization":
-                            "Bearer sb_publishable_M-EP4v8yBM092Lkgau701Q_EISGyFfe",
 
                         "Prefer":
                             "return=minimal"
@@ -2886,6 +2894,12 @@ orderForm.addEventListener(
 
             if (!response.ok) {
 
+                if (response.status === 429) {
+                    throw new Error(
+                        "Zu viele Anfragen. Bitte versuchen Sie es später erneut."
+                    );
+                }
+
                 throw new Error(
                     "Die Anfrage konnte nicht gespeichert werden."
                 );
@@ -2910,7 +2924,7 @@ formSuccess.innerHTML = `
     </h3>
 
     <p>
-        Vielen Dank, ${firstName}!
+        Vielen Dank, <span id="submittedFirstName"></span>!
     </p>
 
     <p>
@@ -2933,6 +2947,10 @@ formSuccess.innerHTML = `
 </button>
 
 `;
+
+document
+    .getElementById("submittedFirstName")
+    .textContent = firstName;
 
 
             /* Formular deaktivieren */
@@ -2960,11 +2978,16 @@ formSuccess.innerHTML = `
                 </strong>
 
                 <p>
-                Die Anfrage konnte nicht
-                übermittelt werden.
+                <span id="orderErrorMessage"></span>
                 </p>
 
             `;
+
+            document
+                .getElementById("orderErrorMessage")
+                .textContent = error instanceof Error
+                    ? error.message
+                    : "Die Anfrage konnte nicht übermittelt werden.";
 
         }
 
@@ -3227,3 +3250,4 @@ updateOpeningStatus,
 </body>
 
 </html>
+

@@ -1,0 +1,6 @@
+# Lokale Zugangsdaten dürfen nicht in eine Sicherung oder Veröffentlichung gelangen.
+.env
+.env.local
+supabase/.temp/
+supabase/functions/.env
+
