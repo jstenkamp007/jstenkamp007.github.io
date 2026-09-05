@@ -87,9 +87,9 @@ Deno.serve(async (request) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "Apotheke am Stadtpark <onboarding@resend.dev>",
+        from: "Adler Apotheke Krefeld <onboarding@resend.dev>",
         to: ["jasper.stenkamp@icloud.com"],
-        subject: "Neue Vorbestellung - Apotheke am Stadtpark",
+        subject: "Neue geschützte Anfrage - Adler Apotheke Krefeld",
         html: `
 <!doctype html>
 <html lang="de">
@@ -102,7 +102,7 @@ Deno.serve(async (request) => {
       <div style="background:white;border-radius:24px;padding:32px;box-shadow:0 10px 30px rgba(16,42,67,.08)">
         <h1 style="margin:0 0 10px;font-size:24px">Neue Vorbestellung</h1>
         <p style="color:#627d98;font-size:16px;line-height:1.6">
-          In der Apotheke am Stadtpark ist eine neue Vorbestellung eingegangen.
+          In der Adler Apotheke Krefeld ist eine neue geschützte Anfrage eingegangen.
         </p>
         <div style="margin:25px 0;padding:18px;background:#f5f7f8;border-radius:16px">
           <strong>Neue Anfrage</strong>
@@ -111,10 +111,10 @@ Deno.serve(async (request) => {
           </p>
         </div>
         <a href="https://jstenkamp007.github.io/admin.html" style="display:inline-block;background:#15966f;color:white;text-decoration:none;padding:14px 22px;border-radius:12px;font-weight:600">
-          Vorbestellungen öffnen
+          Anfragen öffnen
         </a>
         <p style="margin-top:30px;font-size:13px;color:#627d98;line-height:1.5">
-          Diese E-Mail wurde automatisch durch die Website der Apotheke am Stadtpark erzeugt.
+          Diese E-Mail wurde automatisch durch die Website der Adler Apotheke Krefeld erzeugt.
         </p>
       </div>
     </div>
