@@ -57,7 +57,7 @@ Deno.serve(async (request) => {
       headers: {
         ...corsHeaders(origin),
         "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "content-type, apikey",
+        "Access-Control-Allow-Headers": "content-type, apikey, prefer",
         "Access-Control-Max-Age": "600",
       },
     });
@@ -89,17 +89,23 @@ Deno.serve(async (request) => {
     return response({ error: "Invalid request" }, 400, origin);
   }
 
+  if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+    return response({ error: "Invalid request" }, 400, origin);
+  }
+
   const firstName = readString(payload.first_name, 100);
   const lastName = readString(payload.last_name, 100);
   const phone = readString(payload.phone, 50);
   const medicine = readString(payload.medicine, 500);
-  const message = payload.message == null ? null : readString(payload.message, 2000);
+  const message = typeof payload.message === "string" ? payload.message.trim() || null : null;
   const callback = payload.callback;
 
-  if (!firstName || !lastName || !phone || !medicine || (payload.message != null && !message) || typeof callback !== "boolean") {
+  if (!firstName || !lastName || !phone || !medicine ||
+      (payload.message != null && typeof payload.message !== "string") ||
+      (message !== null && message.length > 2000) || typeof callback !== "boolean") {
     return response({ error: "Invalid order data" }, 400, origin);
   }
-  if (!/^[0-9+() ./-]+$/.test(phone)) {
+  if (phone.length < 5 || !/^[0-9+() ./-]+$/.test(phone)) {
     return response({ error: "Invalid order data" }, 400, origin);
   }
 
@@ -153,4 +159,3 @@ Deno.serve(async (request) => {
 
   return response({ ok: true }, 201, origin);
 });
-
