@@ -18,4 +18,6 @@
 
 - Sage dem Projektinhaber Bescheid, sobald eine vollständige Phase aus dem `DEVELOPMENT_PLAN.md` abgeschlossen und angemessen getestet wurde.
 - Fasse beim Abschluss kurz zusammen, was erledigt wurde, welche Tests durchgeführt wurden und ob offene Punkte bestehen.
+- Aktualisiere beim Abschluss jeder Phase außerdem `CURRENT_STATE_AUDIT.md` mit dem erreichten Stand, den durchgeführten Tests und gegebenenfalls offenen Punkten, bevor die Änderungen veröffentlicht werden.
 - Warte anschließend auf den neuen Chat beziehungsweise die nächste Phase, sofern keine weitere Aufgabe im aktuellen Chat ausdrücklich erteilt wurde.
+
