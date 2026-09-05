@@ -2812,12 +2812,22 @@ const orderForm =
 const formSuccess =
     document.getElementById("formSuccess");
 
+let orderSubmitting = false;
+
 
 orderForm.addEventListener(
     "submit",
     async function(event) {
 
         event.preventDefault();
+
+        if (orderSubmitting) return;
+        orderSubmitting = true;
+        const submitButton = orderForm.querySelector("button[type='submit']");
+        const originalButtonText = submitButton.textContent;
+        submitButton.disabled = true;
+        submitButton.textContent = "Anfrage wird übermittelt ...";
+        formSuccess.classList.remove("active");
 
 
         /* ---------------------------------------------
@@ -2861,10 +2871,7 @@ orderForm.addEventListener(
                             "application/json",
 
                         "apikey":
-                            "sb_publishable_M-EP4v8yBM092Lkgau701Q_EISGyFfe",
-
-                        "Prefer":
-                            "return=minimal"
+                            "sb_publishable_M-EP4v8yBM092Lkgau701Q_EISGyFfe"
 
                     },
 
@@ -2878,7 +2885,7 @@ orderForm.addEventListener(
 
                         medicine: medicine,
 
-                        message: message,
+                        message: message || null,
 
                         callback: callback
 
@@ -2893,6 +2900,10 @@ orderForm.addEventListener(
             ----------------------------------------- */
 
             if (!response.ok) {
+
+                if (response.status === 400) {
+                    throw new Error("Bitte prüfen Sie Ihre Angaben, insbesondere die Telefonnummer.");
+                }
 
                 if (response.status === 429) {
                     throw new Error(
@@ -2989,6 +3000,10 @@ document
                     ? error.message
                     : "Die Anfrage konnte nicht übermittelt werden.";
 
+        } finally {
+            orderSubmitting = false;
+            submitButton.textContent = originalButtonText;
+            if (!orderForm.querySelector("input").disabled) submitButton.disabled = false;
         }
 
     }
