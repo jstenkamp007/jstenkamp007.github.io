@@ -15,6 +15,17 @@ Stand: 5. September 2026
 
 Die öffentliche Seite verwendet nun die Daten der Adler Apotheke Krefeld. Arzneimittel- und Gesundheitsangaben werden nicht mehr über die öffentliche Oberfläche erfasst. E-Rezepte und Bestellungen führen zum Profil der Apotheke bei IhreApotheken.de.
 
+## Phase 1 – Adler-Grunddaten
+
+Abgeschlossen und lokal getestet am 5. September 2026:
+
+- Name, Anschrift, Telefon, E-Mail, Öffnungszeiten und Google-Maps-Ziel sind auf die Adler Apotheke Krefeld abgestimmt.
+- Shop und E-Rezept führen zum verifizierten Profil bei IhreApotheken.de; der Notdienst führt zur Aponet-Notdienstsuche.
+- Impressum und Datenschutz verweisen übergangsweise auf die bestehenden Rechtsseiten von adler-krefeld.de.
+- Gaby Claßen ist als Inhaberin hinterlegt.
+- Leistungs-, E-Rezept-, Lieferdienst- und Geräteverleihtexte wurden gegen die aktuelle Adler-Website abgeglichen. Der Botendienst gilt Montag bis Freitag in Krefeld; Bestellungen bis 15 Uhr werden, soweit vorrätig, noch am selben Tag geliefert. Ab 10 Euro Bestellwert oder mit Rezept ist der Dienst kostenfrei.
+- Der lokale Regressionstest prüft die Adler-Grunddaten einschließlich Notdienst, Inhaberin und Lieferdiensthinweis erfolgreich. In den öffentlichen Projektdateien bestehen keine Münster-Platzhalter.
+
 ## Sicherheitsstand
 
 - Die drei vorhandenen Tabellen haben RLS aktiviert.
@@ -38,7 +49,7 @@ Die öffentliche Seite verwendet nun die Daten der Adler Apotheke Krefeld. Arzne
 
 - Öffentliche Medikamenten-Vorbestellung: für Besucher ausgeblendet; die vollständige technische Entfernung des verbliebenen Legacy-Codes erfolgt planmäßig erst in Phase 5.
 - Bisheriges Admin- und Bestellsystem: bleibt bis Phase 6 als geschützter Bestandsbereich erhalten.
-- Lokale und GitHub-Dateien: Der veröffentlichte Webstand entspricht den lokalen Änderungen.
+- Lokale und GitHub-Dateien: Die Phase-1-Änderungen sind getestet und werden mit dem aktuellen Release nach GitHub Pages veröffentlicht. Dieses Arbeitsverzeichnis enthält selbst kein `.git`-Repository; die Veröffentlichung erfolgt über den angebundenen Remote-Checkout.
 - Lokale und Supabase-Edge-Functions: `submit-order` stimmt überein. Die lokale Umbenennung der Benachrichtigungsfunktion wurde in GitHub veröffentlicht, ist aber noch nicht als neue Supabase-Function-Version bereitgestellt.
 
 ## Offene Entscheidungen vor dem Livegang
@@ -47,4 +58,3 @@ Die öffentliche Seite verwendet nun die Daten der Adler Apotheke Krefeld. Arzne
 - Neue, auf diese Website zugeschnittene Datenschutzinformationen und ein final freigegebenes Impressum liefern.
 - Festlegen, ob der bisherige geschützte Altbestand gelöscht, archiviert oder in ein neues, neutrales Anfrage-System migriert wird.
 - Die veröffentlichende GitHub-Pages-Quelle anbinden; dieses Arbeitsverzeichnis enthält kein `.git`-Repository.
-
