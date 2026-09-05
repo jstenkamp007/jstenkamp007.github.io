@@ -25,6 +25,10 @@ test('Public website uses Adler data and directs sensitive digital services exte
   assert.match(html, /aponet\.de\/apotheke\/notdienstsuche\/47800/);
   assert.match(html, /Inhaberin Gaby Claßen/);
   assert.match(html, /Montag bis Freitag liefern wir in Krefeld/);
+  assert.match(html, /href="#lieferdienst"/);
+  assert.match(html, /Route planen/);
+  assert.match(html, /id="angebote"/);
+  assert.match(html, /Monatsangebote für die kalte Jahreszeit/);
   assert.match(html, /id="orderModal"\s+hidden/);
   assert.doesNotMatch(html, /Parkstraße 15|48143 Münster|0251 123456/);
 });
@@ -108,3 +112,4 @@ test('Rate limit prevents insertion', async () => {
   assert.equal((await submit(order)).status,429);
   assert.equal(requests.length,1);
 });
+
