@@ -7,12 +7,13 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Apotheke am Stadtpark · Münster</title>
+<title>Adler Apotheke Krefeld · Persönlich für Ihre Gesundheit</title>
 
 <meta
 name="description"
-content="Apotheke am Stadtpark in Münster – persönliche Beratung, E-Rezept, Arzneimittel und moderne Gesundheitsleistungen."
+content="Adler Apotheke Krefeld am Neumarkt: persönliche Beratung, E-Rezept über IhreApotheken.de, Botendienst und Gesundheitsleistungen."
 >
+<meta name="theme-color" content="#102a43">
 
 <style>
 
@@ -22,8 +23,8 @@ content="Apotheke am Stadtpark in Münster – persönliche Beratung, E-Rezept, 
 
 :root {
 
-    --green: #15966f;
-    --green-dark: #0d7657;
+    --green: #0d5c88;
+    --green-dark: #084766;
 
     --blue: #102a43;
 
@@ -1221,6 +1222,28 @@ footer a:hover {
 
 }
 
+details {
+    background: var(--gray);
+    border-radius: 16px;
+    margin-top: 12px;
+    padding: 18px 20px;
+}
+
+summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--blue);
+}
+
+details p {
+    margin-top: 12px;
+    color: var(--muted);
+}
+
+.modal[hidden] {
+    display: none !important;
+}
+
 /* =====================================================
    VORBESTELLUNGS FORMULAR
 ===================================================== */
@@ -1672,12 +1695,10 @@ footer a:hover {
 
 <a href="#" class="logo">
 
-<div class="logo-mark">
-+
-</div>
+<div class="logo-mark" aria-hidden="true">A</div>
 
 <span>
-Apotheke am Stadtpark
+Adler Apotheke
 </span>
 
 </a>
@@ -1691,6 +1712,10 @@ Leistungen
 
 <a href="#erezept">
 E-Rezept
+</a>
+
+<a href="https://ihreapotheken.de/apotheke/adler-apotheke-krefeld-47798-120048" target="_blank" rel="noopener noreferrer">
+Onlineshop
 </a>
 
 <a href="#ueber-uns">
@@ -1709,7 +1734,7 @@ Kontakt
 
 
 <a
-href="tel:+49251123456"
+href="tel:+49215124414"
 class="nav-cta"
 >
 Anrufen
@@ -1720,6 +1745,7 @@ Anrufen
 class="menu-button"
 id="menuButton"
 aria-label="Menü öffnen"
+aria-expanded="false"
 >
 ☰
 </button>
@@ -1746,6 +1772,10 @@ Leistungen
 
 <a href="#erezept">
 E-Rezept
+</a>
+
+<a href="https://ihreapotheken.de/apotheke/adler-apotheke-krefeld-47798-120048" target="_blank" rel="noopener noreferrer">
+Onlineshop
 </a>
 
 <a href="#ueber-uns">
@@ -1785,35 +1815,29 @@ Heute für Sie da
 
 <h1>
 
-Gesundheit beginnt
-mit guter Beratung.
+Ihre Gesundheit.
+Unsere Beratung.
 
 </h1>
 
 
 <p class="hero-text">
 
-Ihre Apotheke in Münster für persönliche Beratung,
-moderne Gesundheitsleistungen und einen Service,
-auf den Sie sich verlassen können.
+Ihre Apotheke im Herzen von Krefeld – direkt am Neumarkt.
+Persönlich, kompetent und mit einem Service, auf den Sie sich verlassen können.
 
 </p>
 
 
 <div class="hero-buttons">
 
-<button
-class="button button-primary popup-button"
-onclick="openModal('erezeptModal')"
->
+<a class="button button-primary popup-button" href="https://ihreapotheken.de/apotheke/adler-apotheke-krefeld-47798-120048" target="_blank" rel="noopener noreferrer">E-Rezept einlösen →</a>
 
-E-Rezept einlösen →
-
-</button>
+<a class="button button-secondary" href="https://ihreapotheken.de/apotheke/adler-apotheke-krefeld-47798-120048" target="_blank" rel="noopener noreferrer">Zum Onlineshop</a>
 
 
 <a
-href="tel:+49251123456"
+href="tel:+49215124414"
 class="button button-secondary"
 >
 
@@ -1867,7 +1891,7 @@ Adresse
 </div>
 
 <div class="quick-value">
-Parkstraße 15 · Münster
+Hochstraße 58 · Krefeld
 </div>
 
 </div>
@@ -1880,7 +1904,7 @@ Telefon
 </div>
 
 <div class="quick-value">
-0251 123456
+02151 24414
 </div>
 
 </div>
@@ -1960,8 +1984,8 @@ E-Rezept
 </h3>
 
 <p>
-Digitale Rezepte unkompliziert einlösen und
-Medikamente vorbestellen.
+E-Rezepte sicher über unseren
+externen Partner einlösen.
 </p>
 
 </div>
@@ -1978,8 +2002,8 @@ Gesundheitschecks
 </h3>
 
 <p>
-Blutdruck- und Blutzuckermessungen sowie
-weitere Gesundheitsleistungen.
+Wichtige Werte messen und persönlich
+über passende nächste Schritte sprechen.
 </p>
 
 </div>
@@ -2009,12 +2033,12 @@ Individuelle Beratung und Versorgung.
 </div>
 
 <h3>
-Reiseberatung
+Reiseimpfberatung
 </h3>
 
 <p>
-Beratung rund um Ihre persönliche
-Reiseapotheke.
+Gut vorbereitet reisen – mit individueller
+Beratung zu Ihrer Gesundheitsvorsorge.
 </p>
 
 </div>
@@ -2031,8 +2055,8 @@ Botendienst
 </h3>
 
 <p>
-Medikamente bequem nach Hause liefern lassen,
-wenn unser Servicegebiet dies ermöglicht.
+Unser Botendienst liefert in ganz Krefeld
+direkt zu Ihnen nach Hause.
 </p>
 
 </div>
@@ -2073,8 +2097,8 @@ Einfach und bequem.
 
 <p class="section-description">
 
-Digitale Möglichkeiten treffen auf persönliche
-Beratung vor Ort.
+Lösen Sie Ihr E-Rezept über IhreApotheken.de ein.
+Sie erhalten eine Nachricht, wenn Ihre Bestellung bereitsteht – zur Abholung oder für den Botendienst.
 
 </p>
 
@@ -2094,7 +2118,7 @@ E-Rezepte digital einlösen
 
 <span class="check">✓</span>
 
-Medikamente vorbestellen
+Abholung oder Botendienst wählen
 
 </div>
 
@@ -2112,23 +2136,9 @@ Persönliche Beratung
 
 <div class="hero-buttons">
 
-<button
-class="button button-primary"
-onclick="openModal('orderModal')"
->
+<a class="button button-primary" href="https://ihreapotheken.de/apotheke/adler-apotheke-krefeld-47798-120048" target="_blank" rel="noopener noreferrer">E-Rezept einlösen →</a>
 
-Medikament vorbestellen →
-
-</button>
-
-<button
-class="button button-secondary"
-onclick="openModal('erezeptModal')"
->
-
-E-Rezept
-
-</button>
+<a class="button button-secondary" href="https://ihreapotheken.de/apotheke/adler-apotheke-krefeld-47798-120048" target="_blank" rel="noopener noreferrer">Zum Onlineshop</a>
 
 </div>
 </div>
@@ -2142,6 +2152,37 @@ E-Rezept
 </section>
 
 
+
+<!-- =====================================================
+     SERVICE, ANGEBOTE UND FAQ
+===================================================== -->
+
+<section id="service" class="services">
+<div class="container">
+<div class="services-header reveal">
+<div class="section-label">Für Ihren Alltag</div>
+<h2 class="section-title">Nah dran. Auch digital.</h2>
+<p class="section-description">Praktische Services, die Ihre Gesundheitsversorgung einfacher machen.</p>
+</div>
+<div class="services-grid">
+<div class="service-card reveal"><div class="service-icon">🚲</div><h3>Lieferdienst</h3><p>Unser Botendienst liefert in ganz Krefeld. Fragen Sie uns gern nach den Möglichkeiten.</p></div>
+<div class="service-card reveal"><div class="service-icon">⚕</div><h3>Rezeptur</h3><p>Individuelle Arzneimittel stellen wir mit Sorgfalt und pharmazeutischer Qualität her.</p></div>
+<div class="service-card reveal"><div class="service-icon">◌</div><h3>Geräteverleih</h3><p>Medizinische Geräte wie Milchpumpen, Babywaagen oder Inhalationsgeräte können Sie bei uns ausleihen.</p></div>
+</div>
+</div>
+</section>
+
+<section id="faq" class="contact">
+<div class="container">
+<div class="section-label reveal">Gut zu wissen</div>
+<h2 class="section-title reveal">Häufige Fragen</h2>
+<div class="reveal">
+<details><summary>Wie löse ich mein E-Rezept ein?</summary><p>Nutzen Sie den sicheren Service von IhreApotheken.de und wählen Sie die Adler Apotheke Krefeld aus.</p></details>
+<details><summary>Kann ich eine Botendienstlieferung nutzen?</summary><p>Ja, unser Botendienst liefert in ganz Krefeld. Details zu Abholung und Lieferung finden Sie im Onlineshop oder telefonisch bei uns.</p></details>
+<details><summary>Wo finde ich aktuelle Angebote?</summary><p>Aktuelle Verfügbarkeiten und Preise sehen Sie direkt in unserem Onlineshop.</p></details>
+</div>
+</div>
+</section>
 
 <!-- =====================================================
      ÜBER UNS
@@ -2177,16 +2218,13 @@ Für Sie da.
 
 <p>
 
-Die Apotheke am Stadtpark steht für moderne
-Apothekenleistungen mit persönlicher Beratung.
+Die Adler Apotheke ist seit 1707 Teil von Krefeld und wird seit 1943 von der Familie Claßen geführt.
 
 </p>
 
 <p>
 
-Unser Team nimmt sich Zeit für Ihre Fragen und
-begleitet Sie bei Ihren Anliegen rund um Gesundheit
-und Wohlbefinden.
+Mit geprüften Qualitätsprozessen und viel persönlicher Zeit begleiten wir Sie bei Ihren Fragen rund um Gesundheit und Wohlbefinden.
 
 </p>
 
@@ -2244,7 +2282,7 @@ Persönliche Beratung steht bei uns im Mittelpunkt.
 </h3>
 
 <p>
-Unser Team ist gerne für Ihre Fragen da.
+Inhaberin Gaby Claßen und ihr Team sind gerne für Ihre Fragen da.
 </p>
 
 </div>
@@ -2281,8 +2319,8 @@ Wir sind für Sie da.
 
 <p class="section-description reveal">
 
-Besuchen Sie uns in Münster oder kontaktieren
-Sie uns telefonisch.
+Besuchen Sie uns am Neumarkt in Krefeld oder kontaktieren
+Sie uns telefonisch oder per E-Mail.
 
 </p>
 
@@ -2293,7 +2331,7 @@ Sie uns telefonisch.
 <div class="contact-card reveal">
 
 <h3>
-Apotheke am Stadtpark
+Adler Apotheke Krefeld
 </h3>
 
 
@@ -2305,8 +2343,8 @@ Adresse
 
 <div class="contact-value">
 
-Parkstraße 15<br>
-48143 Münster
+Hochstraße 58<br>
+47798 Krefeld
 
 </div>
 
@@ -2321,7 +2359,7 @@ Telefon
 
 <div class="contact-value">
 
-0251 123456
+<a href="tel:+49215124414">02151 24414</a>
 
 </div>
 
@@ -2336,7 +2374,7 @@ E-Mail
 
 <div class="contact-value">
 
-info@apotheke-am-stadtpark.de
+<a href="mailto:info@adler-krefeld.de">info@adler-krefeld.de</a>
 
 </div>
 
@@ -2360,7 +2398,7 @@ Montag – Freitag
 </div>
 
 <div class="contact-value">
-08:00 – 18:30 Uhr
+09:00 – 18:30 Uhr
 </div>
 
 </div>
@@ -2373,7 +2411,7 @@ Samstag
 </div>
 
 <div class="contact-value">
-09:00 – 14:00 Uhr
+09:30 – 16:00 Uhr
 </div>
 
 </div>
@@ -2393,8 +2431,9 @@ Geschlossen
 
 
 <a
-href="https://www.google.com/maps/search/?api=1&query=Parkstraße+15+48143+Münster"
+href="https://www.google.com/maps/search/?api=1&query=Hochstra%C3%9Fe+58+47798+Krefeld"
 target="_blank"
+rel="noopener noreferrer"
 class="button button-primary"
 >
 
@@ -2426,11 +2465,11 @@ Route planen →
 <div>
 
 <h3>
-Apotheke am Stadtpark
+Adler Apotheke Krefeld
 </h3>
 
 <p>
-Ihre moderne Apotheke in Münster.
+Ihre Apotheke im Herzen von Krefeld.
 </p>
 
 </div>
@@ -2470,13 +2509,13 @@ Rechtliches
 </h4>
 
 <p>
-<a href="#">
+<a href="https://adler-krefeld.de/impressum/" target="_blank" rel="noopener noreferrer">
 Impressum
 </a>
 </p>
 
 <p>
-<a href="#">
+<a href="https://adler-krefeld.de/datenschutzerklaerung/" target="_blank" rel="noopener noreferrer">
 Datenschutz
 </a>
 </p>
@@ -2488,7 +2527,7 @@ Datenschutz
 
 <div class="footer-bottom">
 
-© 2026 Apotheke am Stadtpark · Demo-Projekt
+© 2026 Adler Apotheke Krefeld
 
 </div>
 
@@ -2505,6 +2544,7 @@ Datenschutz
 <div
 class="modal"
 id="erezeptModal"
+hidden
 onclick="closeOutside(event,'erezeptModal')"
 >
 
@@ -2563,6 +2603,7 @@ Verstanden
 <div
 class="modal"
 id="orderModal"
+hidden
 onclick="closeOutside(event,'orderModal')"
 >
 
@@ -2640,7 +2681,7 @@ Telefonnummer
 type="tel"
 id="phone"
 name="phone"
-placeholder="0251 123456"
+placeholder="02151 24414"
 autocomplete="tel"
 inputmode="tel"
 minlength="5"
@@ -2819,6 +2860,8 @@ orderForm.addEventListener(
     "submit",
     async function(event) {
 
+        const href = this.getAttribute("href");
+        if (!href || !href.startsWith("#")) return;
         event.preventDefault();
 
         if (orderSubmitting) return;
@@ -2940,7 +2983,7 @@ formSuccess.innerHTML = `
 
     <p>
         Ihre Vorbestellung wurde erfolgreich
-        an die Apotheke am Stadtpark übermittelt.
+        an die Adler Apotheke Krefeld übermittelt.
     </p>
 
     <p>
@@ -3055,7 +3098,7 @@ document
 
         const target =
             document.querySelector(
-                this.getAttribute("href")
+                href
             );
 
         mobileMenu.classList.remove("active");
@@ -3211,7 +3254,7 @@ Sonntag geschlossen
 if(day >= 1 && day <= 5) {
 
 open =
-minutes >= 480 &&
+minutes >= 540 &&
 minutes <= 1110;
 
 }
@@ -3219,8 +3262,8 @@ minutes <= 1110;
 else if(day === 6) {
 
 open =
-minutes >= 540 &&
-minutes <= 840;
+minutes >= 570 &&
+minutes <= 960;
 
 }
 
