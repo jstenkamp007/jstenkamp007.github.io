@@ -30,6 +30,9 @@ test('Public website uses Adler data and directs sensitive digital services exte
   assert.match(html, /id="angebote"/);
   assert.match(html, /Monatsangebote für die kalte Jahreszeit/);
   assert.match(html, /id="orderModal"\s+hidden/);
+  assert.match(html, /class="logo-mark" aria-hidden="true">A<\/span>/);
+  assert.match(html, /--adler-accent: #e7b64a/);
+  assert.doesNotMatch(html, /images\.unsplash\.com/);
   assert.doesNotMatch(html, /Parkstraße 15|48143 Münster|0251 123456/);
 });
 
