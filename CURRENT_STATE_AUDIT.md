@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 2098)
-Total output lines: 94
-
 # Bestandsaufnahme – Adler Apotheke Krefeld
 
 Stand: 5. September 2026
@@ -33,7 +30,45 @@ Abgeschlossen und lokal getestet am 5. September 2026:
 
 Abgeschlossen und lokal getestet am 5. September 2026:
 
-- Der Hero stellt die fünf wichtigsten Aktionen sofort bereit: E-Rezept einlösen, Onlineshop öffnen, an…1098 tokens truncated…satz in den Auth-Einstellungen aktiviert werden.
+- Der Hero stellt die fünf wichtigsten Aktionen sofort bereit: E-Rezept einlösen, Onlineshop öffnen, anrufen, Route planen und Lieferdienst kennenlernen.
+- Öffnungsstatus und Adresse bleiben direkt unter dem Hero erreichbar; die Adresse führt zur Google-Maps-Routenplanung.
+- Der Lieferdienst ist als eigener, eindeutig verlinkter Abschnitt ausgewiesen.
+- Ein Monatsangebote-Abschnitt steht direkt vor dem abschließenden Kontaktbereich. Die dort genannten Angebote (Grippostad C, Aspirin Complex, apoday Heiße Zitrone und orthomol immun) wurden am 5. September 2026 gegen adler-krefeld.de geprüft; Verfügbarkeit und Preis bleiben bewusst im externen Onlineshop.
+- Der lokale Regressionstest wurde um die Phase-2-Navigation und den Angebotsabschnitt erweitert und besteht vollständig (8 von 8 Tests). Der lokale HTTP-Abruf der Startseite lieferte Status 200.
+
+## Phase 3 – Moderner visueller Auftritt
+
+Abgeschlossen und lokal getestet am 5. September 2026:
+
+- Das Erscheinungsbild nutzt nun eine definierte Adler-Palette aus Tiefblau, Petrol und warmem Adler-Akzent, mit ruhigerer Typografie, großzügigen Flächen und klaren Fokuszuständen für die Tastaturbedienung.
+- Das Kopfzeichen ist als lokales, typografisches Adler-Zeichen umgesetzt. Die generischen Unsplash-Motive wurden entfernt; Hero-, E-Rezept-, Über-uns- und Teamflächen sind bis zur Bereitstellung freigegebener eigener Fotos als dezente abstrakte Markenflächen gestaltet.
+- Karten, Buttons, Glaselemente, Öffnungsstatus und mobile Navigation verwenden einheitliche, zurückhaltende Bewegungen. `prefers-reduced-motion` bleibt wirksam.
+- Der lokale Regressionstest prüft zusätzlich das Adler-Kopfzeichen, die Adler-Akzentfarbe und das Entfernen der Unsplash-Quellen.
+
+## Phase 4 – Öffentliche Funktionen für eine Apotheke
+
+Abgeschlossen und lokal getestet am 6. September 2026:
+
+- Der Hero führt mit einer eindeutigen E-Rezept-Aktion; Onlineshop, Telefon, Route und Lieferdienst sind als gleichwertige, sekundäre Schnellwege erreichbar.
+- Der E-Rezept-Bereich erklärt die Einlösung über die iA.de-App und Gesundheitskarte in drei Schritten. Rezept-Upload und E-Rezept-Vorgang erfolgen ausdrücklich nur über IhreApotheken.de.
+- Abholung (kostenlos, bis zu zwei Wochen), Lieferdienst (Montag bis Freitag in Krefeld, bei Bestellung bis 15 Uhr soweit vorrätig am selben Tag, samstags nicht), Gebühren und Notdienst sind sichtbar erläutert und verlinkt.
+- FAQ, Leistungen und Servicehinweise sind um die auf adler-krefeld.de bestätigten Inhalte ergänzt: Gesundheitschecks, Kompressionsversorgung, Reiseimpfberatung, Rezeptur und Geräteverleih.
+- Öffnungsstatus, Öffnungszeiten, Telefon, E-Mail, Route, Angebote, Team, Impressum und Datenschutz sind öffentlich erreichbar. Der Status nennt auch die nächste Öffnung.
+- SEO-Grundlagen sind ergänzt: Canonical- und Open-Graph-Metadaten sowie strukturierte `Pharmacy`-Daten mit Kontaktdaten und Öffnungszeiten.
+- Das Cookie- und Analyse-Konzept ist transparent umgesetzt: Keine Analyse- oder Marketing-Cookies; externe Dienste öffnen erst nach einem aktiven Klick. Der Hinweis verweist auf Datenschutz.
+- Die mobile Navigation verarbeitet externe und interne Links korrekt und hält `aria-expanded` synchron. Dialoge sind mit Rollen, Beschriftung, Fokusübergabe, Fokusfalle und Escape-Schließen barriereärmer bedienbar.
+- Getestet: `node --test tests/regression.test.mjs` (8 von 8), lokaler HTTP-Abruf (200), Desktop-Ansicht und 390-px-Mobilansicht einschließlich Menü und Dialog.
+
+## Sicherheitsstand
+
+- Die drei vorhandenen Tabellen haben RLS aktiviert.
+- Direkter anonymer Zugriff auf Anfragen und Rate-Limits ist gesperrt.
+- Die Admin-Rolle liegt in der nicht öffentlichen Tabelle `private.admin_users`.
+- Live geprüft: Genau eine Admin-Rolle ist hinterlegt. `public.orders` darf nur von dieser Rolle gelesen oder geändert werden; die UPDATE-Policy enthält sowohl `USING` als auch `WITH CHECK`.
+- Live geprüft: `private.is_admin` und `reserve_order_submission` sind `SECURITY DEFINER`, aber weder für `anon` noch für `PUBLIC` ausführbar. Der öffentliche Wrapper `is_order_admin` ist ausschließlich für `authenticated` ausführbar.
+- Im Browser wird kein Service-Role-Key verwendet.
+- Die Edge Function validiert eingehende Daten, prüft Origins und begrenzt Anfragen.
+- Offener Plattformhinweis: Supabase Auth meldet deaktivierten Schutz gegen bekannte kompromittierte Passwörter. Dieser sollte vor dem produktiven Admin-Einsatz in den Auth-Einstellungen aktiviert werden.
 
 ## Externe Verbindungen
 
@@ -56,4 +91,3 @@ Abgeschlossen und lokal getestet am 5. September 2026:
 - Neue, auf diese Website zugeschnittene Datenschutzinformationen und ein final freigegebenes Impressum liefern.
 - Festlegen, ob der bisherige geschützte Altbestand gelöscht, archiviert oder in ein neues, neutrales Anfrage-System migriert wird.
 - Die veröffentlichende GitHub-Pages-Quelle anbinden; dieses Arbeitsverzeichnis enthält kein `.git`-Repository.
-
