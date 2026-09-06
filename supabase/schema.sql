@@ -162,7 +162,7 @@ alter table public.orders
   add constraint orders_message_valid
     check (message is null or char_length(message) <= 2000),
   add constraint orders_status_valid
-    check (status in ('new', 'processing', 'ready', 'completed')),
+    check (status in ('new', 'processing', 'feedback_required', 'completed', 'archived')),
   add constraint orders_request_category_valid
     check (request_category in (
       'callback', 'contact', 'consultation', 'delivery',
