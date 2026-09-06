@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 1531)
-Total output lines: 122
-
 import { readFileSync } from 'node:fs';
 import { Script, createContext } from 'node:vm';
 import { stripTypeScriptTypes } from 'node:module';
@@ -40,7 +37,52 @@ test('Public website uses Adler data and directs sensitive digital services exte
   assert.match(html, /öffnet " \+ nextOpening/);
   assert.match(html, /const href = this\.getAttribute\("href"\)/);
   assert.doesNotMatch(html, /images\.unsplash\.com/);
-  assert.doesNotMatch(html, /Parkstraße 15|48143 Münster|0251 123…531 tokens truncated…CRET_KEYS: '{"order_submitter":"test-secret"}', ORDER_RATE_LIMIT_SALT: 'test-salt',
+  assert.doesNotMatch(html, /Parkstraße 15|48143 Münster|0251 123456/);
+});
+
+function dom() {
+  const elements = new Map();
+  const get = id => {
+    if (!elements.has(id)) elements.set(id, {
+      value: '', checked: false, disabled: false, textContent: '', style: {},
+      classList: { add() {}, remove() {}, contains() { return false; } },
+      handlers: {}, addEventListener(event, fn) { this.handlers[event] = fn; },
+      querySelector(sel) { return get(sel); }, querySelectorAll() { return []; },
+      setAttribute() {},
+    });
+    return elements.get(id);
+  };
+  return { get, document: { getElementById: get, documentElement: get('html'),
+    body: get('body'), querySelectorAll: () => [], addEventListener() {}, title: '' } };
+}
+
+test('Admin initialization registers a working password login handler', async () => {
+  const { get, document } = dom();
+  let calls = 0;
+  const context = createContext({ document, console,
+    window: { supabase: { createClient: () => ({ auth: {
+      onAuthStateChange() {}, getUser: async () => ({data: {}, error: true}),
+      signInWithPassword: async data => { calls++; assert.equal(data.email, 'test@example.invalid'); return { error: {code:'invalid_credentials'} }; },
+    } }) } }, localStorage: { getItem: () => null }, setTimeout, clearTimeout, setInterval: () => 0,
+  });
+  for (const code of scripts(read('admin.html'))) new Script(code).runInContext(context);
+  get('email').value = ' test@example.invalid ';
+  get('password').value = 'test';
+  assert.equal(typeof get('loginForm').handlers.submit, 'function');
+  await get('loginForm').handlers.submit({ preventDefault() {} });
+  assert.equal(calls, 1);
+  assert.match(get('loginError').textContent, /Passwort ist falsch/);
+  assert.equal(get('loginButton').disabled, false);
+});
+
+const edgeCode = stripTypeScriptTypes(read('supabase/functions/submit-order/index.ts'));
+function edge(reserveAllowed = true) {
+  let handler;
+  const requests = [];
+  const context = createContext({ Request, Response, TextEncoder, crypto, console,
+    Deno: { serve(fn) { handler = fn; }, env: { get(name) { return ({
+      SUPABASE_PUBLISHABLE_KEYS: '{"default":"test-public"}',
+      SUPABASE_SECRET_KEYS: '{"order_submitter":"test-secret"}', ORDER_RATE_LIMIT_SALT: 'test-salt',
     })[name]; } } },
     fetch: async (url, init) => { requests.push({url, init}); return url.includes('/rpc/')
       ? Response.json(reserveAllowed) : new Response(null, {status:201}); },
@@ -77,4 +119,3 @@ test('Rate limit prevents insertion', async () => {
   assert.equal((await submit(order)).status,429);
   assert.equal(requests.length,1);
 });
-
