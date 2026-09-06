@@ -59,6 +59,16 @@ Abgeschlossen und lokal getestet am 6. September 2026:
 - Die mobile Navigation verarbeitet externe und interne Links korrekt und hält `aria-expanded` synchron. Dialoge sind mit Rollen, Beschriftung, Fokusübergabe, Fokusfalle und Escape-Schließen barriereärmer bedienbar.
 - Getestet: `node --test tests/regression.test.mjs` (8 von 8), lokaler HTTP-Abruf (200), Desktop-Ansicht und 390-px-Mobilansicht einschließlich Menü und Dialog.
 
+## Phase 5 – Vorbestellungsformular entfernen oder umwandeln
+
+Abgeschlossen und lokal getestet am 6. September 2026:
+
+- Das öffentliche Modal „Medikament vorbestellen“ samt Medikamentenfeld, Kontaktfeldern und Erfolgs-/Fehlertexten wurde vollständig entfernt.
+- Die öffentliche Startseite enthält keine Übermittlungslogik und keine Verbindung mehr zur Supabase-Edge-Function `submit-order`; dadurch werden über die Website keine Medikamenten- oder Gesundheitsangaben mehr erfasst.
+- Hero und E-Rezept-Bereich bleiben auf die sichere externe Einlösung über IhreApotheken.de ausgerichtet. Die öffentlich sichtbare Admin-Verlinkung bleibt entfernt.
+- Die aus der Impeccable-Kritik relevante P0-Fehlerquelle im Altformular entfällt damit vollständig. Die dort genannten P1/P2-Verbesserungen für Hero-Hierarchie, Bildmaterial und Servicekarten liegen außerhalb dieser Phase und werden nicht vorgezogen.
+- Getestet: `node --test tests/regression.test.mjs` (8 von 8), explizite Quellprüfung auf verbliebene Formular-, Modal- und `submit-order`-Verweise sowie Desktop-Prüfung der lokalen Seite. Der einmalige Impeccable-Scan meldet ausschließlich die bekannten, bewusst gestalteten Hintergrundbeleuchtungs-Warnungen `dark-glow` und `radial-halo`; wegen fehlender Parser-Abhängigkeiten ist sein Ergebnis eingeschränkt.
+
 ## Sicherheitsstand
 
 - Die drei vorhandenen Tabellen haben RLS aktiviert.
@@ -80,7 +90,7 @@ Abgeschlossen und lokal getestet am 6. September 2026:
 
 ## Funktionsentscheidungen
 
-- Öffentliche Medikamenten-Vorbestellung: für Besucher ausgeblendet; die vollständige technische Entfernung des verbliebenen Legacy-Codes erfolgt planmäßig erst in Phase 5.
+- Öffentliche Medikamenten-Vorbestellung: vollständig entfernt; die Website verweist für E-Rezept und Onlineshop ausschließlich auf IhreApotheken.de.
 - Bisheriges Admin- und Bestellsystem: bleibt bis Phase 6 als geschützter Bestandsbereich erhalten.
 - Lokale und GitHub-Dateien: Die Phase-1-Änderungen sind getestet und mit Commit `5adcbaf` nach GitHub `main` gepusht; GitHub Pages erhält diesen Stand über den Release-Workflow. Dieses Arbeitsverzeichnis enthält selbst kein `.git`-Repository; die Veröffentlichung erfolgt über den angebundenen Remote-Checkout.
 - Lokale und Supabase-Edge-Functions: `submit-order` stimmt überein. Die lokale Umbenennung der Benachrichtigungsfunktion wurde in GitHub veröffentlicht, ist aber noch nicht als neue Supabase-Function-Version bereitgestellt.
@@ -91,3 +101,4 @@ Abgeschlossen und lokal getestet am 6. September 2026:
 - Neue, auf diese Website zugeschnittene Datenschutzinformationen und ein final freigegebenes Impressum liefern.
 - Festlegen, ob der bisherige geschützte Altbestand gelöscht, archiviert oder in ein neues, neutrales Anfrage-System migriert wird.
 - Die veröffentlichende GitHub-Pages-Quelle anbinden; dieses Arbeitsverzeichnis enthält kein `.git`-Repository.
+
