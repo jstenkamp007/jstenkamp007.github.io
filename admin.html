@@ -2401,13 +2401,17 @@ button.primary:disabled {
                 🟡 In Bearbeitung
             </option>
 
-            <option value="ready">
+            <option value="feedback_required">
                 Rückmeldung erforderlich
             </option>
 
             <option value="completed">
                 Erledigt
 
+            </option>
+
+            <option value="archived">
+                Archiviert
             </option>
 
         </select>
@@ -2452,6 +2456,10 @@ button.primary:disabled {
 
             <option value="completed">
                 Erledigte Anfragen
+            </option>
+
+            <option value="archived">
+                Archivierte Anfragen
             </option>
 
             <option value="all">
@@ -3840,7 +3848,7 @@ function updateDashboardCounts() {
     const feedbackRequiredOrders =
         allOrders.filter(
             order =>
-                order.status === "ready"
+                order.status === "feedback_required"
         ).length;
 
 
@@ -4016,7 +4024,7 @@ function renderOrders(
                         selectedCompletion ===
                             "active"
                         &&
-                        order.status !== "completed"
+                        !["completed", "archived"].includes(order.status)
                     )
                     ||
                     (
@@ -4227,6 +4235,10 @@ function renderOrders(
                 const highlighted =
                     document.querySelector(
                         `.order-card[data-order-id="${CSS.escape(String(highlightId))}"]`
+                    )
+                    || (
+                        selectedCompletion === "archived"
+                        && order.status === "archived"
                     );
 
 
@@ -4258,8 +4270,9 @@ function renderQuickStatusButtons(
     const statuses = [
         ["new", "🔴 Neu"],
         ["processing", "🟡 Bearbeiten"],
-        ["ready", "Rückmeldung"],
-        ["completed", "Erledigt"]
+        ["feedback_required", "Rückmeldung"],
+        ["completed", "Erledigt"],
+        ["archived", "Archivieren"]
     ];
 
 
@@ -4344,6 +4357,14 @@ function updateOrdersSectionHeader(
 
         title =
             "Alle Anfragen";
+
+    }
+
+    if (
+        selectedCompletion === "archived"
+    ) {
+
+        title = "Archivierte Anfragen";
 
     }
 
@@ -4808,8 +4829,9 @@ function renderModalStatusButtons(
     const statuses = [
         ["new", "🔴 Neu"],
         ["processing", "🟡 In Bearbeitung"],
-        ["ready", "Rückmeldung erforderlich"],
-        ["completed", "Erledigt"]
+        ["feedback_required", "Rückmeldung erforderlich"],
+        ["completed", "Erledigt"],
+        ["archived", "Archiviert"]
     ];
 
 
@@ -6828,10 +6850,18 @@ function getStatusLabel(
 
 
     if (
-        status === "ready"
+        status === "feedback_required"
     ) {
 
         return "Rückmeldung erforderlich";
+
+    }
+
+    if (
+        status === "archived"
+    ) {
+
+        return "Archiviert";
 
     }
 
@@ -6873,10 +6903,18 @@ function getStatusLabelPlain(
 
 
     if (
-        status === "ready"
+        status === "feedback_required"
     ) {
 
         return "Rückmeldung erforderlich";
+
+    }
+
+    if (
+        status === "archived"
+    ) {
+
+        return "Archiviert";
 
     }
 
