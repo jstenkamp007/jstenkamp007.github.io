@@ -81,6 +81,7 @@ test('Admin manages neutral enquiries with categories and the Phase-6 status flo
   assert.match(html, /Rückrufanfrage/);
   assert.match(html, /Technische Anfrage/);
   assert.match(html, /Rückmeldung erforderlich/);
+  assert.match(html, /Archiviert/);
   assert.match(html, /request_category/);
   assert.doesNotMatch(html, /Abholbereit/);
 });
