@@ -1,6 +1,6 @@
 # Bestandsaufnahme – Adler Apotheke Krefeld
 
-Stand: 5. September 2026
+Stand: 6. September 2026
 
 ## Struktur
 
