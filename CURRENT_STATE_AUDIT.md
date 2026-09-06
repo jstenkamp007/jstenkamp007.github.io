@@ -69,6 +69,17 @@ Abgeschlossen und lokal getestet am 6. September 2026:
 - Die aus der Impeccable-Kritik relevante P0-Fehlerquelle im Altformular entfällt damit vollständig. Die dort genannten P1/P2-Verbesserungen für Hero-Hierarchie, Bildmaterial und Servicekarten liegen außerhalb dieser Phase und werden nicht vorgezogen.
 - Getestet: `node --test tests/regression.test.mjs` (8 von 8), explizite Quellprüfung auf verbliebene Formular-, Modal- und `submit-order`-Verweise sowie Desktop-Prüfung der lokalen Seite. Der einmalige Impeccable-Scan meldet ausschließlich die bekannten, bewusst gestalteten Hintergrundbeleuchtungs-Warnungen `dark-glow` und `radial-halo`; wegen fehlender Parser-Abhängigkeiten ist sein Ergebnis eingeschränkt.
 
+## Phase 6 – Admin-System für Anfragen
+
+Abgeschlossen und live geprüft am 6. September 2026:
+
+- Der geschützte Verwaltungsbereich verwendet durchgängig „Anfragen“ statt „Vorbestellungen“ und behandelt historische Inhalte transparent als „Altbestand“.
+- Anfragen lassen sich nach Rückruf, allgemeinem Kontakt, Beratung, Lieferdienst, Geräteverleih, Gesundheitscheck und Technik kategorisieren; Kategorieauswahl und Filter sind für Admins verfügbar.
+- Der Statusablauf lautet nun `Neu`, `In Bearbeitung`, `Rückmeldung erforderlich`, `Erledigt` und `Archiviert`. Drei bestehende `ready`-Einträge wurden ohne Änderung ihrer Inhaltsdaten zu `feedback_required` überführt.
+- Die Tabelle `public.orders` enthält die abgesicherte Spalte `request_category` mit einer zulässigen Wertemenge. RLS bleibt aktiv; `authenticated` darf nur `status` und `request_category` ändern, weiterhin ausschließlich innerhalb der Admin-Policy.
+- Die alte Telefonnummern-Validierung wurde während der Statusmigration nur kurz ausgesetzt und anschließend unverändert als `NOT VALID`-Constraint wiederhergestellt. Es wurden keine Kontaktdaten verändert.
+- Getestet: `node --test tests/regression.test.mjs` (9 von 9), lokaler HTTP-Abruf von `admin.html` (200), Live-Schema, Statusverteilung, Constraints und Spaltenrechte in Supabase. Der einmalige Impeccable-Scan für `admin.html` bleibt wegen fehlender Parser-Abhängigkeiten eingeschränkt und meldet nur die bekannte `dark-glow`-Warnung.
+
 ## Sicherheitsstand
 
 - Die drei vorhandenen Tabellen haben RLS aktiviert.
@@ -91,7 +102,7 @@ Abgeschlossen und lokal getestet am 6. September 2026:
 ## Funktionsentscheidungen
 
 - Öffentliche Medikamenten-Vorbestellung: vollständig entfernt; die Website verweist für E-Rezept und Onlineshop ausschließlich auf IhreApotheken.de.
-- Bisheriges Admin- und Bestellsystem: bleibt bis Phase 6 als geschützter Bestandsbereich erhalten.
+- Admin-System: als geschützter Anfragebereich umgesetzt; historischer Bestand bleibt erhalten und wird als `legacy` kategorisiert.
 - Lokale und GitHub-Dateien: Die Phase-1-Änderungen sind getestet und mit Commit `5adcbaf` nach GitHub `main` gepusht; GitHub Pages erhält diesen Stand über den Release-Workflow. Dieses Arbeitsverzeichnis enthält selbst kein `.git`-Repository; die Veröffentlichung erfolgt über den angebundenen Remote-Checkout.
 - Lokale und Supabase-Edge-Functions: `submit-order` stimmt überein. Die lokale Umbenennung der Benachrichtigungsfunktion wurde in GitHub veröffentlicht, ist aber noch nicht als neue Supabase-Function-Version bereitgestellt.
 
