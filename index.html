@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 14146)
-Total output lines: 3454
-
 <!DOCTYPE html>
 <html lang="de">
 
@@ -58,7 +55,3277 @@ content="Adler Apotheke Krefeld am Neumarkt: persönliche Beratung, E-Rezept üb
     --green: #007c91;
     --green-dark: #005b6b;
     --adler-accent: #e7b64a;
-    --adler-accent-…13146 tokens truncated…/* =====================================================
+    --adler-accent-soft: #fff4d8;
+
+    --blue: #102a43;
+
+    --text: #263746;
+    --muted: #71808c;
+
+    --white: #ffffff;
+    --gray: #f3f6f8;
+
+    --radius: 30px;
+
+    --shadow:
+        0 20px 60px rgba(16,42,67,0.10);
+
+}
+
+* {
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+
+}
+
+html {
+
+    scroll-behavior: smooth;
+
+}
+
+body {
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Display",
+        "SF Pro Text",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    color: var(--text);
+
+    background: white;
+
+    line-height: 1.6;
+
+    overflow-x: hidden;
+
+}
+
+a {
+
+    color: inherit;
+
+    text-decoration: none;
+
+}
+
+.container {
+
+    width: min(1180px, 90%);
+
+    margin: auto;
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+header {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    z-index: 1000;
+
+    background:
+        rgba(255,255,255,0.78);
+
+    backdrop-filter:
+        blur(20px);
+
+    -webkit-backdrop-filter:
+        blur(20px);
+
+    border-bottom:
+        1px solid rgba(0,0,0,0.05);
+
+}
+
+nav {
+
+    height: 76px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+}
+
+.logo {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    font-weight: 700;
+
+}
+
+.logo-mark {
+
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(145deg, var(--blue), var(--green));
+    color: var(--adler-accent);
+    font-size: 24px;
+    font-weight: 800;
+    box-shadow: 0 8px 18px rgba(16,42,67,0.16);
+
+}
+
+.nav-links {
+
+    display: flex;
+
+    gap: 30px;
+
+}
+
+.nav-links a {
+
+    color: #526473;
+
+    font-size: 14px;
+
+    transition: 0.25s;
+
+}
+
+.nav-links a:hover {
+
+    color: var(--green);
+
+}
+
+.nav-cta {
+
+    background: var(--blue);
+
+    color: white;
+
+    padding: 11px 19px;
+
+    border-radius: 100px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition: 0.25s;
+
+}
+
+.nav-cta:hover {
+
+    transform: scale(1.07);
+
+    background: var(--green);
+
+}
+
+
+/* =====================================================
+   MOBILE MENU
+===================================================== */
+
+.menu-button {
+
+    display: none;
+
+    width: 44px;
+    height: 44px;
+
+    border: none;
+
+    background: var(--gray);
+
+    border-radius: 13px;
+
+    cursor: pointer;
+
+    font-size: 20px;
+
+}
+
+.mobile-menu {
+
+    position: fixed;
+
+    top: 76px;
+    left: 0;
+    right: 0;
+
+    width: 100%;
+
+    background: #ffffff;
+
+    padding: 12px 20px 22px;
+
+    display: none;
+
+    flex-direction: column;
+
+    gap: 6px;
+
+    border-bottom: 1px solid #e5eaed;
+
+    box-shadow:
+        0 18px 35px rgba(16,42,67,0.12);
+
+    z-index: 999;
+
+    transform: translateY(-10px);
+
+    opacity: 0;
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+
+}
+
+.mobile-menu.active {
+
+    display: flex;
+
+    opacity: 1;
+
+    transform: translateY(0);
+
+}
+
+.mobile-menu a {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    width: 100%;
+
+    padding: 17px 16px;
+
+    border-radius: 16px;
+
+    color: #102a43;
+
+    background: #ffffff;
+
+    font-size: 17px;
+
+    font-weight: 600;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        color 0.2s ease;
+
+}
+
+.mobile-menu a::after {
+
+    content: "›";
+
+    font-size: 25px;
+
+    color: #15966f;
+
+}
+
+.mobile-menu a:hover {
+
+    background: #f5f7f8;
+
+    color: #15966f;
+
+    transform: translateX(4px);
+
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero {
+
+    min-height: 100vh;
+
+    padding-top: 150px;
+
+    padding-bottom: 100px;
+
+    display: flex;
+
+    align-items: center;
+
+    position: relative;
+
+    overflow: hidden;
+
+}
+
+
+/* Bild liegt jetzt sichtbar auf der rechten Seite */
+
+.hero::after {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    right: 0;
+
+    width: 58%;
+
+    height: 100%;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            white 0%,
+            rgba(255,255,255,0.75) 15%,
+            rgba(255,255,255,0.05) 50%
+        ),
+
+        linear-gradient(145deg, #0c3754, #007c91)
+
+        center / cover;
+
+    z-index: 0;
+
+}
+
+.hero-content {
+
+    position: relative;
+
+    z-index: 2;
+
+    max-width: 670px;
+
+}
+
+.eyebrow {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    background:
+        rgba(21,150,111,0.10);
+
+    color: var(--green-dark);
+
+    padding: 8px 14px;
+
+    border-radius: 100px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    margin-bottom: 25px;
+
+}
+
+.eyebrow-dot {
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: var(--green);
+
+}
+
+h1 {
+
+    font-size:
+        clamp(3.2rem, 7vw, 6.2rem);
+
+    line-height: 0.98;
+
+    letter-spacing: -0.065em;
+
+    color: var(--blue);
+
+    margin-bottom: 30px;
+
+}
+
+.hero-text {
+
+    font-size: 20px;
+
+    color: #61727f;
+
+    max-width: 600px;
+
+    margin-bottom: 35px;
+
+}
+
+.hero-buttons {
+
+    display: flex;
+
+    gap: 14px;
+
+    flex-wrap: wrap;
+
+}
+
+.button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding: 16px 24px;
+
+    border-radius: 100px;
+
+    font-weight: 700;
+
+    border: none;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+
+}
+
+.button-primary {
+
+    background: var(--green);
+
+    color: white;
+
+    box-shadow:
+        0 10px 30px rgba(21,150,111,0.25);
+
+}
+
+.button-primary:hover {
+
+    transform: scale(1.06);
+
+    background: var(--green-dark);
+
+}
+
+.button-secondary {
+
+    background:
+        rgba(255,255,255,0.9);
+
+    border:
+        1px solid rgba(0,0,0,0.08);
+
+    color: var(--blue);
+
+}
+
+.button-secondary:hover {
+
+    transform: scale(1.06);
+
+    box-shadow: var(--shadow);
+
+}
+
+
+/* =====================================================
+   QUICK INFO
+===================================================== */
+
+.quick-info {
+
+    position: relative;
+
+    margin-top: -45px;
+
+    z-index: 10;
+
+}
+
+.quick-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    background:
+        rgba(255,255,255,0.96);
+
+    backdrop-filter: blur(20px);
+
+    border-radius: var(--radius);
+
+    box-shadow: var(--shadow);
+
+    overflow: hidden;
+
+}
+
+.quick-item {
+
+    padding: 30px;
+
+    border-right:
+        1px solid #e8edef;
+
+    transition: 0.3s;
+
+}
+
+.quick-item:last-child {
+
+    border-right: none;
+
+}
+
+.quick-item:hover {
+
+    background: #fbfdfc;
+
+    transform: translateY(-4px);
+
+}
+
+.quick-label {
+
+    font-size: 12px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.08em;
+
+    color: var(--muted);
+
+}
+
+.quick-value {
+
+    font-weight: 700;
+
+    color: var(--blue);
+
+}
+
+
+/* =====================================================
+   SECTIONS
+===================================================== */
+
+section {
+
+    padding: 120px 0;
+
+}
+
+.section-label {
+
+    color: var(--green);
+
+    text-transform: uppercase;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.12em;
+
+    margin-bottom: 12px;
+
+}
+
+.section-title {
+
+    font-size:
+        clamp(2.4rem,5vw,4rem);
+
+    letter-spacing: -0.055em;
+
+    line-height: 1.05;
+
+    color: var(--blue);
+
+    max-width: 750px;
+
+    margin-bottom: 20px;
+
+}
+
+.section-description {
+
+    color: var(--muted);
+
+    max-width: 650px;
+
+    font-size: 18px;
+
+}
+
+
+/* =====================================================
+   SERVICES
+===================================================== */
+
+.services {
+
+    background: var(--gray);
+
+}
+
+.services-header {
+
+    margin-bottom: 55px;
+
+}
+
+.services-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap: 20px;
+
+}
+
+.service-card {
+
+    background: white;
+
+    border-radius: var(--radius);
+
+    padding: 35px;
+
+    min-height: 250px;
+
+    transition:
+        transform 0.35s,
+        box-shadow 0.35s;
+
+}
+
+.service-card:hover {
+
+    transform:
+        translateY(-10px)
+        scale(1.02);
+
+    box-shadow:
+        0 25px 60px rgba(16,42,67,0.12);
+
+}
+
+.service-icon {
+
+    width: 54px;
+    height: 54px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 17px;
+
+    background:
+        rgba(21,150,111,0.10);
+
+    font-size: 25px;
+
+    margin-bottom: 25px;
+
+}
+
+.service-card h3 {
+
+    font-size: 21px;
+
+    margin-bottom: 10px;
+
+    color: var(--blue);
+
+}
+
+.service-card p {
+
+    color: var(--muted);
+
+}
+
+
+/* =====================================================
+   E-REZEPT
+===================================================== */
+
+.erezept {
+
+    background: var(--blue);
+
+    color: white;
+
+}
+
+.erezept-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 80px;
+
+    align-items: center;
+
+}
+
+.erezept .section-title {
+
+    color: white;
+
+}
+
+.erezept .section-description {
+
+    color: #b8c8d3;
+
+}
+
+.erezept-image {
+
+    min-height: 500px;
+
+    border-radius: var(--radius);
+
+    background:
+
+        linear-gradient(
+            rgba(16,42,67,0.1),
+            rgba(16,42,67,0.15)
+        ),
+
+        linear-gradient(145deg, #0c3754, #007c91)
+
+        center / cover;
+
+}
+
+.feature-list {
+
+    margin: 30px 0;
+
+    display: grid;
+
+    gap: 14px;
+
+}
+
+.feature {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+}
+
+.check {
+
+    width: 25px;
+    height: 25px;
+
+    border-radius: 50%;
+
+    background: var(--green);
+
+    display: grid;
+
+    place-items: center;
+
+}
+
+.popup-button {
+
+    cursor: pointer;
+
+}
+
+
+/* =====================================================
+   ABOUT
+===================================================== */
+
+.about {
+
+    background: white;
+
+}
+
+.about-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 80px;
+
+    align-items: center;
+
+}
+
+.about-image {
+
+    min-height: 560px;
+
+    border-radius: var(--radius);
+
+    background:
+
+        linear-gradient(145deg, #cae6e8, #007c91)
+
+        center / cover;
+
+}
+
+.about-text p {
+
+    color: var(--muted);
+
+    font-size: 17px;
+
+    margin-bottom: 18px;
+
+}
+
+
+/* =====================================================
+   TEAM
+===================================================== */
+
+.team {
+
+    background: var(--gray);
+
+}
+
+.team-card {
+
+    position: relative;
+
+    height: 500px;
+
+    border-radius: var(--radius);
+
+    overflow: hidden;
+
+    background:
+
+        linear-gradient(145deg, #08788a, #0b2941)
+
+        center / cover;
+
+}
+
+.team-overlay {
+
+    position: absolute;
+
+    left: 25px;
+    right: 25px;
+    bottom: 25px;
+
+    padding: 25px;
+
+    border-radius: 20px;
+
+    background:
+        rgba(255,255,255,0.92);
+
+    backdrop-filter: blur(15px);
+
+}
+
+
+/* =====================================================
+   CONTACT
+===================================================== */
+
+.contact {
+
+    background: white;
+
+}
+
+.contact-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 25px;
+
+    margin-top: 50px;
+
+}
+
+.contact-card {
+
+    background: var(--gray);
+
+    padding: 40px;
+
+    border-radius: var(--radius);
+
+    transition: 0.3s;
+
+}
+
+.contact-card:hover {
+
+    transform: translateY(-6px);
+
+    box-shadow: var(--shadow);
+
+}
+
+.contact-row {
+
+    margin-bottom: 20px;
+
+}
+
+.contact-label {
+
+    font-size: 12px;
+
+    text-transform: uppercase;
+
+    color: var(--muted);
+
+}
+
+.contact-value {
+
+    font-weight: 700;
+
+    color: var(--blue);
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+
+    background: #0b2235;
+
+    color: white;
+
+    padding: 70px 0 30px;
+
+}
+
+.footer-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        2fr 1fr 1fr;
+
+    gap: 50px;
+
+    padding-bottom: 50px;
+
+}
+
+footer p,
+footer a {
+
+    color: #a9bac5;
+
+    font-size: 14px;
+
+}
+
+footer a:hover {
+
+    color: white;
+
+}
+
+.footer-bottom {
+
+    padding-top: 25px;
+
+    border-top:
+        1px solid rgba(255,255,255,0.1);
+
+    color: #8195a2;
+
+    font-size: 12px;
+
+}
+
+
+/* =====================================================
+   POPUP
+===================================================== */
+
+.modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(8,28,42,0.55);
+
+    backdrop-filter:
+        blur(10px);
+
+    display: none;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    z-index: 3000;
+
+}
+
+.modal.active {
+
+    display: flex;
+
+}
+
+.modal-content {
+
+    background: white;
+
+    width: min(520px, 100%);
+
+    border-radius: 30px;
+
+    padding: 40px;
+
+    position: relative;
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,0.25);
+
+    animation:
+        modalIn 0.3s ease;
+
+}
+
+@keyframes modalIn {
+
+    from {
+
+        opacity: 0;
+
+        transform: scale(0.92)
+                   translateY(20px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: scale(1)
+                   translateY(0);
+
+    }
+
+}
+
+.close {
+
+    position: absolute;
+
+    top: 18px;
+    right: 18px;
+
+    width: 38px;
+    height: 38px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: var(--gray);
+
+    cursor: pointer;
+
+    font-size: 18px;
+
+}
+
+.modal h2 {
+
+    color: var(--blue);
+
+    font-size: 30px;
+
+    letter-spacing: -0.04em;
+
+    margin-bottom: 10px;
+
+}
+
+.modal p {
+
+    color: var(--muted);
+
+    margin-bottom: 25px;
+
+}
+
+.demo-box {
+
+    padding: 20px;
+
+    border-radius: 18px;
+
+    background: var(--gray);
+
+    margin-bottom: 20px;
+
+}
+
+.demo-box strong {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+}
+
+details {
+    background: var(--gray);
+    border-radius: 16px;
+    margin-top: 12px;
+    padding: 18px 20px;
+}
+
+summary {
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--blue);
+}
+
+details p {
+    margin-top: 12px;
+    color: var(--muted);
+}
+
+.modal[hidden] {
+    display: none !important;
+}
+
+/* =====================================================
+   VORBESTELLUNGS FORMULAR
+===================================================== */
+
+.order-modal {
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+}
+
+.form-row {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 14px;
+
+}
+
+.form-group {
+
+    margin-bottom: 18px;
+
+}
+
+.form-group label {
+
+    display: block;
+
+    color: var(--blue);
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    margin-bottom: 7px;
+
+}
+
+.form-group label span {
+
+    color: var(--muted);
+
+    font-weight: 400;
+
+}
+
+.form-group input,
+.form-group textarea {
+
+    width: 100%;
+
+    padding: 14px 16px;
+
+    border: 1px solid #dce3e7;
+
+    border-radius: 14px;
+
+    background: #f8fafb;
+
+    color: var(--blue);
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition:
+        border 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+
+}
+
+.form-group textarea {
+
+    resize: vertical;
+
+    min-height: 100px;
+
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+
+    background: white;
+
+    border-color: var(--green);
+
+    box-shadow:
+        0 0 0 4px rgba(21,150,111,0.10);
+
+}
+
+.checkbox {
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 10px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+
+    margin: 8px 0 22px;
+
+    cursor: pointer;
+
+}
+
+.checkbox input {
+
+    width: 18px;
+    height: 18px;
+
+    accent-color: var(--green);
+
+    flex-shrink: 0;
+
+}
+
+.form-submit {
+
+    width: 100%;
+
+}
+
+.form-success {
+
+    display: none;
+
+    margin-top: 20px;
+
+    padding: 18px;
+
+    border-radius: 16px;
+
+    background:
+        rgba(21,150,111,0.10);
+
+    color: var(--green-dark);
+
+}
+
+.form-success.active {
+
+    display: block;
+
+}
+
+.form-success p {
+
+    margin: 5px 0 0;
+
+    color: var(--muted);
+
+}
+
+
+/* =====================================================
+   FORMULAR MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .form-row {
+
+        grid-template-columns: 1fr;
+
+        gap: 0;
+
+    }
+
+    .modal-content {
+
+        padding: 30px 22px;
+
+        border-radius: 24px;
+
+    }
+
+}
+
+/* =====================================================
+   SCROLL ANIMATION
+===================================================== */
+
+.reveal {
+
+    opacity: 0;
+
+    transform:
+        translateY(30px);
+
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+
+}
+
+.reveal.visible {
+
+    opacity: 1;
+
+    transform:
+        translateY(0);
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 850px) {
+
+    .nav-links,
+    .nav-cta {
+
+        display: none;
+
+    }
+
+    .menu-button {
+
+        display: grid;
+
+        place-items: center;
+
+    }
+
+    .hero {
+
+        padding-top: 130px;
+
+        min-height: 850px;
+
+    }
+
+    .hero::after {
+
+        width: 100%;
+
+        height: 55%;
+
+        top: auto;
+
+        bottom: 0;
+
+        background:
+
+            linear-gradient(
+                0deg,
+                white 0%,
+                rgba(255,255,255,0.35) 40%,
+                rgba(255,255,255,0) 100%
+            ),
+
+            linear-gradient(145deg, #0c3754, #007c91)
+
+            center / cover;
+
+    }
+
+    h1 {
+
+        font-size: 3.5rem;
+
+    }
+
+    .quick-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .quick-item {
+
+        border-right: none;
+
+        border-bottom:
+            1px solid #e8edef;
+
+    }
+
+    .services-grid,
+    .erezept-grid,
+    .about-grid,
+    .contact-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .erezept-image {
+
+        min-height: 350px;
+
+        order: -1;
+
+    }
+
+    .about-image {
+
+        min-height: 400px;
+
+    }
+
+    .footer-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+
+/* =====================================================
+   REDUCED MOTION
+===================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    * {
+
+        scroll-behavior: auto !important;
+
+        animation: none !important;
+
+        transition: none !important;
+
+    }
+
+}
+
+.success-icon {
+
+    width: 64px;
+    height: 64px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #e8f7f1;
+
+    color: #15966f;
+
+    font-size: 32px;
+
+    font-weight: 700;
+
+}
+
+
+#formSuccess {
+
+    text-align: center;
+
+    padding: 25px 10px;
+
+}
+
+
+#formSuccess h3 {
+
+    margin-bottom: 10px;
+
+    font-size: 24px;
+
+}
+
+
+#formSuccess p {
+
+    color: #627d98;
+
+    line-height: 1.6;
+
+}
+
+
+.success-home-button {
+
+    margin-top: 15px;
+
+    border: none;
+
+    background: #15966f;
+
+    color: white;
+
+    padding: 13px 20px;
+
+    border-radius: 12px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+
+.success-home-button:hover {
+
+    transform: scale(1.04);
+
+    box-shadow:
+        0 8px 20px
+        rgba(21,150,111,0.2);
+
+}
+
+/* =====================================================
+   PHASE 3 – ADLER VISUAL SYSTEM
+===================================================== */
+
+:focus-visible { outline: 3px solid var(--adler-accent); outline-offset: 4px; }
+header { background: rgba(255,255,255,0.86); border-bottom-color: rgba(16,42,67,0.08); }
+.logo { gap: 10px; }
+.logo-name { color: var(--blue); font-size: 14px; letter-spacing: -0.02em; }
+.nav-cta, .button-primary { background: var(--blue); box-shadow: 0 12px 28px rgba(16,42,67,0.18); }
+.nav-cta:hover, .button-primary:hover { background: var(--green-dark); }
+.eyebrow { background: var(--adler-accent-soft); color: var(--green-dark); box-shadow: inset 0 0 0 1px rgba(231,182,74,0.25); }
+.eyebrow-dot, .check { background: var(--adler-accent); color: var(--blue); }
+.hero { min-height: 860px; background: radial-gradient(circle at 88% 27%, rgba(231,182,74,0.30), transparent 21rem), radial-gradient(circle at 76% 70%, rgba(0,124,145,0.17), transparent 24rem), linear-gradient(135deg, #ffffff 25%, #eef7f8 100%); }
+.hero::after { width: 51%; right: 4%; top: 14%; height: 72%; border-radius: 50px; opacity: 0.96; background: linear-gradient(145deg, rgba(255,255,255,0.82), rgba(255,255,255,0.06)), repeating-linear-gradient(135deg, transparent 0 28px, rgba(0,91,107,0.075) 29px 30px), linear-gradient(145deg, #0c3754, #007c91 58%, #cde8e9); box-shadow: 0 36px 90px rgba(16,42,67,0.18); }
+.hero-content { max-width: 620px; }
+.quick-grid { border: 1px solid rgba(16,42,67,0.08); box-shadow: 0 24px 70px rgba(16,42,67,0.12); }
+.quick-item:hover, .contact-card:hover { background: #ffffff; }
+.services, .team { background: linear-gradient(180deg, #f5f8fa, #edf3f5); }
+.service-card, .contact-card { border: 1px solid rgba(16,42,67,0.06); box-shadow: 0 8px 25px rgba(16,42,67,0.035); }
+.service-card { min-height: 230px; }
+.service-icon { width: 42px; height: 4px; border-radius: 99px; background: var(--adler-accent); font-size: 0; margin-bottom: 30px; }
+.erezept { background: radial-gradient(circle at 84% 16%, rgba(231,182,74,0.22), transparent 20rem), linear-gradient(135deg, #0b2941, #0f4260); }
+.erezept-image, .about-image, .team-card { border: 1px solid rgba(255,255,255,0.25); box-shadow: 0 30px 75px rgba(16,42,67,0.18); }
+.erezept-image { min-height: 460px; background: linear-gradient(145deg, rgba(255,255,255,0.16), rgba(255,255,255,0.01)), repeating-linear-gradient(135deg, transparent 0 26px, rgba(255,255,255,0.08) 27px 28px), linear-gradient(145deg, #007c91, #0b2941 70%); }
+.about-image { background: radial-gradient(circle at 65% 27%, rgba(231,182,74,0.80), transparent 0 11%), repeating-linear-gradient(135deg, transparent 0 25px, rgba(255,255,255,0.18) 26px 27px), linear-gradient(145deg, #cae6e8, #007c91); }
+.team-card { height: 470px; background: linear-gradient(0deg, rgba(11,41,65,0.80), rgba(11,41,65,0.05) 70%), radial-gradient(circle at 72% 23%, rgba(231,182,74,0.72), transparent 0 12%), linear-gradient(145deg, #08788a, #0b2941); }
+.team-overlay { border: 1px solid rgba(255,255,255,0.52); box-shadow: 0 14px 36px rgba(11,41,65,0.18); }
+#openStatus { display: inline-flex; align-items: center; gap: 7px; }
+.hero-service-links { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 20px; font-size: 0.94rem; font-weight: 650; }
+.hero-service-links a { color: var(--blue); text-decoration: underline; text-decoration-color: rgba(0,124,145,.42); text-underline-offset: 4px; }
+.hero-service-links a:hover { color: var(--green-dark); }
+.erezept-steps { display: grid; gap: 12px; margin: 28px 0; }
+.erezept-step { display: grid; grid-template-columns: 30px 1fr; align-items: start; gap: 12px; }
+.erezept-step b { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--adler-accent); color: var(--blue); font-size: .85rem; }
+.service-notes { margin-top: 30px; padding: 22px; border-radius: 16px; background: #fff; box-shadow: 0 12px 30px rgba(16,42,67,.08); }
+.service-notes h3 { color: var(--blue); margin-bottom: 8px; }
+.service-notes p + p { margin-top: 9px; }
+.cookie-banner { position: fixed; z-index: 1200; inset: auto 18px 18px auto; max-width: 460px; padding: 20px; border-radius: 16px; background: var(--blue); color: #fff; box-shadow: 0 24px 65px rgba(16,42,67,.28); }
+.cookie-banner p { margin: 8px 0 15px; color: #e4eff4; font-size: .94rem; }
+.cookie-banner a { text-decoration: underline; text-underline-offset: 3px; }
+.cookie-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.cookie-actions button { border: 1px solid rgba(255,255,255,.65); border-radius: 999px; padding: 10px 14px; background: transparent; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+.cookie-actions button:first-child { background: var(--adler-accent); border-color: var(--adler-accent); color: var(--blue); }
+@media (max-width: 600px) { .cookie-banner { inset: auto 12px 12px; max-width: none; } .hero-service-links { gap: 12px 16px; } }
+@media (max-width: 850px) { .hero { min-height: 780px; } .hero::after { width: 88%; height: 38%; right: 6%; top: auto; bottom: 6%; } .hero-content { max-width: 100%; } }
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<header>
+
+<div class="container">
+
+<nav>
+
+<a href="#" class="logo">
+
+<span class="logo-mark" aria-hidden="true">A</span>
+
+<span class="logo-name">
+Adler Apotheke
+</span>
+
+</a>
+
+
+<div class="nav-links">
+
+<a href="#leistungen">
+Leistungen
+</a>
+
+<a href="#erezept">
+E-Rezept
+</a>
+
+<a href="https://ihreapotheken.de/apotheke/adler-apotheke-krefeld-47798-120048" target="_blank" rel="noopener noreferrer">
+Onlineshop
+</a>
+
+<a href="#ueber-uns">
+Über uns
+</a>
+
+<a href="#team">
+Team
+</a>
+
+<a href="#kontakt">
+Kontakt
+</a>
+
+</div>
+
+
+<a
+href="tel:+49215124414"
+class="nav-cta"
+>
+Anrufen
+</a>
+
+
+<button
+class="menu-button"
+id="menuButton"
+aria-label="Menü öffnen"
+aria-expanded="false"
+>
+☰
+</button>
+
+</nav>
+
+</div>
+
+</header>
+
+
+<!-- =====================================================
+     MOBILE MENU
+===================================================== -->
+
+<div
+class="mobile-menu"
+id="mobileMenu"
+aria-label="Mobile Navigation"
+>
+
+<a href="#leistungen">
+Leistungen
+</a>
+
+<a href="#erezept">
+E-Rezept
+</a>
+
+<a href="https://ihreapotheken.de/apotheke/adler-apotheke-krefeld-47798-120048" target="_blank" rel="noopener noreferrer">
+Onlineshop
+</a>
+
+<a href="#ueber-uns">
+Über uns
+</a>
+
+<a href="#team">
+Team
+</a>
+
+<a href="#kontakt">
+Kontakt
+</a>
+
+</div>
+
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+<div class="container">
+
+<div class="hero-content reveal">
+
+<div class="eyebrow">
+
+<span class="eyebrow-dot"></span>
+
+Heute für Sie da
+
+</div>
+
+
+<h1>
+
+Ihre Gesundheit.
+Unsere Beratung.
+
+</h1>
+
+
+<p class="hero-text">
+
+Ihre Apotheke im Herzen von Krefeld – direkt am Neumarkt.
+Persönlich, kompetent und mit einem Service, auf den Sie sich verlassen können.
+
+</p>
+
+
+<div class="hero-buttons">
+
+<a class="button button-primary popup-button" href="https://ihreapotheken.de/apotheke/adler-apotheke-krefeld-47798-120048" target="_blank" rel="noopener noreferrer">E-Rezept einlösen →</a>
+
+</div>
+
+<div class="hero-service-links" aria-label="Weitere schnelle Wege">
+<a href="https://ihreapotheken.de/apotheke/adler-apotheke-krefeld-47798-120048" target="_blank" rel="noopener noreferrer">Onlineshop öffnen</a>
+<a href="tel:+49215124414">Jetzt anrufen</a>
+<a href="https://www.google.com/maps/search/?api=1&query=Hochstra%C3%9Fe+58+47798+Krefeld" target="_blank" rel="noopener noreferrer">Route planen</a>
+<a href="#lieferdienst">Lieferdienst</a>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     QUICK INFO
+===================================================== -->
+
+<div class="quick-info">
+
+<div class="container">
+
+<div class="quick-grid reveal">
+
+
+<div class="quick-item">
+
+<div class="quick-label">
+Status
+</div>
+
+<div
+class="quick-value"
+id="openStatus"
+role="status"
+aria-live="polite"
+>
+
+Wird geprüft …
+
+</div>
+
+</div>
+
+
+<div class="quick-item">
+
+<div class="quick-label">
+Adresse
+</div>
+
+<div class="quick-value">
+<a href="https://www.google.com/maps/search/?api=1&query=Hochstra%C3%9Fe+58+47798+Krefeld" target="_blank" rel="noopener noreferrer">Hochstraße 58 · Krefeld</a>
+</div>
+
+</div>
+
+
+<div class="quick-item">
+
+<div class="quick-label">
+Telefon
+</div>
+
+<div class="quick-value">
+02151 24414
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     LEISTUNGEN
+===================================================== -->
+
+<section
+id="leistungen"
+class="services"
+>
+
+<div class="container">
+
+
+<div class="services-header reveal">
+
+<div class="section-label">
+Unsere Leistungen
+</div>
+
+<h2 class="section-title">
+
+Mehr als nur Medikamente.
+
+</h2>
+
+<p class="section-description">
+
+Wir verbinden persönliche Beratung mit modernen
+Gesundheitsleistungen.
+
+</p>
+
+</div>
+
+
+<div class="services-grid">
+
+
+<div class="service-card reveal">
+
+<div class="service-icon">
+💊
+</div>
+
+<h3>
+Arzneimittelberatung
+</h3>
+
+<p>
+Persönliche Beratung rund um Ihre Arzneimittel
+und deren Anwendung.
+</p>
+
+</div>
+
+
+<div class="service-card reveal">
+
+<div class="service-icon">
+📱
+</div>
+
+<h3>
+E-Rezept
+</h3>
+
+<p>
+E-Rezepte über die iA.de-App und
+Ihre Gesundheitskarte einlösen.
+</p>
+
+</div>
+
+
+<div class="service-card reveal">
+
+<div class="service-icon">
+🩺
+</div>
+
+<h3>
+Gesundheitschecks
+</h3>
+
+<p>
+Blutdruck, Blutzucker und Cholesterin
+prüfen und persönlich beraten lassen.
+</p>
+
+</div>
+
+
+<div class="service-card reveal">
+
+<div class="service-icon">
+🧦
+</div>
+
+<h3>
+Kompressionsversorgung
+</h3>
+
+<p>
+Bandagen, Stütz- und Kompressionsstrümpfe
+fachgerecht anmessen lassen.
+</p>
+
+</div>
+
+
+<div class="service-card reveal">
+
+<div class="service-icon">
+✈️
+</div>
+
+<h3>
+Reiseimpfberatung
+</h3>
+
+<p>
+Gut vorbereitet reisen – mit individueller
+Beratung zu Ihrer Gesundheitsvorsorge.
+</p>
+
+</div>
+
+
+<div class="service-card reveal">
+
+<div class="service-icon">
+🚲
+</div>
+
+<h3>
+Botendienst
+</h3>
+
+<p>
+Montag bis Freitag liefern wir in Krefeld
+bei Bestellung bis 15 Uhr noch am selben Tag.
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     E-REZEPT
+===================================================== -->
+
+<section
+id="erezept"
+class="erezept"
+>
+
+<div class="container erezept-grid">
+
+
+<div class="reveal">
+
+<div class="section-label">
+Digitaler Service
+</div>
+
+<h2 class="section-title">
+
+Ihr E-Rezept.
+Einfach und bequem.
+
+</h2>
+
+<p class="section-description">
+
+Mit der iA.de-App lösen Sie Ihr E-Rezept sicher über Ihre Gesundheitskarte bei der Adler Apotheke ein. Der digitale Vorgang und ein möglicher Rezept-Upload erfolgen ausschließlich über IhreApotheken.de.
+
+</p>
+
+<div class="erezept-steps" aria-label="E-Rezept in drei Schritten">
+<div class="erezept-step"><b>1</b><span>iA.de-App herunterladen und die Adler Apotheke Krefeld auswählen.</span></div>
+<div class="erezept-step"><b>2</b><span>„Über Ihre Gesundheitskarte“ wählen und den Anweisungen auf Ihrem Smartphone folgen.</span></div>
+<div class="erezept-step"><b>3</b><span>Nach der Bereitstellungsnachricht kostenlos abholen oder den Botendienst nutzen.</span></div>
+</div>
+
+
+<div class="hero-buttons">
+
+<a class="button button-primary" href="https://ihreapotheken.de/apotheke/adler-apotheke-krefeld-47798-120048" target="_blank" rel="noopener noreferrer">Zur sicheren E-Rezept-Einlösung →</a>
+
+</div>
+</div>
+
+
+<div class="erezept-image reveal"></div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SERVICE, ANGEBOTE UND FAQ
+===================================================== -->
+
+<section id="lieferdienst" class="services">
+<div class="container">
+<div class="services-header reveal">
+<div class="section-label">Lieferdienst &amp; Service</div>
+<h2 class="section-title">Für Sie da, auch wenn der Weg einmal zu weit ist.</h2>
+<p class="section-description">Praktische Services, die Ihre Gesundheitsversorgung einfacher machen.</p>
+</div>
+<div class="services-grid">
+<div class="service-card reveal"><div class="service-icon">🚲</div><h3>Lieferdienst</h3><p>Unser Botendienst liefert Montag bis Freitag in ganz Krefeld. Bis 15 Uhr bestellt, soweit vorrätig, noch am selben Tag.</p></div>
+<div class="service-card reveal"><div class="service-icon">⚕</div><h3>Rezeptur</h3><p>Individuelle Arzneimittel stellen wir mit Sorgfalt und pharmazeutischer Qualität her.</p></div>
+<div class="service-card reveal"><div class="service-icon">◌</div><h3>Geräteverleih</h3><p>Milchpumpen, Babywaagen und Blutdruckmessgeräte können Sie bei uns kostengünstig ausleihen.</p></div>
+</div>
+<div class="service-notes reveal">
+<h3>Abholung, Lieferdienst und Hilfe außerhalb der Öffnungszeiten</h3>
+<p>Ihre Bestellung können Sie während der Öffnungszeiten kostenlos abholen; sie liegt bis zu zwei Wochen für Sie bereit. Der Botendienst ist ab 10 Euro Bestellwert oder mit Rezept kostenfrei, sonst fallen 2,95 Euro Botengebühr an. Samstags liefern wir nicht aus.</p>
+<p><a href="https://www.aponet.de/apotheke/notdienstsuche/47800/%20/5" target="_blank" rel="noopener noreferrer">Apotheken-Notdienst in Krefeld finden →</a></p>
+</div>
+</div>
+</section>
+
+<section id="faq" class="contact">
+<div class="container">
+<div class="section-label reveal">Gut zu wissen</div>
+<h2 class="section-title reveal">Häufige Fragen</h2>
+<div class="reveal">
+<details><summary>Wie löse ich mein E-Rezept ein?</summary><p>Laden Sie die iA.de-App herunter, wählen Sie die Adler Apotheke Krefeld und lösen Sie Ihr E-Rezept über Ihre Gesundheitskarte ein.</p></details>
+<details><summary>Kann ich eine Botendienstlieferung nutzen?</summary><p>Ja. Bestellungen bis 15 Uhr liefern wir Montag bis Freitag in Krefeld noch am selben Tag, soweit vorrätig. Ab 10 Euro Bestellwert oder mit Rezept ist der Service kostenfrei; samstags bieten wir keinen Botendienst an.</p></details>
+<details><summary>Wo finde ich aktuelle Angebote?</summary><p>Aktuelle Verfügbarkeiten und Preise sehen Sie direkt in unserem Onlineshop.</p></details>
+<details><summary>Kann ich mein Rezept hochladen?</summary><p>Ja. Nutzen Sie dafür ausschließlich den sicheren Weg über IhreApotheken.de. Dort werden Sie durch den Rezept-Upload oder die Einlösung per Gesundheitskarte geführt.</p></details>
+<details><summary>Wie erreiche ich die Apotheke schnell?</summary><p>Rufen Sie uns unter <a href="tel:+49215124414">02151 24414</a> an oder schreiben Sie an <a href="mailto:info@adler-krefeld.de">info@adler-krefeld.de</a>. Bitte senden Sie keine Gesundheitsdaten unverschlüsselt per E-Mail.</p></details>
+</div>
+</div>
+</section>
+
+<!-- =====================================================
+     ÜBER UNS
+===================================================== -->
+
+<section
+id="ueber-uns"
+class="about"
+>
+
+<div class="container about-grid">
+
+
+<div class="about-image reveal"></div>
+
+
+<div class="reveal">
+
+<div class="section-label">
+Über uns
+</div>
+
+<h2 class="section-title">
+
+Persönlich.
+Kompetent.
+Für Sie da.
+
+</h2>
+
+
+<div class="about-text">
+
+<p>
+
+Die Adler Apotheke ist seit 1707 Teil von Krefeld und wird seit 1943 von der Familie Claßen geführt.
+
+</p>
+
+<p>
+
+Mit geprüften Qualitätsprozessen und viel persönlicher Zeit begleiten wir Sie bei Ihren Fragen rund um Gesundheit und Wohlbefinden.
+
+</p>
+
+</div>
+
+
+<button
+class="button button-primary"
+onclick="openModal('teamModal')"
+>
+
+Unser Team kennenlernen →
+
+</button>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     TEAM
+===================================================== -->
+
+<section
+id="team"
+class="team"
+>
+
+<div class="container">
+
+
+<div class="section-label reveal">
+Unser Team
+</div>
+
+<h2 class="section-title reveal">
+
+Menschen, die sich
+um Sie kümmern.
+
+</h2>
+
+
+<div class="team-card reveal">
+
+<div class="team-overlay">
+
+<h3>
+Persönliche Beratung steht bei uns im Mittelpunkt.
+</h3>
+
+<p>
+Inhaberin Gaby Claßen und ihr Team sind gerne für Ihre Fragen da.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     MONATSANGEBOTE
+===================================================== -->
+
+<section id="angebote" class="services">
+<div class="container">
+<div class="services-header reveal">
+<div class="section-label">Aktuell im Onlineshop</div>
+<h2 class="section-title">Monatsangebote für die kalte Jahreszeit.</h2>
+<p class="section-description">Die aktuellen Angebote der Adler Apotheke finden Sie mit Verfügbarkeit und Preis direkt in unserem Onlineshop.</p>
+</div>
+<div class="services-grid">
+<div class="service-card reveal"><div class="service-icon">✦</div><h3>Grippostad C</h3><p>Aktuelles Monatsangebot im Onlineshop entdecken.</p></div>
+<div class="service-card reveal"><div class="service-icon">✦</div><h3>Aspirin Complex</h3><p>Aktuelles Monatsangebot im Onlineshop entdecken.</p></div>
+<div class="service-card reveal"><div class="service-icon">✦</div><h3>apoday Heiße Zitrone</h3><p>Aktuelles Monatsangebot im Onlineshop entdecken.</p></div>
+<div class="service-card reveal"><div class="service-icon">✦</div><h3>orthomol immun</h3><p>Aktuelles Monatsangebot im Onlineshop entdecken.</p></div>
+</div>
+<div class="hero-buttons reveal">
+<a class="button button-primary" href="https://ihreapotheken.de/apotheke/adler-apotheke-krefeld-47798-120048" target="_blank" rel="noopener noreferrer">Angebote im Onlineshop ansehen</a>
+</div>
+</div>
+</section>
+
+
+<!-- =====================================================
+     KONTAKT
+===================================================== -->
+
+<section
+id="kontakt"
+class="contact"
+>
+
+<div class="container">
+
+
+<div class="section-label reveal">
+Kontakt
+</div>
+
+<h2 class="section-title reveal">
+
+Wir sind für Sie da.
+
+</h2>
+
+<p class="section-description reveal">
+
+Besuchen Sie uns am Neumarkt in Krefeld oder kontaktieren
+Sie uns telefonisch oder per E-Mail.
+
+</p>
+
+
+<div class="contact-grid">
+
+
+<div class="contact-card reveal">
+
+<h3>
+Adler Apotheke Krefeld
+</h3>
+
+
+<div class="contact-row">
+
+<div class="contact-label">
+Adresse
+</div>
+
+<div class="contact-value">
+
+Hochstraße 58<br>
+47798 Krefeld
+
+</div>
+
+</div>
+
+
+<div class="contact-row">
+
+<div class="contact-label">
+Telefon
+</div>
+
+<div class="contact-value">
+
+<a href="tel:+49215124414">02151 24414</a>
+
+</div>
+
+</div>
+
+
+<div class="contact-row">
+
+<div class="contact-label">
+E-Mail
+</div>
+
+<div class="contact-value">
+
+<a href="mailto:info@adler-krefeld.de">info@adler-krefeld.de</a>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="contact-card reveal">
+
+<h3>
+Öffnungszeiten
+</h3>
+
+
+<div class="contact-row">
+
+<div class="contact-label">
+Montag – Freitag
+</div>
+
+<div class="contact-value">
+09:00 – 18:30 Uhr
+</div>
+
+</div>
+
+
+<div class="contact-row">
+
+<div class="contact-label">
+Samstag
+</div>
+
+<div class="contact-value">
+09:30 – 16:00 Uhr
+</div>
+
+</div>
+
+
+<div class="contact-row">
+
+<div class="contact-label">
+Sonntag
+</div>
+
+<div class="contact-value">
+Geschlossen
+</div>
+
+</div>
+
+
+<a
+href="https://www.google.com/maps/search/?api=1&query=Hochstra%C3%9Fe+58+47798+Krefeld"
+target="_blank"
+rel="noopener noreferrer"
+class="button button-primary"
+>
+
+Route planen →
+
+</a>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+<div class="container">
+
+<div class="footer-grid">
+
+<div>
+
+<h3>
+Adler Apotheke Krefeld
+</h3>
+
+<p>
+Ihre Apotheke im Herzen von Krefeld.
+</p>
+
+</div>
+
+
+<div>
+
+<h4>
+Navigation
+</h4>
+
+<p>
+<a href="#leistungen">
+Leistungen
+</a>
+</p>
+
+<p>
+<a href="#erezept">
+E-Rezept
+</a>
+</p>
+
+<p>
+<a href="#kontakt">
+Kontakt
+</a>
+</p>
+
+<p>
+<a href="https://www.aponet.de/apotheke/notdienstsuche/47800/%20/5" target="_blank" rel="noopener noreferrer">
+Notdienst
+</a>
+</p>
+
+</div>
+
+
+<div>
+
+<h4>
+Rechtliches
+</h4>
+
+<p>
+<a href="https://adler-krefeld.de/impressum/" target="_blank" rel="noopener noreferrer">
+Impressum
+</a>
+</p>
+
+<p>
+<a href="https://adler-krefeld.de/datenschutzerklaerung/" target="_blank" rel="noopener noreferrer">
+Datenschutz
+</a>
+</p>
+
+</div>
+
+</div>
+
+
+<div class="footer-bottom">
+
+© 2026 Adler Apotheke Krefeld
+
+</div>
+
+</div>
+
+</footer>
+
+<aside class="cookie-banner" id="cookieBanner" aria-labelledby="cookieTitle" hidden>
+<strong id="cookieTitle">Ihre Privatsphäre</strong>
+<p>Diese Website setzt keine Analyse- oder Marketing-Cookies ein. Externe Dienste wie IhreApotheken.de, Google Maps und Aponet öffnen erst nach Ihrem Klick und gelten dort nach deren Datenschutzhinweisen.</p>
+<div class="cookie-actions">
+<button type="button" id="cookieAcknowledge">Verstanden</button>
+<a href="https://adler-krefeld.de/datenschutzerklaerung/" target="_blank" rel="noopener noreferrer">Datenschutz</a>
+</div>
+</aside>
+
+
+<!-- =====================================================
+     E-REZEPT POPUP
+===================================================== -->
+
+<div
+class="modal"
+id="erezeptModal"
+hidden
+role="dialog"
+aria-modal="true"
+aria-labelledby="erezeptModalTitle"
+onclick="closeOutside(event,'erezeptModal')"
+>
+
+<div class="modal-content">
+
+<button
+class="close"
+onclick="closeModal('erezeptModal')"
+>
+×
+</button>
+
+
+<h2 id="erezeptModalTitle">
+E-Rezept
+</h2>
+
+<p>
+
+Hier würde bei einer echten Apotheke die
+sichere E-Rezept-Funktion integriert werden.
+
+</p>
+
+
+<div class="demo-box">
+
+<strong>
+Demo-Funktion
+</strong>
+
+Diese Version dient ausschließlich zu
+Lernzwecken und verarbeitet keine echten
+Gesundheitsdaten.
+
+</div>
+
+
+<button
+class="button button-primary"
+onclick="closeModal('erezeptModal')"
+>
+
+Verstanden
+
+</button>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     VORBESTELLUNGS POPUP
+===================================================== -->
+
+<div
+class="modal"
+id="orderModal"
+hidden
+role="dialog"
+aria-modal="true"
+aria-labelledby="orderModalTitle"
+onclick="closeOutside(event,'orderModal')"
+>
+
+<div class="modal-content order-modal">
+
+<button
+class="close"
+onclick="closeModal('orderModal')"
+>
+×
+</button>
+
+<h2 id="orderModalTitle">
+Medikament vorbestellen
+</h2>
+
+<p>
+Senden Sie uns eine unverbindliche Anfrage.
+Wir melden uns anschließend bei Ihnen.
+</p>
+
+
+<form id="orderForm">
+
+
+<div class="form-row">
+
+<div class="form-group">
+
+<label for="firstName">
+Vorname
+</label>
+
+<input
+type="text"
+id="firstName"
+name="firstName"
+placeholder="Max"
+autocomplete="given-name"
+maxlength="100"
+required
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="lastName">
+Nachname
+</label>
+
+<input
+type="text"
+id="lastName"
+name="lastName"
+placeholder="Mustermann"
+autocomplete="family-name"
+maxlength="100"
+required
+>
+
+</div>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="phone">
+Telefonnummer
+</label>
+
+<input
+type="tel"
+id="phone"
+name="phone"
+placeholder="02151 24414"
+autocomplete="tel"
+inputmode="tel"
+minlength="5"
+maxlength="50"
+pattern="[0-9+() ./-]+"
+required
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="medicine">
+Medikament / Artikel
+</label>
+
+<input
+type="text"
+id="medicine"
+name="medicine"
+placeholder="Name des Medikaments"
+maxlength="500"
+required
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="message">
+Nachricht
+<span>(optional)</span>
+</label>
+
+<textarea
+id="message"
+name="message"
+rows="4"
+maxlength="2000"
+placeholder="Weitere Informationen ..."
+></textarea>
+
+</div>
+
+
+<label class="checkbox">
+
+<input
+type="checkbox"
+id="callback"
+>
+
+<span>
+Ich möchte telefonisch über die Verfügbarkeit
+informiert werden.
+</span>
+
+</label>
+
+
+<button
+type="submit"
+class="button button-primary form-submit"
+>
+
+Anfrage senden →
+
+</button>
+
+
+<div
+id="formSuccess"
+class="form-success"
+>
+
+<strong>
+✓ Anfrage vorbereitet
+</strong>
+
+<p>
+In unserer Demo wurde die Anfrage erfolgreich
+erfasst. Eine echte Website würde sie jetzt
+sicher an die Apotheke übermitteln.
+</p>
+
+</div>
+
+
+</form>
+
+</div>
+
+</div>
+
+<!-- =====================================================
+     TEAM POPUP
+===================================================== -->
+
+<div
+class="modal"
+id="teamModal"
+hidden
+role="dialog"
+aria-modal="true"
+aria-labelledby="teamModalTitle"
+onclick="closeOutside(event,'teamModal')"
+>
+
+<div class="modal-content">
+
+<button
+class="close"
+onclick="closeModal('teamModal')"
+>
+×
+</button>
+
+
+<h2 id="teamModalTitle">
+Unser Team
+</h2>
+
+<p>
+
+Lernen Sie unser pharmazeutisches Team
+persönlich vor Ort kennen.
+
+</p>
+
+
+<div class="demo-box">
+
+<strong>
+Apothekerliche Beratung
+</strong>
+
+Wir nehmen uns Zeit für Ihre Fragen
+und Anliegen.
+
+</div>
+
+
+<button
+class="button button-primary"
+onclick="closeModal('teamModal')"
+>
+
+Schließen
+
+</button>
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+/* =====================================================
+   VORBESTELLUNGS FORMULAR
+===================================================== */
+
+const orderForm =
+    document.getElementById("orderForm");
+
+const formSuccess =
+    document.getElementById("formSuccess");
+
+let orderSubmitting = false;
+
+
+orderForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        const href = this.getAttribute("href");
+        if (!href || !href.startsWith("#")) return;
+        event.preventDefault();
+
+        if (orderSubmitting) return;
+        orderSubmitting = true;
+        const submitButton = orderForm.querySelector("button[type='submit']");
+        const originalButtonText = submitButton.textContent;
+        submitButton.disabled = true;
+        submitButton.textContent = "Anfrage wird übermittelt ...";
+        formSuccess.classList.remove("active");
+
+
+        /* ---------------------------------------------
+           FORMULARWERTE AUSLESEN
+        --------------------------------------------- */
+
+        const firstName =
+            document.getElementById("firstName").value.trim();
+
+        const lastName =
+            document.getElementById("lastName").value.trim();
+
+        const phone =
+            document.getElementById("phone").value.trim();
+
+        const medicine =
+            document.getElementById("medicine").value.trim();
+
+        const message =
+            document.getElementById("message").value.trim();
+
+        const callback =
+            document.getElementById("callback").checked;
+
+
+        /* ---------------------------------------------
+           DATEN AN SUPABASE SENDEN
+        --------------------------------------------- */
+
+        try {
+
+            const response = await fetch(
+                "https://iezjojbuyzugfguhizyw.supabase.co/functions/v1/submit-order",
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "apikey":
+                            "sb_publishable_M-EP4v8yBM092Lkgau701Q_EISGyFfe"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        first_name: firstName,
+
+                        last_name: lastName,
+
+                        phone: phone,
+
+                        medicine: medicine,
+
+                        message: message || null,
+
+                        callback: callback
+
+                    })
+
+                }
+            );
+
+
+            /* -----------------------------------------
+               FEHLER PRÜFEN
+            ----------------------------------------- */
+
+            if (!response.ok) {
+
+                if (response.status === 400) {
+                    throw new Error("Bitte prüfen Sie Ihre Angaben, insbesondere die Telefonnummer.");
+                }
+
+                if (response.status === 429) {
+                    throw new Error(
+                        "Zu viele Anfragen. Bitte versuchen Sie es später erneut."
+                    );
+                }
+
+                throw new Error(
+                    "Die Anfrage konnte nicht gespeichert werden."
+                );
+
+            }
+
+
+            /* -----------------------------------------
+               ERFOLGSMELDUNG
+            ----------------------------------------- */
+
+           formSuccess.classList.add("active");
+
+formSuccess.innerHTML = `
+
+    <div class="success-icon">
+        ✓
+    </div>
+
+    <h3>
+        Anfrage erfolgreich übermittelt
+    </h3>
+
+    <p>
+        Vielen Dank, <span id="submittedFirstName"></span>!
+    </p>
+
+    <p>
+        Ihre Vorbestellung wurde erfolgreich
+        an die Adler Apotheke Krefeld übermittelt.
+    </p>
+
+    <p>
+        Wir melden uns bei Ihnen unter der
+        angegebenen Telefonnummer, sobald
+        Ihre Anfrage bearbeitet wurde.
+    </p>
+
+    <button
+    type="button"
+    class="success-home-button"
+    onclick="document.getElementById('orderModal').classList.remove('active'); document.body.style.overflow = '';"
+>
+    Zurück zur Website
+</button>
+
+`;
+
+document
+    .getElementById("submittedFirstName")
+    .textContent = firstName;
+
+
+            /* Formular deaktivieren */
+
+            orderForm
+    .querySelectorAll("input, textarea, button[type='submit']")
+    .forEach(element => {
+
+        element.disabled = true;
+
+    });
+
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            formSuccess.classList.add("active");
+
+            formSuccess.innerHTML = `
+
+                <strong>
+                ⚠️ Es ist ein Fehler aufgetreten.
+                </strong>
+
+                <p>
+                <span id="orderErrorMessage"></span>
+                </p>
+
+            `;
+
+            document
+                .getElementById("orderErrorMessage")
+                .textContent = error instanceof Error
+                    ? error.message
+                    : "Die Anfrage konnte nicht übermittelt werden.";
+
+        } finally {
+            orderSubmitting = false;
+            submitButton.textContent = originalButtonText;
+            if (!orderForm.querySelector("input").disabled) submitButton.disabled = false;
+        }
+
+    }
+);
+
+/* =====================================================
+   MOBILE MENU
+===================================================== */
+
+const menuButton =
+document.getElementById("menuButton");
+
+const mobileMenu =
+document.getElementById("mobileMenu");
+
+
+menuButton.addEventListener(
+"click",
+() => {
+
+    const isOpen =
+        mobileMenu.classList.toggle("active");
+
+    if (isOpen) {
+
+        menuButton.innerHTML = "×";
+        menuButton.setAttribute("aria-expanded", "true");
+        menuButton.setAttribute("aria-label", "Menü schließen");
+
+        document.body.style.overflow = "hidden";
+
+    } else {
+
+        menuButton.innerHTML = "☰";
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.setAttribute("aria-label", "Menü öffnen");
+
+        document.body.style.overflow = "";
+
+    }
+
+}
+);
+
+
+document
+.querySelectorAll(".mobile-menu a")
+.forEach(link => {
+
+    link.addEventListener("click", function(event) {
+
+        const href = this.getAttribute("href");
+        if (!href || !href.startsWith("#")) return;
+
+        event.preventDefault();
+
+        const target =
+            document.querySelector(
+                href
+            );
+
+        mobileMenu.classList.remove("active");
+
+        menuButton.innerHTML = "☰";
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.setAttribute("aria-label", "Menü öffnen");
+
+        document.body.style.overflow = "";
+
+        if (target) {
+
+            setTimeout(() => {
+
+                target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+
+            }, 150);
+
+        }
+
+    });
+
+});
+
+
+
+/* =====================================================
+   POPUPS
+===================================================== */
+
+let lastFocusedElement = null;
+
+function openModal(id) {
+
+const modal = document.getElementById(id);
+lastFocusedElement = document.activeElement;
+modal.hidden = false;
+modal.classList.add("active");
+document.body.style.overflow = "hidden";
+
+const firstControl = modal.querySelector("button, [href], input, textarea, select");
+if (firstControl) firstControl.focus();
+
+}
+
+
+function closeModal(id) {
+
+const modal = document.getElementById(id);
+modal.classList.remove("active");
+modal.hidden = true;
+document.body.style.overflow = "";
+
+if (lastFocusedElement) lastFocusedElement.focus();
+
+}
+
+
+function closeOutside(event,id) {
+
+if(event.target.id === id) {
+
+closeModal(id);
+
+}
+
+}
+
+
+document.addEventListener(
+"keydown",
+event => {
+
+if(event.key === "Escape") {
+
+if (mobileMenu.classList.contains("active")) {
+mobileMenu.classList.remove("active");
+menuButton.innerHTML = "☰";
+menuButton.setAttribute("aria-expanded", "false");
+menuButton.setAttribute("aria-label", "Menü öffnen");
+document.body.style.overflow = "";
+menuButton.focus();
+return;
+}
+
+document
+.querySelectorAll(".modal")
+.forEach(modal => {
+
+closeModal(modal.id);
+
+});
+
+}
+
+if(event.key === "Tab") {
+const modal = document.querySelector(".modal.active");
+if (!modal) return;
+const controls = [...modal.querySelectorAll("button, [href], input, textarea, select")]
+    .filter(control => !control.disabled);
+if (!controls.length) return;
+const first = controls[0];
+const last = controls[controls.length - 1];
+if (event.shiftKey && document.activeElement === first) {
+event.preventDefault();
+last.focus();
+} else if (!event.shiftKey && document.activeElement === last) {
+event.preventDefault();
+first.focus();
+}
+}
+
+}
+);
+
+
+
+/* =====================================================
    SCROLL ANIMATION
 ===================================================== */
 
@@ -184,4 +3451,3 @@ document.getElementById("cookieAcknowledge").addEventListener("click", () => {
 </body>
 
 </html>
-
