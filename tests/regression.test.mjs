@@ -29,7 +29,7 @@ test('Public website uses Adler data and directs sensitive digital services exte
   assert.match(html, /Route planen/);
   assert.match(html, /id="angebote"/);
   assert.match(html, /Monatsangebote für die kalte Jahreszeit/);
-  assert.match(html, /id="orderModal"\s+hidden/);
+  assert.doesNotMatch(html, /id="orderModal"|id="orderForm"|submit-order|Medikament vorbestellen/);
   assert.match(html, /class="logo-mark" aria-hidden="true">A<\/span>/);
   assert.match(html, /--adler-accent: #e7b64a/);
   assert.match(html, /"@type": "Pharmacy"/);
@@ -73,6 +73,16 @@ test('Admin initialization registers a working password login handler', async ()
   assert.equal(calls, 1);
   assert.match(get('loginError').textContent, /Passwort ist falsch/);
   assert.equal(get('loginButton').disabled, false);
+});
+
+test('Admin manages neutral enquiries with categories and the Phase-6 status flow', () => {
+  const html = read('admin.html');
+  assert.match(html, /id="categoryFilter"/);
+  assert.match(html, /Rückrufanfrage/);
+  assert.match(html, /Technische Anfrage/);
+  assert.match(html, /Rückmeldung erforderlich/);
+  assert.match(html, /request_category/);
+  assert.doesNotMatch(html, /Abholbereit/);
 });
 
 const edgeCode = stripTypeScriptTypes(read('supabase/functions/submit-order/index.ts'));
@@ -119,3 +129,4 @@ test('Rate limit prevents insertion', async () => {
   assert.equal((await submit(order)).status,429);
   assert.equal(requests.length,1);
 });
+
