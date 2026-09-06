@@ -791,7 +791,7 @@ button.primary:disabled {
 
 
 /* =====================================================
-   BESTELLUNGEN-BEREICH
+   ANFRAGEN-BEREICH
 ===================================================== */
 
 .orders-section-header {
@@ -2193,7 +2193,7 @@ button.primary:disabled {
             id="soundButton"
             style="display:none;"
             type="button"
-            title="Ton für neue Bestellungen aktivieren"
+            title="Ton für neue Anfragen aktivieren"
         >
             🔔 Ton aktivieren
         </button>
@@ -2227,7 +2227,7 @@ button.primary:disabled {
     class="connection-warning"
     id="connectionWarning"
 >
-    ⚠️ Verbindung zu den Live-Bestellungen unterbrochen. Wiederverbindung wird versucht ...
+    ⚠️ Verbindung zu den Live-Anfragen unterbrochen. Wiederverbindung wird versucht ...
 </div>
 
 
@@ -2382,7 +2382,7 @@ button.primary:disabled {
         <input
             type="text"
             id="orderSearch"
-            placeholder="🔍 Name, Medikament, Telefon oder Nachricht suchen..."
+            placeholder="Name, Anliegen, Telefon oder Nachricht suchen..."
             autocomplete="off"
         >
 
@@ -2402,12 +2402,27 @@ button.primary:disabled {
             </option>
 
             <option value="ready">
-                🟢 Abholbereit
+                Rückmeldung erforderlich
             </option>
 
             <option value="completed">
-                ⚪ Erledigt
+                Erledigt
+
             </option>
+
+        </select>
+
+        <select id="categoryFilter">
+
+            <option value="all">Alle Kategorien</option>
+            <option value="callback">Rückrufanfrage</option>
+            <option value="contact">Allgemeine Kontaktanfrage</option>
+            <option value="consultation">Beratungsanfrage</option>
+            <option value="delivery">Lieferdienst-Frage</option>
+            <option value="equipment_rental">Geräteverleih</option>
+            <option value="health_check">Gesundheitscheck</option>
+            <option value="technical">Technische Anfrage</option>
+            <option value="legacy">Altbestand</option>
 
         </select>
 
@@ -2432,15 +2447,15 @@ button.primary:disabled {
         <select id="completionFilter">
 
             <option value="active">
-                Aktive Bestellungen
+                Aktive Anfragen
             </option>
 
             <option value="completed">
-                Erledigte Bestellungen
+                Erledigte Anfragen
             </option>
 
             <option value="all">
-                Alle Bestellungen
+                Alle Anfragen
             </option>
 
         </select>
@@ -2495,7 +2510,7 @@ button.primary:disabled {
             </div>
 
             <div class="stat-label">
-                🟢 Abholbereit
+                Rückmeldung erforderlich
             </div>
 
         </div>
@@ -2566,7 +2581,7 @@ button.primary:disabled {
             <div class="weekly-item">
 
                 <div class="weekly-item-label">
-                    Bestellungen diese Woche
+                    Anfragen diese Woche
                 </div>
 
                 <div
@@ -2616,7 +2631,7 @@ button.primary:disabled {
 
 
 
-    <!-- BESTELLUNGEN -->
+    <!-- ANFRAGEN -->
 
     <div class="orders-section-header">
 
@@ -2624,7 +2639,7 @@ button.primary:disabled {
             class="orders-section-title"
             id="ordersSectionTitle"
         >
-            Aktive Bestellungen
+            Aktive Anfragen
         </div>
 
 
@@ -2632,7 +2647,7 @@ button.primary:disabled {
             class="orders-section-count"
             id="ordersSectionCount"
         >
-            0 Bestellungen
+            0 Anfragen
         </div>
 
     </div>
@@ -2669,14 +2684,14 @@ button.primary:disabled {
                     class="modal-title"
                     id="modalTitle"
                 >
-                    Bestellung
+                    Anfrage
                 </div>
 
                 <div
                     class="modal-subtitle"
                     id="modalSubtitle"
                 >
-                    Bestelldetails
+                    Anfragedetails
                 </div>
 
             </div>
@@ -2801,6 +2816,9 @@ const orderSearch =
 
 const statusFilter =
     document.getElementById("statusFilter");
+
+const categoryFilter =
+    document.getElementById("categoryFilter");
 
 const dateFilter =
     document.getElementById("dateFilter");
@@ -3410,7 +3428,7 @@ function updateSoundButtons() {
                 );
 
                 button.title =
-                    "Ton für neue Bestellungen aktivieren";
+                    "Ton für neue Anfragen aktivieren";
 
             }
 
@@ -3666,7 +3684,7 @@ async function showAdmin() {
     } else {
 
         showToast(
-            "Bestellungen konnten nicht geladen werden.",
+            "Anfragen konnten nicht geladen werden.",
             "error"
         );
 
@@ -3676,7 +3694,7 @@ async function showAdmin() {
 
 
 /* =====================================================
-   BESTELLUNGEN LADEN
+   ANFRAGEN LADEN
 ===================================================== */
 
 async function loadOrders(
@@ -3699,7 +3717,7 @@ async function loadOrders(
 
             <div class="loading">
 
-                Vorbestellungen werden geladen ...
+                Anfragen werden geladen ...
 
             </div>
 
@@ -3736,7 +3754,7 @@ async function loadOrders(
                     <div class="error">
 
                         Fehler beim Laden der
-                        Vorbestellungen.
+                        Anfragen.
 
                         <br><br>
 
@@ -3819,7 +3837,7 @@ function updateDashboardCounts() {
         ).length;
 
 
-    const readyOrders =
+    const feedbackRequiredOrders =
         allOrders.filter(
             order =>
                 order.status === "ready"
@@ -3874,7 +3892,7 @@ function updateDashboardCounts() {
         processingOrders;
 
     readyCount.textContent =
-        readyOrders;
+        feedbackRequiredOrders;
 
     totalCount.textContent =
         totalOrders;
@@ -3907,7 +3925,7 @@ function updateDashboardCounts() {
 
 
 /* =====================================================
-   BESTELLUNGEN DARSTELLEN
+   ANFRAGEN DARSTELLEN
 ===================================================== */
 
 function renderOrders(
@@ -3922,6 +3940,9 @@ function renderOrders(
 
     const selectedStatus =
         statusFilter.value;
+
+    const selectedCategory =
+        categoryFilter.value;
 
 
     const selectedDate =
@@ -3963,6 +3984,10 @@ function renderOrders(
                     order.status ===
                         selectedStatus;
 
+                const matchesCategory =
+                    selectedCategory === "all"
+                    || order.request_category === selectedCategory;
+
 
                 const matchesDate =
                     selectedDate === "all"
@@ -3991,8 +4016,7 @@ function renderOrders(
                         selectedCompletion ===
                             "active"
                         &&
-                        order.status !==
-                            "completed"
+                        order.status !== "completed"
                     )
                     ||
                     (
@@ -4001,7 +4025,8 @@ function renderOrders(
                         &&
                         order.status ===
                             "completed"
-                    );
+                    )
+                    ;
 
 
                 return (
@@ -4009,6 +4034,8 @@ function renderOrders(
                     matchesSearch
                     &&
                     matchesStatus
+                    &&
+                    matchesCategory
                     &&
                     matchesDate
                     &&
@@ -4036,8 +4063,8 @@ function renderOrders(
 
                 ${
                     allOrders.length === 0
-                    ? "Keine Vorbestellungen vorhanden."
-                    : "Keine passenden Vorbestellungen gefunden."
+                    ? "Keine Anfragen vorhanden."
+                    : "Keine passenden Anfragen gefunden."
                 }
 
             </div>
@@ -4136,11 +4163,8 @@ function renderOrders(
 
                 <div class="order-medicine">
 
-                    💊
-
                     ${escapeHtml(
-                        order.medicine ||
-                        "Kein Medikament angegeben"
+                        getRequestCategoryLabel(order.request_category)
                     )}
 
                 </div>
@@ -4152,7 +4176,7 @@ function renderOrders(
 
                     <br>
 
-                    📱 Rückruf:
+                    Rückruf gewünscht:
 
                     <strong>
 
@@ -4234,8 +4258,8 @@ function renderQuickStatusButtons(
     const statuses = [
         ["new", "🔴 Neu"],
         ["processing", "🟡 Bearbeiten"],
-        ["ready", "🟢 Abholbereit"],
-        ["completed", "⚪ Erledigt"]
+        ["ready", "Rückmeldung"],
+        ["completed", "Erledigt"]
     ];
 
 
@@ -4288,7 +4312,7 @@ function updateOrdersSectionHeader(
 ) {
 
     let title =
-        "Bestellungen";
+        "Anfragen";
 
 
     if (
@@ -4297,7 +4321,7 @@ function updateOrdersSectionHeader(
     ) {
 
         title =
-            "Aktive Bestellungen";
+            "Aktive Anfragen";
 
     }
 
@@ -4308,7 +4332,7 @@ function updateOrdersSectionHeader(
     ) {
 
         title =
-            "Erledigte Bestellungen";
+            "Erledigte Anfragen";
 
     }
 
@@ -4319,7 +4343,7 @@ function updateOrdersSectionHeader(
     ) {
 
         title =
-            "Alle Bestellungen";
+            "Alle Anfragen";
 
     }
 
@@ -4332,8 +4356,8 @@ function updateOrdersSectionHeader(
         count +
         (
             count === 1
-            ? " Bestellung"
-            : " Bestellungen"
+            ? " Anfrage"
+            : " Anfragen"
         );
 
 }
@@ -4430,7 +4454,7 @@ function openOrderDetail(
     if (!order) {
 
         showToast(
-            "Die Bestellung wurde nicht gefunden.",
+            "Die Anfrage wurde nicht gefunden.",
             "error"
         );
 
@@ -4454,7 +4478,7 @@ function openOrderDetail(
 
 
     modalSubtitle.textContent =
-        "Vorbestellung vom " +
+        "Anfrage vom " +
         formatDate(
             order.created_at
         );
@@ -4555,17 +4579,14 @@ function openOrderDetail(
             <div class="detail-item full">
 
                 <div class="detail-label">
-                    Medikament
+                    Kategorie
                 </div>
 
                 <div class="detail-value">
 
-                    💊
-
-                    ${escapeHtml(
-                        order.medicine ||
-                        "Nicht angegeben"
-                    )}
+                    <select id="requestCategorySelect" aria-label="Kategorie der Anfrage">
+                        ${renderRequestCategoryOptions(order.request_category)}
+                    </select>
 
                 </div>
 
@@ -4625,7 +4646,7 @@ function openOrderDetail(
                 class="modal-action-button"
                 id="printOrderButton"
             >
-                🖨️ Bestellung drucken
+                🖨️ Anfrage drucken
             </button>
 
 
@@ -4680,7 +4701,7 @@ function openOrderDetail(
 
             <textarea
                 id="internalNoteInput"
-                placeholder="Interne Notiz zu dieser Bestellung ..."
+                placeholder="Interne Notiz zu dieser Anfrage ..."
             >${escapeHtml(
                 internalNote
             )}</textarea>
@@ -4727,6 +4748,15 @@ function openOrderDetail(
                     order
                 );
 
+            }
+        );
+
+    document
+        .getElementById("requestCategorySelect")
+        .addEventListener(
+            "change",
+            function(event) {
+                updateOrderCategory(order.id, event.target.value);
             }
         );
 
@@ -4778,8 +4808,8 @@ function renderModalStatusButtons(
     const statuses = [
         ["new", "🔴 Neu"],
         ["processing", "🟡 In Bearbeitung"],
-        ["ready", "🟢 Abholbereit"],
-        ["completed", "⚪ Erledigt"]
+        ["ready", "Rückmeldung erforderlich"],
+        ["completed", "Erledigt"]
     ];
 
 
@@ -5082,6 +5112,38 @@ async function updateOrderStatus(
 
         }
 
+    }
+
+}
+
+async function updateOrderCategory(orderId, requestCategory) {
+
+    const order = allOrders.find(item => String(item.id) === String(orderId));
+
+    if (!order || order.request_category === requestCategory) {
+        return;
+    }
+
+    try {
+        const { data, error } = await supabaseClient
+            .from("orders")
+            .update({ request_category: requestCategory })
+            .eq("id", orderId)
+            .select("id,request_category")
+            .single();
+
+        if (error) {
+            throw error;
+        }
+
+        order.request_category = data.request_category;
+        renderOrders();
+        updateLastUpdated();
+        showToast("Kategorie gespeichert.", "success");
+    } catch (error) {
+        console.error(error);
+        showToast("Die Kategorie konnte nicht geändert werden.", "error");
+        openOrderDetail(orderId);
     }
 
 }
@@ -5425,8 +5487,8 @@ Adler Apotheke Krefeld
 Name:
 ${order.first_name || ""} ${order.last_name || ""}
 
-Medikament:
-${order.medicine || "Nicht angegeben"}
+Kategorie:
+${getRequestCategoryLabel(order.request_category)}
 
 Telefon:
 ${order.phone || "Nicht angegeben"}
@@ -5451,7 +5513,7 @@ ${formatDate(order.created_at)}
 
 
         showToast(
-            "Bestelldaten kopiert.",
+            "Anfragedaten kopiert.",
             "success"
         );
 
@@ -5498,7 +5560,7 @@ ${formatDate(order.created_at)}
             );
 
             showToast(
-                "Bestelldaten kopiert.",
+                "Anfragedaten kopiert.",
                 "success"
             );
 
@@ -5546,7 +5608,7 @@ function printOrder(
             </div>
 
             <div class="print-subtitle">
-                Vorbestellung
+                Anfrage
             </div>
 
 
@@ -5574,13 +5636,12 @@ function printOrder(
             <div class="print-row">
 
                 <div class="print-label">
-                    Medikament
+                    Kategorie
                 </div>
 
                 <div class="print-value">
                     ${escapeHtml(
-                        order.medicine ||
-                        "Nicht angegeben"
+                        getRequestCategoryLabel(order.request_category)
                     )}
                 </div>
 
@@ -5938,7 +5999,7 @@ function startRealtime() {
                 function(payload) {
 
                     console.log(
-                        "Vorbestellung aktualisiert:",
+                        "Anfrage aktualisiert:",
                         payload.new
                     );
 
@@ -6154,7 +6215,7 @@ function clearReconnectTimer() {
 
 
 /* =====================================================
-   NEUE BESTELLUNG BENACHRICHTIGUNG
+   NEUE ANFRAGE BENACHRICHTIGUNG
 ===================================================== */
 
 function getNotifiedOrders() {
@@ -6276,7 +6337,7 @@ function showNewOrderNotification(
 
         <div class="notification-title">
 
-            🔴 Neue Vorbestellung
+            Neue Anfrage
 
         </div>
 
@@ -6293,11 +6354,8 @@ function showNewOrderNotification(
 
             <br>
 
-            💊
-
             ${escapeHtml(
-                order.medicine ||
-                "Kein Medikament angegeben"
+                getRequestCategoryLabel(order.request_category)
             )}
 
         </div>
@@ -6305,7 +6363,7 @@ function showNewOrderNotification(
 
         <div class="notification-action">
 
-            Klicken, um Bestellung zu öffnen →
+            Klicken, um Anfrage zu öffnen →
 
         </div>
 
@@ -6373,7 +6431,7 @@ function updateTabTitle(
     ) {
 
         document.title =
-            "🔴 Neue Bestellung – Apotheke";
+            "Neue Anfrage – Adler Apotheke";
 
     } else {
 
@@ -6755,7 +6813,7 @@ function getStatusLabel(
         status === "new"
     ) {
 
-        return "🔴 Neu";
+        return "Neu";
 
     }
 
@@ -6764,7 +6822,7 @@ function getStatusLabel(
         status === "processing"
     ) {
 
-        return "🟡 In Bearbeitung";
+        return "In Bearbeitung";
 
     }
 
@@ -6773,7 +6831,7 @@ function getStatusLabel(
         status === "ready"
     ) {
 
-        return "🟢 Abholbereit";
+        return "Rückmeldung erforderlich";
 
     }
 
@@ -6782,7 +6840,7 @@ function getStatusLabel(
         status === "completed"
     ) {
 
-        return "⚪ Erledigt";
+        return "Erledigt";
 
     }
 
@@ -6818,7 +6876,7 @@ function getStatusLabelPlain(
         status === "ready"
     ) {
 
-        return "Abholbereit";
+        return "Rückmeldung erforderlich";
 
     }
 
@@ -6833,6 +6891,36 @@ function getStatusLabelPlain(
 
 
     return "Unbekannt";
+
+}
+
+function getRequestCategoryLabel(category) {
+
+    return ({
+        callback: "Rückrufanfrage",
+        contact: "Allgemeine Kontaktanfrage",
+        consultation: "Beratungsanfrage",
+        delivery: "Lieferdienst-Frage",
+        equipment_rental: "Geräteverleih",
+        health_check: "Gesundheitscheck",
+        technical: "Technische Anfrage",
+        legacy: "Altbestand"
+    })[category] || "Nicht zugeordnet";
+
+}
+
+function renderRequestCategoryOptions(selectedCategory) {
+
+    const categories = [
+        "callback", "contact", "consultation", "delivery",
+        "equipment_rental", "health_check", "technical", "legacy"
+    ];
+
+    return categories.map(category => `
+        <option value="${category}" ${category === selectedCategory ? "selected" : ""}>
+            ${getRequestCategoryLabel(category)}
+        </option>
+    `).join("");
 
 }
 
@@ -6901,7 +6989,7 @@ async function manualRefresh() {
     if (success) {
 
         showToast(
-            "Vorbestellungen aktualisiert.",
+            "Anfragen aktualisiert.",
             "success"
         );
 
@@ -7130,6 +7218,15 @@ orderSearch.addEventListener(
 
 
 statusFilter.addEventListener(
+    "change",
+    function() {
+
+        renderOrders();
+
+    }
+);
+
+categoryFilter.addEventListener(
     "change",
     function() {
 
