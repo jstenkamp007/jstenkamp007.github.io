@@ -135,6 +135,9 @@ alter table public.orders
   alter column status set default 'new',
   alter column status set not null;
 
+alter table public.orders
+  add column if not exists request_category text not null default 'legacy';
+
 alter table public.orders drop constraint if exists orders_first_name_valid;
 alter table public.orders drop constraint if exists orders_last_name_valid;
 alter table public.orders drop constraint if exists orders_phone_valid;
@@ -142,6 +145,7 @@ alter table public.orders drop constraint if exists orders_medicine_valid;
 alter table public.orders drop constraint if exists orders_message_valid;
 alter table public.orders drop constraint if exists orders_status_valid;
 alter table public.orders drop constraint if exists orders_internal_note_valid;
+alter table public.orders drop constraint if exists orders_request_category_valid;
 
 alter table public.orders
   add constraint orders_first_name_valid
@@ -159,6 +163,11 @@ alter table public.orders
     check (message is null or char_length(message) <= 2000),
   add constraint orders_status_valid
     check (status in ('new', 'processing', 'ready', 'completed')),
+  add constraint orders_request_category_valid
+    check (request_category in (
+      'callback', 'contact', 'consultation', 'delivery',
+      'equipment_rental', 'health_check', 'technical', 'legacy'
+    )),
   add constraint orders_internal_note_valid
     check (internal_note is null or char_length(internal_note) <= 2000);
 
@@ -184,7 +193,7 @@ with check ((select private.is_admin()));
 
 revoke all on table public.orders from anon, authenticated;
 grant select on table public.orders to authenticated;
-grant update (status) on public.orders to authenticated;
+grant update (status, request_category) on public.orders to authenticated;
 
 revoke all on sequence public.orders_id_seq from anon, authenticated;
 
