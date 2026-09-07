@@ -28,7 +28,10 @@
 - Admin-RPC und Lesen unter der tatsächlichen authenticated-Datenbankrolle erfolgreich.
 - Einfügen eines synthetischen Datensatzes und Statuswechsel zu completed mit
   gesetztem completed_at erfolgreich, anschließend vollständiger ROLLBACK.
-  Dadurch blieb keine Testbestellung erhalten und keine Benachrichtigung wurde ausgelöst.
+  Dadurch blieb keine Testbestellung erhalten. Dieser Test belegt jedoch nicht,
+  ob der asynchrone `pg_net`-Benachrichtigungsauftrag verarbeitet wurde; für
+  künftige Produktionsprüfungen sind solche Schreibtests ohne abgegrenzte
+  Benachrichtigungsumgebung zu vermeiden.
 - Öffentliche Adminseite enthält wieder den vollständigen Anmeldecode.
 
 Ein erfolgreicher Passwort-Login mit dem persönlichen Konto sowie eine komplette

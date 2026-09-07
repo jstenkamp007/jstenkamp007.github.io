@@ -87,9 +87,9 @@ Weitgehend abgeschlossen und live geprüft am 7. September 2026:
 - `impressum.html` enthält die verifizierten Angaben zu Betreiberin, USt-IdNr., Apothekerkammer, Berufsrecht und Aufsicht; `datenschutz.html` beschreibt die konkrete Bereitstellung über GitHub Pages, die externe Klick-Weiterleitung und den geschützten Supabase-Altbestand.
 - Die Footer-Links verweisen auf die eigenen Rechtsseiten. Die frühere Verlinkung auf die für ALL-INKL formulierten Rechtsseiten von adler-krefeld.de wurde entfernt.
 - Es gibt weder Analyse- noch Marketing-Cookies, eingebettete Drittinhalte noch Browser-Speicher auf der öffentlichen Seite. Externe Dienste öffnen ausschließlich nach aktivem Klick.
-- Historische Anfragen werden nach Abschluss höchstens 90 Tage aufbewahrt und anschließend gelöscht oder anonymisiert, sofern keine vorrangige rechtliche Pflicht entgegensteht.
+- Die Datenschutzerklärung sieht für historische Anfragen höchstens 90 Tage nach Abschluss vor. Im versionierten Datenbankstand existiert derzeit keine automatische Lösch- oder Anonymisierungsroutine; die Umsetzung und Dokumentation des betrieblichen Löschprozesses bleibt vor produktivem Admin-Betrieb erforderlich.
 - Die öffentliche Edge-Function `submit-order` wurde live stillgelegt und antwortet auch bei direktem Zugriff ausschließlich mit HTTP 410 und `Cache-Control: no-store`.
-- CSP-Richtlinien begrenzen die öffentlichen Seiten auf eigene Inhalte; der Adminbereich erlaubt nur seine notwendige Supabase- und jsDelivr-Verbindung.
+- Die öffentlichen Seiten und der Adminbereich enthalten eine restriktive Meta-CSP; der Admin erlaubt nur die notwendige Supabase- und jsDelivr-Verbindung. GitHub Pages liefert diese Website ohne projektdefinierte HTTP-Sicherheitsheader aus; deshalb wird kein HTTP-Schutz gegen Framing oder MIME-Sniffing behauptet. Für erzwingbare HTTP-Header wäre ein vorgeschalteter Hosting-/Proxy-Dienst erforderlich.
 - Getestet: lokaler Regressionstest (10 von 10), lokale HTTP-Abrufe aller vier Seiten (200), veröffentlichte Pages-Inhalte (200) und direkter Live-Abruf des stillgelegten Endpunkts (410 ohne Rückgabe übermittelter Daten).
 
 Ein manueller Supabase-Dashboard-Schritt bleibt offen: Der Schutz gegen bekannte kompromittierte Passwörter ist laut Security Advisor deaktiviert. Er muss vor dem endgültigen Phasenabschluss in den Auth-Sicherheitseinstellungen aktiviert werden.
@@ -105,6 +105,15 @@ Abgeschlossen, veröffentlicht und live geprüft am 7. September 2026:
 - Öffentliche Seiten und die 404-Antwort wurden lokal mit den erwarteten Sicherheitsheadern geprüft. E-Rezept-/Shop-, Notdienst- und Maps-Ziele sowie die offizielle Adler-Website antworteten bei der Prüfung jeweils mit HTTP 200. Title, Beschreibung, Canonical, Open-Graph-Daten, `robots` und strukturierte `Pharmacy`-Daten sind vorhanden.
 - Der Impeccable-Detektor lief im eingeschränkten Regex-Modus, da Parser-Abhängigkeiten fehlen. Er meldet ausschließlich die bereits bekannte bewusst gestaltete Hintergrundbeleuchtung (`dark-glow`, `radial-halo`); das ist kein bestätigter Fehler. Die manuelle Accessibility-Tree-Prüfung in Chrome ersetzt keine vollständige Screenreader-Abnahme. Edge und Safari standen in der Testumgebung nicht zur Verfügung.
 - Veröffentlicht nach `main` mit Commit `e53f67e`; GitHub Pages liefert die reduzierte Bewegungsvariante und den Admin-Live-Alert mit den erwarteten Inhalten aus.
+
+## Nachprüfung nach externem Code-Review
+
+Abgeschlossen und lokal getestet am 7. September 2026:
+
+- Der Archivfilter berücksichtigt jetzt den Status `archived`; zuvor lieferte die angebotene Filteroption stets keine Treffer.
+- Der Realtime-Highlight-Pfad sucht ausschließlich nach einer gerenderten Karte. Die fehlerhafte Referenz auf die außerhalb des Gültigkeitsbereichs liegende Variable `order` sowie der mögliche Boolean-Fallback wurden entfernt.
+- Beide Fälle sind als Regressionstest abgedeckt. `index.html` und `admin.html` setzen zusätzlich eine Referrer-Policy als Meta-Angabe.
+- Nicht eigenmächtig umgesetzt: automatische Löschung oder Anonymisierung nach 90 Tagen (fachliche Entscheidung und potenziell destruktiver Datenbankvorgang), Betrieb hinter HTTP-Header-fähigem Hosting sowie die Aktivierung des Supabase-Schutzes für kompromittierte Passwörter.
 
 ## Sicherheitsstand
 
