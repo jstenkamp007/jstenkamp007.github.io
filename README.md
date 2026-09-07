@@ -25,7 +25,7 @@ Ein Build-Schritt ist nicht erforderlich.
 - `admin.html`: Anmeldung und geschützter Bestandsbereich
 - `supabase/schema.sql`: versionierter, gehärteter Datenbankstand
 - `supabase/functions/send-order-notification/index.ts`: abgesicherte E-Mail-Benachrichtigung
-- `supabase/functions/submit-order/index.ts`: Bestellannahme, Validierung und Anfragelimit
+- `supabase/functions/submit-order/index.ts`: stillgelegter Alt-Endpunkt (antwortet nur mit HTTP 410)
 - `tests/regression.test.mjs`: Regressionstests (Node.js 24)
 
 ## Änderungen prüfen und veröffentlichen
@@ -36,14 +36,15 @@ Ordner veröffentlichen; niemals gekürzte Terminal- oder Chat-Ausgaben kopieren
 Die öffentliche Website wird aus `jstenkamp007/jstenkamp007.github.io` bereitgestellt.
 Lokale Änderungen erscheinen erst nach Veröffentlichung dort.
 
-Die Tests prüfen insbesondere die vollständige Admin-Anmeldung, Browser-Header,
-optionale Nachrichten, ungültige Bestelldaten und das Anfragelimit ohne echte Bestellungen.
+Die Tests prüfen insbesondere die vollständige Admin-Anmeldung, Browser-Header
+und dass der stillgelegte Alt-Endpunkt keine gesundheitsbezogenen Daten annimmt.
 
 ## Supabase-Sicherheit
 
 - Im Browser befindet sich ausschließlich der öffentliche Publishable Key.
-- Besucher senden die sechs Formularfelder an `submit-order`; direkter anonymer
-  Datenbankzugriff ist gesperrt. Die Funktion prüft Eingaben und Anfragelimit.
+- Die öffentliche Website sendet keine Anfragen an Supabase. Der frühere
+  `submit-order`-Endpunkt antwortet ausschließlich mit HTTP 410; direkter
+  anonymer Datenbankzugriff bleibt gesperrt.
 - Bestellungen lesen und Statuswerte ändern dürfen nur Einträge aus
   `private.admin_users`.
 - Das Benachrichtigungsgeheimnis liegt verschlüsselt im Supabase Vault unter
