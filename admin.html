@@ -580,6 +580,38 @@ button.primary:disabled {
 }
 
 
+button.secondary {
+
+    width: 100%;
+
+    margin-top: 0.75rem;
+
+    padding: 0.9rem;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    background: transparent;
+
+    color: var(--text);
+
+    font: inherit;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+}
+
+
+button.secondary:hover {
+
+    background: var(--background);
+
+}
+
+
 /* =====================================================
    ADMIN TOOLBAR
 ===================================================== */
@@ -2319,6 +2351,78 @@ button.primary:disabled {
 
 
 
+<section
+    id="mfaSection"
+    class="login-box"
+    style="display:none;"
+    aria-labelledby="mfaTitle"
+>
+
+    <h1 id="mfaTitle">
+        Zwei-Faktor-Anmeldung
+    </h1>
+
+    <p id="mfaInstructions">
+        Öffnen Sie Ihre Authenticator-App und geben Sie den aktuellen sechsstelligen Code ein.
+    </p>
+
+    <img
+        id="mfaQrCode"
+        alt="QR-Code für die Einrichtung der Zwei-Faktor-Anmeldung"
+        style="display:none; width:220px; max-width:100%; margin:0 auto 1.25rem;"
+    >
+
+    <form id="mfaForm">
+
+        <div class="form-group">
+
+            <label for="mfaCode">
+                Authenticator-Code
+            </label>
+
+            <input
+                type="text"
+                id="mfaCode"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                pattern="[0-9]{6}"
+                maxlength="6"
+                required
+            >
+
+        </div>
+
+
+        <button
+            class="primary"
+            id="mfaVerifyButton"
+            type="submit"
+        >
+            Code prüfen
+        </button>
+
+
+        <button
+            class="secondary"
+            id="mfaCancelButton"
+            type="button"
+        >
+            Abbrechen und abmelden
+        </button>
+
+
+        <div
+            id="mfaError"
+            class="error"
+            role="alert"
+            aria-live="assertive"
+        ></div>
+
+    </form>
+
+</section>
+
+
 <!-- =====================================================
      ADMIN
 ===================================================== -->
@@ -2803,11 +2907,35 @@ const loginForm =
 const loginSection =
     document.getElementById("loginSection");
 
+const mfaSection =
+    document.getElementById("mfaSection");
+
 const adminSection =
     document.getElementById("adminSection");
 
 const loginError =
     document.getElementById("loginError");
+
+const mfaForm =
+    document.getElementById("mfaForm");
+
+const mfaInstructions =
+    document.getElementById("mfaInstructions");
+
+const mfaQrCode =
+    document.getElementById("mfaQrCode");
+
+const mfaCode =
+    document.getElementById("mfaCode");
+
+const mfaVerifyButton =
+    document.getElementById("mfaVerifyButton");
+
+const mfaCancelButton =
+    document.getElementById("mfaCancelButton");
+
+const mfaError =
+    document.getElementById("mfaError");
 
 const logoutButton =
     document.getElementById("logoutButton");
@@ -2970,6 +3098,8 @@ let undoTimeout = null;
 let undoAction = null;
 
 let notificationTimer = null;
+
+let mfaFactorId = null;
 
 
 /* =====================================================
@@ -3484,6 +3614,278 @@ soundButtonMobile.addEventListener(
    LOGIN
 ===================================================== */
 
+function showMfaScreen() {
+
+    loginSection.style.display =
+        "none";
+
+    mfaSection.style.display =
+        "block";
+
+    mfaCode.value = "";
+
+    mfaError.textContent = "";
+
+}
+
+
+function resetMfaScreen() {
+
+    mfaFactorId = null;
+
+    mfaQrCode.removeAttribute("src");
+
+    mfaQrCode.style.display =
+        "none";
+
+    mfaSection.style.display =
+        "none";
+
+}
+
+
+async function beginMfaEnrollment() {
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient.auth.mfa.enroll({
+        factorType: "totp",
+        friendlyName: "Adler Verwaltung"
+    });
+
+
+    if (error || !data || !data.totp) {
+
+        console.error(error);
+
+        loginError.textContent =
+            "Die Zwei-Faktor-Anmeldung konnte nicht eingerichtet werden. Bitte erneut anmelden.";
+
+        return;
+
+    }
+
+
+    mfaFactorId = data.id;
+
+    mfaInstructions.textContent =
+        "Scannen Sie diesen QR-Code mit Ihrer Authenticator-App und geben Sie anschließend den sechsstelligen Code ein.";
+
+    mfaQrCode.src =
+        "data:image/svg+xml;charset=utf-8," +
+        encodeURIComponent(data.totp.qr_code);
+
+    mfaQrCode.style.display =
+        "block";
+
+    showMfaScreen();
+
+}
+
+
+function beginMfaChallenge(factorId) {
+
+    mfaFactorId = factorId;
+
+    mfaInstructions.textContent =
+        "Öffnen Sie Ihre Authenticator-App und geben Sie den aktuellen sechsstelligen Code ein.";
+
+    mfaQrCode.removeAttribute("src");
+
+    mfaQrCode.style.display =
+        "none";
+
+    showMfaScreen();
+
+}
+
+
+async function continueAfterPasswordLogin() {
+
+    const {
+        data: assurance,
+        error: assuranceError
+    } =
+    await supabaseClient.auth.mfa.getAuthenticatorAssuranceLevel();
+
+
+    if (assuranceError || !assurance) {
+
+        console.error(assuranceError);
+
+        loginError.textContent =
+            "Die Zwei-Faktor-Anmeldung konnte nicht geprüft werden. Bitte erneut anmelden.";
+
+        return;
+
+    }
+
+
+    if (assurance.currentLevel === "aal2") {
+
+        resetMfaScreen();
+
+        await showAdmin();
+
+        return;
+
+    }
+
+
+    const {
+        data: factors,
+        error: factorsError
+    } =
+    await supabaseClient.auth.mfa.listFactors();
+
+
+    if (factorsError || !factors) {
+
+        console.error(factorsError);
+
+        loginError.textContent =
+            "Die Zwei-Faktor-Anmeldung konnte nicht vorbereitet werden. Bitte erneut anmelden.";
+
+        return;
+
+    }
+
+
+    const verifiedFactor =
+        (factors.totp || []).find(
+            factor => factor.status === "verified"
+        );
+
+
+    if (verifiedFactor) {
+
+        beginMfaChallenge(verifiedFactor.id);
+
+        return;
+
+    }
+
+
+    await beginMfaEnrollment();
+
+}
+
+
+mfaForm.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        const code =
+            mfaCode.value.trim();
+
+
+        if (!/^\d{6}$/.test(code) || !mfaFactorId) {
+
+            mfaError.textContent =
+                "Bitte geben Sie einen sechsstelligen Authenticator-Code ein.";
+
+            return;
+
+        }
+
+
+        mfaError.textContent = "";
+
+        mfaVerifyButton.disabled = true;
+
+        mfaVerifyButton.textContent =
+            "Code wird geprüft ...";
+
+        try {
+
+            const {
+                data: challenge,
+                error: challengeError
+            } =
+            await supabaseClient.auth.mfa.challenge({
+                factorId: mfaFactorId
+            });
+
+
+            if (challengeError || !challenge) {
+
+                console.error(challengeError);
+
+                mfaError.textContent =
+                    "Der Code konnte nicht geprüft werden. Bitte erneut versuchen.";
+
+                return;
+
+            }
+
+
+            const {
+                error: verifyError
+            } =
+            await supabaseClient.auth.mfa.verify({
+                factorId: mfaFactorId,
+                challengeId: challenge.id,
+                code: code
+            });
+
+
+            if (verifyError) {
+
+                console.error(verifyError);
+
+                mfaError.textContent =
+                    "Der Authenticator-Code ist ungültig oder abgelaufen.";
+
+                return;
+
+            }
+
+
+            resetMfaScreen();
+
+            await continueAfterPasswordLogin();
+
+        } catch (error) {
+
+            console.error(error);
+
+            mfaError.textContent =
+                "Die Zwei-Faktor-Anmeldung ist momentan nicht möglich. Bitte erneut versuchen.";
+
+        } finally {
+
+            mfaVerifyButton.disabled = false;
+
+            mfaVerifyButton.textContent =
+                "Code prüfen";
+
+        }
+
+    }
+);
+
+
+mfaCancelButton.addEventListener(
+    "click",
+    async function() {
+
+        await supabaseClient.auth.signOut();
+
+        resetMfaScreen();
+
+        loginSection.style.display =
+            "block";
+
+        loginError.textContent =
+            "Die Anmeldung wurde abgebrochen.";
+
+    }
+);
+
 loginForm.addEventListener(
     "submit",
     async function(event) {
@@ -3538,7 +3940,7 @@ loginForm.addEventListener(
             }
 
 
-            await showAdmin();
+            await continueAfterPasswordLogin();
 
         } catch (error) {
 
@@ -3581,9 +3983,14 @@ supabaseClient.auth.onAuthStateChange(
             if (
                 adminSection.style.display !==
                 "none"
+                ||
+                mfaSection.style.display !==
+                "none"
             ) {
 
                 closeOrderDetail();
+
+                resetMfaScreen();
 
                 showSessionExpiredMessage();
 
@@ -7247,7 +7654,7 @@ async function checkSession() {
 
         if (data.user) {
 
-            await showAdmin();
+            await continueAfterPasswordLogin();
 
         }
 

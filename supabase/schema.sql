@@ -191,6 +191,15 @@ to authenticated
 using ((select private.is_admin()))
 with check ((select private.is_admin()));
 
+drop policy if exists require_mfa_for_admin_orders on public.orders;
+create policy require_mfa_for_admin_orders
+on public.orders
+as restrictive
+for all
+to authenticated
+using ((select auth.jwt()->>'aal') = 'aal2')
+with check ((select auth.jwt()->>'aal') = 'aal2');
+
 revoke all on table public.orders from anon, authenticated;
 grant select on table public.orders to authenticated;
 grant update (status, request_category) on public.orders to authenticated;
@@ -222,6 +231,33 @@ create trigger set_order_completion_timestamp
 before update of status on public.orders
 for each row
 execute function private.set_order_completion_timestamp();
+
+create extension if not exists pg_cron;
+
+do $$
+declare
+  existing_job_id bigint;
+begin
+  select jobid
+  into existing_job_id
+  from cron.job
+  where jobname = 'delete_expired_completed_orders';
+
+  if existing_job_id is not null then
+    perform cron.unschedule(existing_job_id);
+  end if;
+
+  perform cron.schedule(
+    'delete_expired_completed_orders',
+    '17 3 * * *',
+    $job$
+      delete from public.orders
+      where status = 'completed'
+        and completed_at < now() - interval '90 days';
+    $job$
+  );
+end;
+$$;
 
 create or replace function private.notify_new_order()
 returns trigger

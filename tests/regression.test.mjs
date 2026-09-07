@@ -75,7 +75,7 @@ function dom() {
       classList: { add() {}, remove() {}, contains() { return false; } },
       handlers: {}, addEventListener(event, fn) { this.handlers[event] = fn; },
       querySelector(sel) { return get(sel); }, querySelectorAll() { return []; },
-      setAttribute() {},
+      setAttribute() {}, removeAttribute() {},
     });
     return elements.get(id);
   };
@@ -102,6 +102,50 @@ test('Admin initialization registers a working password login handler', async ()
   assert.equal(get('loginButton').disabled, false);
 });
 
+test('Admin requires TOTP MFA after a successful password login', async () => {
+  const { get, document } = dom();
+  let enrollmentCalls = 0;
+  const context = createContext({ document, console, encodeURIComponent,
+    window: { supabase: { createClient: () => ({ auth: {
+      onAuthStateChange() {}, getUser: async () => ({data: {}, error: true}),
+      signInWithPassword: async () => ({ error: null }),
+      signOut: async () => ({}),
+      mfa: {
+        getAuthenticatorAssuranceLevel: async () => ({ data: { currentLevel: 'aal1' }, error: null }),
+        listFactors: async () => ({ data: { totp: [] }, error: null }),
+        enroll: async () => { enrollmentCalls++; return { data: { id: 'factor-1', totp: { qr_code: '<svg></svg>' } }, error: null }; },
+        challenge: async () => ({ data: { id: 'challenge-1' }, error: null }),
+        verify: async () => ({ error: null }),
+      },
+    } }) } }, localStorage: { getItem: () => null }, setTimeout, clearTimeout, setInterval: () => 0,
+  });
+  for (const code of scripts(read('admin.html'))) new Script(code).runInContext(context);
+  await new Script('continueAfterPasswordLogin()').runInContext(context);
+  assert.equal(enrollmentCalls, 1);
+  assert.equal(get('mfaSection').style.display, 'block');
+  assert.match(get('mfaQrCode').src, /^data:image\/svg\+xml/);
+});
+
+test('Admin prompts for a code when a verified TOTP factor already exists', async () => {
+  const { get, document } = dom();
+  const context = createContext({ document, console,
+    window: { supabase: { createClient: () => ({ auth: {
+      onAuthStateChange() {}, getUser: async () => ({data: {}, error: true}),
+      signInWithPassword: async () => ({ error: null }),
+      signOut: async () => ({}),
+      mfa: {
+        getAuthenticatorAssuranceLevel: async () => ({ data: { currentLevel: 'aal1' }, error: null }),
+        listFactors: async () => ({ data: { totp: [{ id: 'factor-verified', status: 'verified' }] }, error: null }),
+      },
+    } }) } }, localStorage: { getItem: () => null }, setTimeout, clearTimeout, setInterval: () => 0,
+  });
+  for (const code of scripts(read('admin.html'))) new Script(code).runInContext(context);
+  await new Script('continueAfterPasswordLogin()').runInContext(context);
+  assert.equal(get('mfaSection').style.display, 'block');
+  assert.match(get('mfaInstructions').textContent, /Authenticator-App/);
+  assert.equal(get('mfaQrCode').style.display, 'none');
+});
+
 test('Admin manages neutral enquiries with categories and the Phase-6 status flow', () => {
   const html = read('admin.html');
   assert.match(html, /id="categoryFilter"/);
@@ -111,6 +155,9 @@ test('Admin manages neutral enquiries with categories and the Phase-6 status flo
   assert.match(html, /Archiviert/);
   assert.match(html, /request_category/);
   assert.match(html, /id="loginError"[\s\S]*?role="alert"[\s\S]*?aria-live="assertive"/);
+  assert.match(html, /id="mfaSection"/);
+  assert.match(html, /autocomplete="one-time-code"/);
+  assert.match(html, /getAuthenticatorAssuranceLevel/);
   assert.match(html, /:focus-visible/);
   assert.doesNotMatch(html, /Abholbereit/);
 });
