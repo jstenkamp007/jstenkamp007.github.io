@@ -7,7 +7,7 @@ import { test } from 'node:test';
 const read = path => readFileSync(new URL('../' + path, import.meta.url), 'utf8');
 const scripts = html => [...html.matchAll(/<script\b(?![^>]*type=["']application\/ld\+json["'])[^>]*>([\s\S]*?)<\/script>/gi)].map(m => m[1]);
 
-for (const page of ['index.html', 'admin.html']) {
+for (const page of ['index.html', 'admin.html', 'impressum.html', 'datenschutz.html']) {
   test(page + ' is complete and JavaScript parses', () => {
     const html = read(page);
     assert.match(html.trimStart(), /^<!DOCTYPE html>/i);
@@ -43,11 +43,24 @@ test('Public website uses Adler data and directs sensitive digital services exte
   assert.match(html, /class="logo-mark" aria-hidden="true">A<\/span>/);
   assert.match(html, /--adler-accent: #e7b64a/);
   assert.match(html, /"@type": "Pharmacy"/);
-  assert.match(html, /id="cookieBanner"/);
+  assert.match(html, /href="datenschutz\.html"/);
   assert.match(html, /öffnet " \+ nextOpening/);
   assert.match(html, /const href = this\.getAttribute\("href"\)/);
   assert.doesNotMatch(html, /images\.unsplash\.com/);
+  assert.doesNotMatch(html, /adler-cookie-notice-acknowledged|localStorage/);
   assert.doesNotMatch(html, /Parkstraße 15|48143 Münster|0251 123456/);
+});
+
+test('Legal pages contain the verified operator details and disclose this deployment', () => {
+  const imprint = read('impressum.html');
+  const privacy = read('datenschutz.html');
+  assert.match(imprint, /Gaby Claßen/);
+  assert.match(imprint, /DE215618991/);
+  assert.match(imprint, /Apothekerkammer Nordrhein/);
+  assert.match(privacy, /GitHub Pages/);
+  assert.match(privacy, /Supabase/);
+  assert.match(privacy, /höchstens 90 Tage/);
+  assert.match(privacy, /keine Analyse- oder Marketing-Cookies/);
 });
 
 function dom() {
