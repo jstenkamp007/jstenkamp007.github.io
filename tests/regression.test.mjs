@@ -87,47 +87,21 @@ test('Admin manages neutral enquiries with categories and the Phase-6 status flo
 });
 
 const edgeCode = stripTypeScriptTypes(read('supabase/functions/submit-order/index.ts'));
-function edge(reserveAllowed = true) {
+function edge() {
   let handler;
-  const requests = [];
-  const context = createContext({ Request, Response, TextEncoder, crypto, console,
-    Deno: { serve(fn) { handler = fn; }, env: { get(name) { return ({
-      SUPABASE_PUBLISHABLE_KEYS: '{"default":"test-public"}',
-      SUPABASE_SECRET_KEYS: '{"order_submitter":"test-secret"}', ORDER_RATE_LIMIT_SALT: 'test-salt',
-    })[name]; } } },
-    fetch: async (url, init) => { requests.push({url, init}); return url.includes('/rpc/')
-      ? Response.json(reserveAllowed) : new Response(null, {status:201}); },
-  });
+  const context = createContext({ Response, JSON, Deno: { serve(fn) { handler = fn; } } });
   new Script(edgeCode).runInContext(context);
-  return { requests, handler, submit: payload => handler(new Request('https://example.invalid', {
-    method:'POST', headers:{ origin:'http://localhost:8080', apikey:'test-public', 'cf-connecting-ip':'192.0.2.1' },
-    body:JSON.stringify(payload),
-  })) };
+  return handler;
 }
-const order = {first_name:'Test', last_name:'Test', phone:'0251 123456', medicine:'TEST', callback:false};
-test('CORS permits all headers from both current and previously published forms', async () => {
-  const {handler} = edge();
-  const response = await handler(new Request('https://example.invalid', {method:'OPTIONS',headers:{origin:'http://localhost:8080'}}));
-  assert.equal(response.status,204);
-  for (const header of ['content-type','apikey','prefer']) assert.ok(response.headers.get('access-control-allow-headers').includes(header));
-});
-test('Optional message accepts missing, null, empty and whitespace values', async () => {
-  for (const message of [undefined, null, '', '   ', 'Info']) {
-    const {submit,requests} = edge();
-    assert.equal((await submit({...order,message})).status,201);
-    assert.equal(JSON.parse(requests[1].init.body).message, message?.trim() || null);
-  }
-});
-test('Malformed data is rejected before database access', async () => {
-  for (const payload of [null, [], {...order,phone:'123'}, {...order,message:123}, {...order,message:'x'.repeat(2001)}]) {
-    const {submit,requests} = edge();
-    assert.equal((await submit(payload)).status,400);
-    assert.equal(requests.length,0);
-  }
-});
-test('Rate limit prevents insertion', async () => {
-  const {submit,requests} = edge(false);
-  assert.equal((await submit(order)).status,429);
-  assert.equal(requests.length,1);
+test('Retired public order endpoint cannot accept health-related enquiry data', async () => {
+  const handler = edge();
+  const response = await handler(new Request('https://example.invalid', {
+    method: 'POST',
+    headers: { origin: 'https://jstenkamp007.github.io', apikey: 'public-key' },
+    body: JSON.stringify({ first_name: 'Test', medicine: 'Sensitive data' }),
+  }));
+  assert.equal(response.status, 410);
+  assert.equal(response.headers.get('cache-control'), 'no-store');
+  assert.doesNotMatch(await response.text(), /Sensitive data/);
 });
 
