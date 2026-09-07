@@ -34,6 +34,7 @@ test('Public website uses Adler data and directs sensitive digital services exte
   assert.match(html, /Hochstraße 58/);
   assert.match(html, /02151 24414/);
   assert.match(html, /ihreapotheken\.de\/apotheke\/adler-apotheke-krefeld-47798-120048/);
+  assert.match(html, /ihreapotheken\.de\/adler-apotheke-krefeld-47798-120048\/rezept-upload/);
   assert.match(html, /aponet\.de\/apotheke\/notdienstsuche\/47800/);
   assert.match(html, /Inhaberin Gaby Claßen/);
   assert.match(html, /Montag bis Freitag liefern wir in Krefeld/);
