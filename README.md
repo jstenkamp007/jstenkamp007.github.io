@@ -22,6 +22,7 @@ Ein Build-Schritt ist nicht erforderlich.
 ## Struktur
 
 - `index.html`: öffentliche Website und externe Service-Verlinkungen
+- `impressum.html` und `datenschutz.html`: eigene Rechtsseiten für die GitHub-Pages-Bereitstellung
 - `admin.html`: Anmeldung und geschützter Bestandsbereich
 - `supabase/schema.sql`: versionierter, gehärteter Datenbankstand
 - `supabase/functions/send-order-notification/index.ts`: abgesicherte E-Mail-Benachrichtigung
