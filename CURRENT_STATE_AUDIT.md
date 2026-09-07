@@ -1,13 +1,13 @@
 # Bestandsaufnahme – Adler Apotheke Krefeld
 
-Stand: 6. September 2026
+Stand: 7. September 2026
 
 ## Struktur
 
 - `index.html`: öffentliche, statische Website
 - `admin.html`: durch Supabase Auth geschützter Verwaltungsbereich
 - `supabase/schema.sql`: RLS- und Rollenmodell für den bisherigen Anfragebestand
-- `supabase/functions/submit-order`: validierte, rate-limitierte Annahme der bisherigen Vorbestellungen
+- `supabase/functions/submit-order`: stillgelegter Alt-Endpunkt (HTTP 410, keine Datenverarbeitung)
 - `supabase/functions/send-order-notification`: geschützte Benachrichtigung
 - `tests/regression.test.mjs`: lokale Regressionstests
 
@@ -80,6 +80,20 @@ Abgeschlossen und live geprüft am 6. September 2026:
 - Die alte Telefonnummern-Validierung wurde während der Statusmigration nur kurz ausgesetzt und anschließend unverändert als `NOT VALID`-Constraint wiederhergestellt. Es wurden keine Kontaktdaten verändert.
 - Getestet: `node --test tests/regression.test.mjs` (9 von 9), lokaler HTTP-Abruf von `admin.html` (200), Live-Schema, Statusverteilung, Constraints und Spaltenrechte in Supabase. Der einmalige Impeccable-Scan für `admin.html` bleibt wegen fehlender Parser-Abhängigkeiten eingeschränkt und meldet nur die bekannte `dark-glow`-Warnung.
 
+## Phase 7 – Recht, Datenschutz und Sicherheit
+
+Weitgehend abgeschlossen und live geprüft am 7. September 2026:
+
+- `impressum.html` enthält die verifizierten Angaben zu Betreiberin, USt-IdNr., Apothekerkammer, Berufsrecht und Aufsicht; `datenschutz.html` beschreibt die konkrete Bereitstellung über GitHub Pages, die externe Klick-Weiterleitung und den geschützten Supabase-Altbestand.
+- Die Footer-Links verweisen auf die eigenen Rechtsseiten. Die frühere Verlinkung auf die für ALL-INKL formulierten Rechtsseiten von adler-krefeld.de wurde entfernt.
+- Es gibt weder Analyse- noch Marketing-Cookies, eingebettete Drittinhalte noch Browser-Speicher auf der öffentlichen Seite. Externe Dienste öffnen ausschließlich nach aktivem Klick.
+- Historische Anfragen werden nach Abschluss höchstens 90 Tage aufbewahrt und anschließend gelöscht oder anonymisiert, sofern keine vorrangige rechtliche Pflicht entgegensteht.
+- Die öffentliche Edge-Function `submit-order` wurde live stillgelegt und antwortet auch bei direktem Zugriff ausschließlich mit HTTP 410 und `Cache-Control: no-store`.
+- CSP-Richtlinien begrenzen die öffentlichen Seiten auf eigene Inhalte; der Adminbereich erlaubt nur seine notwendige Supabase- und jsDelivr-Verbindung.
+- Getestet: lokaler Regressionstest (10 von 10), lokale HTTP-Abrufe aller vier Seiten (200), veröffentlichte Pages-Inhalte (200) und direkter Live-Abruf des stillgelegten Endpunkts (410 ohne Rückgabe übermittelter Daten).
+
+Ein manueller Supabase-Dashboard-Schritt bleibt offen: Der Schutz gegen bekannte kompromittierte Passwörter ist laut Security Advisor deaktiviert. Er muss vor dem endgültigen Phasenabschluss in den Auth-Sicherheitseinstellungen aktiviert werden.
+
 ## Sicherheitsstand
 
 - Die drei vorhandenen Tabellen haben RLS aktiviert.
@@ -88,14 +102,14 @@ Abgeschlossen und live geprüft am 6. September 2026:
 - Live geprüft: Genau eine Admin-Rolle ist hinterlegt. `public.orders` darf nur von dieser Rolle gelesen oder geändert werden; die UPDATE-Policy enthält sowohl `USING` als auch `WITH CHECK`.
 - Live geprüft: `private.is_admin` und `reserve_order_submission` sind `SECURITY DEFINER`, aber weder für `anon` noch für `PUBLIC` ausführbar. Der öffentliche Wrapper `is_order_admin` ist ausschließlich für `authenticated` ausführbar.
 - Im Browser wird kein Service-Role-Key verwendet.
-- Die Edge Function validiert eingehende Daten, prüft Origins und begrenzt Anfragen.
-- Offener Plattformhinweis: Supabase Auth meldet deaktivierten Schutz gegen bekannte kompromittierte Passwörter. Dieser sollte vor dem produktiven Admin-Einsatz in den Auth-Einstellungen aktiviert werden.
+- Die frühere öffentliche Edge Function ist stillgelegt; über die öffentliche Website werden keine Anfragen oder Gesundheitsdaten an Supabase übermittelt.
+- Offener Plattformhinweis: Supabase Auth meldet weiterhin deaktivierten Schutz vor bereits kompromittierten Passwörtern. Dieser muss vor dem produktiven Admin-Einsatz in den Auth-Einstellungen aktiviert werden.
 
 ## Externe Verbindungen
 
 - IhreApotheken.de: Onlineshop und E-Rezept (`https://ihreapotheken.de/apotheke/adler-apotheke-krefeld-47798-120048`)
 - Google Maps: Routenplanung zur Hochstraße 58, 47798 Krefeld
-- adler-krefeld.de: Übergangsweise verlinkte Seiten für Impressum und Datenschutz
+- GitHub Pages: eigene `impressum.html` und `datenschutz.html` für die konkrete Bereitstellung
 - adler-krefeld.de: Für echte Innen- und Teamfotos liegen weiterhin keine freigegebenen Assets vor; bis dahin nutzt die Website bewusst abstrakte Markenflächen.
 - Supabase: Nur die vorhandene, abgesicherte Edge-Function-Strecke für den bisherigen Bestandsbereich; keine Service-Role- oder Secret-Keys im Browser.
 
@@ -104,12 +118,11 @@ Abgeschlossen und live geprüft am 6. September 2026:
 - Öffentliche Medikamenten-Vorbestellung: vollständig entfernt; die Website verweist für E-Rezept und Onlineshop ausschließlich auf IhreApotheken.de.
 - Admin-System: als geschützter Anfragebereich umgesetzt; historischer Bestand bleibt erhalten und wird als `legacy` kategorisiert.
 - Lokale und GitHub-Dateien: Die Phase-1-Änderungen sind getestet und mit Commit `5adcbaf` nach GitHub `main` gepusht; GitHub Pages erhält diesen Stand über den Release-Workflow. Dieses Arbeitsverzeichnis enthält selbst kein `.git`-Repository; die Veröffentlichung erfolgt über den angebundenen Remote-Checkout.
-- Lokale und Supabase-Edge-Functions: `submit-order` stimmt überein. Die lokale Umbenennung der Benachrichtigungsfunktion wurde in GitHub veröffentlicht, ist aber noch nicht als neue Supabase-Function-Version bereitgestellt.
+- Lokale und Supabase-Edge-Functions: `submit-order` stimmt mit der live stillgelegten Version überein und verarbeitet keine Daten mehr. Die lokale Umbenennung der Benachrichtigungsfunktion wurde in GitHub veröffentlicht, ist aber noch nicht als neue Supabase-Function-Version bereitgestellt.
 
 ## Offene Entscheidungen vor dem Livegang
 
 - Freigegebene Fotos der Apotheke und des Teams sowie Markenmaterial bereitstellen.
-- Neue, auf diese Website zugeschnittene Datenschutzinformationen und ein final freigegebenes Impressum liefern.
-- Festlegen, ob der bisherige geschützte Altbestand gelöscht, archiviert oder in ein neues, neutrales Anfrage-System migriert wird.
+- In Supabase Auth den Schutz gegen bekannte kompromittierte Passwörter aktivieren.
 - Die veröffentlichende GitHub-Pages-Quelle anbinden; dieses Arbeitsverzeichnis enthält kein `.git`-Repository.
 
