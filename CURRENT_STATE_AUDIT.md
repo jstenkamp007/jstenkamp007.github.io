@@ -96,7 +96,7 @@ Ein manueller Supabase-Dashboard-Schritt bleibt offen: Der Schutz gegen bekannte
 
 ## Phase 8 – Qualitätssicherung
 
-Abgeschlossen und lokal getestet am 7. September 2026:
+Abgeschlossen, veröffentlicht und live geprüft am 7. September 2026:
 
 - Der Regressionstest besteht vollständig (10 von 10). Er prüft die öffentlichen Seiten, Sicherheitsrichtlinien, Datenschutzangaben, den stillgelegten Endpunkt, den Admin-Login-Fehlerpfad sowie Kategorien und Statusablauf.
 - Die Startseite wurde in Chrome auf Desktop (1.146 px), Smartphone (390 px) und Tablet (768 px) geprüft. Es gibt kein horizontales Überlaufen; die mobile Navigation setzt `aria-expanded` korrekt, schließt per Escape und gibt den Fokus an den Auslöser zurück. Der Teamdialog öffnet mit Fokus und schließt per Escape mit Rückgabe des Fokus.
@@ -104,6 +104,7 @@ Abgeschlossen und lokal getestet am 7. September 2026:
 - Der Admin-Login besitzt sichtbare Tastaturfokusringe und kündigt Fehlermeldungen als Live-Alert an. Der automatisierte Login-Test prüft die Fehlermeldung bei ungültigen Zugangsdaten; ein erneuter Live-Login und Statuswechsel erfordert ein berechtigtes Admin-Konto und wurde deshalb nicht mit Testzugangsdaten erzwungen.
 - Öffentliche Seiten und die 404-Antwort wurden lokal mit den erwarteten Sicherheitsheadern geprüft. E-Rezept-/Shop-, Notdienst- und Maps-Ziele sowie die offizielle Adler-Website antworteten bei der Prüfung jeweils mit HTTP 200. Title, Beschreibung, Canonical, Open-Graph-Daten, `robots` und strukturierte `Pharmacy`-Daten sind vorhanden.
 - Der Impeccable-Detektor lief im eingeschränkten Regex-Modus, da Parser-Abhängigkeiten fehlen. Er meldet ausschließlich die bereits bekannte bewusst gestaltete Hintergrundbeleuchtung (`dark-glow`, `radial-halo`); das ist kein bestätigter Fehler. Die manuelle Accessibility-Tree-Prüfung in Chrome ersetzt keine vollständige Screenreader-Abnahme. Edge und Safari standen in der Testumgebung nicht zur Verfügung.
+- Veröffentlicht nach `main` mit Commit `e53f67e`; GitHub Pages liefert die reduzierte Bewegungsvariante und den Admin-Live-Alert mit den erwarteten Inhalten aus.
 
 ## Sicherheitsstand
 
