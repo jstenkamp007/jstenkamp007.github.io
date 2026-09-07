@@ -94,6 +94,17 @@ Weitgehend abgeschlossen und live geprüft am 7. September 2026:
 
 Ein manueller Supabase-Dashboard-Schritt bleibt offen: Der Schutz gegen bekannte kompromittierte Passwörter ist laut Security Advisor deaktiviert. Er muss vor dem endgültigen Phasenabschluss in den Auth-Sicherheitseinstellungen aktiviert werden.
 
+## Phase 8 – Qualitätssicherung
+
+Abgeschlossen und lokal getestet am 7. September 2026:
+
+- Der Regressionstest besteht vollständig (10 von 10). Er prüft die öffentlichen Seiten, Sicherheitsrichtlinien, Datenschutzangaben, den stillgelegten Endpunkt, den Admin-Login-Fehlerpfad sowie Kategorien und Statusablauf.
+- Die Startseite wurde in Chrome auf Desktop (1.146 px), Smartphone (390 px) und Tablet (768 px) geprüft. Es gibt kein horizontales Überlaufen; die mobile Navigation setzt `aria-expanded` korrekt, schließt per Escape und gibt den Fokus an den Auslöser zurück. Der Teamdialog öffnet mit Fokus und schließt per Escape mit Rückgabe des Fokus.
+- Der Öffnungsstatus ist als Live-Region umgesetzt und nennt im geschlossenen Zustand die nächste Öffnung. Die FAQ verwendet native, tastaturbedienbare `details`-Elemente. Für reduzierte Bewegung werden Einblendungen sofort sichtbar; Navigation, Karten und Dialoge bleiben ohne Animation nutzbar.
+- Der Admin-Login besitzt sichtbare Tastaturfokusringe und kündigt Fehlermeldungen als Live-Alert an. Der automatisierte Login-Test prüft die Fehlermeldung bei ungültigen Zugangsdaten; ein erneuter Live-Login und Statuswechsel erfordert ein berechtigtes Admin-Konto und wurde deshalb nicht mit Testzugangsdaten erzwungen.
+- Öffentliche Seiten und die 404-Antwort wurden lokal mit den erwarteten Sicherheitsheadern geprüft. E-Rezept-/Shop-, Notdienst- und Maps-Ziele sowie die offizielle Adler-Website antworteten bei der Prüfung jeweils mit HTTP 200. Title, Beschreibung, Canonical, Open-Graph-Daten, `robots` und strukturierte `Pharmacy`-Daten sind vorhanden.
+- Der Impeccable-Detektor lief im eingeschränkten Regex-Modus, da Parser-Abhängigkeiten fehlen. Er meldet ausschließlich die bereits bekannte bewusst gestaltete Hintergrundbeleuchtung (`dark-glow`, `radial-halo`); das ist kein bestätigter Fehler. Die manuelle Accessibility-Tree-Prüfung in Chrome ersetzt keine vollständige Screenreader-Abnahme. Edge und Safari standen in der Testumgebung nicht zur Verfügung.
+
 ## Sicherheitsstand
 
 - Die drei vorhandenen Tabellen haben RLS aktiviert.

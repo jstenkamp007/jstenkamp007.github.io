@@ -114,6 +114,14 @@ button {
 
 }
 
+:focus-visible {
+
+    outline: 3px solid var(--green);
+
+    outline-offset: 3px;
+
+}
+
 .hidden {
 
     display: none !important;
@@ -2299,6 +2307,8 @@ button.primary:disabled {
         <div
             id="loginError"
             class="error"
+            role="alert"
+            aria-live="assertive"
         ></div>
 
     </form>

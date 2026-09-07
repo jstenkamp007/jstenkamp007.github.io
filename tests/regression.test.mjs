@@ -46,6 +46,8 @@ test('Public website uses Adler data and directs sensitive digital services exte
   assert.match(html, /href="datenschutz\.html"/);
   assert.match(html, /öffnet " \+ nextOpening/);
   assert.match(html, /const href = this\.getAttribute\("href"\)/);
+  assert.match(html, /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\.reveal[\s\S]*?opacity: 1/);
+  assert.doesNotMatch(html, /@media \(prefers-reduced-motion: reduce\)[\s\S]*?\*\s*\{/);
   assert.doesNotMatch(html, /images\.unsplash\.com/);
   assert.doesNotMatch(html, /adler-cookie-notice-acknowledged|localStorage/);
   assert.doesNotMatch(html, /Parkstraße 15|48143 Münster|0251 123456/);
@@ -106,6 +108,8 @@ test('Admin manages neutral enquiries with categories and the Phase-6 status flo
   assert.match(html, /Rückmeldung erforderlich/);
   assert.match(html, /Archiviert/);
   assert.match(html, /request_category/);
+  assert.match(html, /id="loginError"[\s\S]*?role="alert"[\s\S]*?aria-live="assertive"/);
+  assert.match(html, /:focus-visible/);
   assert.doesNotMatch(html, /Abholbereit/);
 });
 
