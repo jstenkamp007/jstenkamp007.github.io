@@ -21,9 +21,11 @@ test('Static pages declare a restrictive content security policy', () => {
   const adminPage = read('admin.html');
   assert.match(publicPage, /http-equiv="Content-Security-Policy"/);
   assert.match(publicPage, /object-src 'none'/);
+  assert.match(publicPage, /name="referrer" content="strict-origin-when-cross-origin"/);
   assert.match(adminPage, /http-equiv="Content-Security-Policy"/);
   assert.match(adminPage, /https:\/\/cdn\.jsdelivr\.net/);
   assert.match(adminPage, /wss:\/\/iezjojbuyzugfguhizyw\.supabase\.co/);
+  assert.match(adminPage, /name="referrer" content="strict-origin-when-cross-origin"/);
 });
 
 test('Public website uses Adler data and directs sensitive digital services externally', () => {
@@ -78,7 +80,7 @@ function dom() {
     return elements.get(id);
   };
   return { get, document: { getElementById: get, documentElement: get('html'),
-    body: get('body'), querySelectorAll: () => [], addEventListener() {}, title: '' } };
+    body: get('body'), querySelector: () => null, querySelectorAll: () => [], addEventListener() {}, title: '' } };
 }
 
 test('Admin initialization registers a working password login handler', async () => {
@@ -111,6 +113,26 @@ test('Admin manages neutral enquiries with categories and the Phase-6 status flo
   assert.match(html, /id="loginError"[\s\S]*?role="alert"[\s\S]*?aria-live="assertive"/);
   assert.match(html, /:focus-visible/);
   assert.doesNotMatch(html, /Abholbereit/);
+});
+
+test('Admin completion filters include archived enquiries and realtime highlighting is safe without a matching card', () => {
+  const { document } = dom();
+  const context = createContext({ document, console, CSS: { escape: value => value },
+    requestAnimationFrame: callback => callback(),
+    window: { supabase: { createClient: () => ({ auth: {
+      onAuthStateChange() {}, getUser: async () => ({data: {}, error: true}),
+      signInWithPassword: async () => ({ error: {code:'invalid_credentials'} }),
+    } }) } }, localStorage: { getItem: () => null }, setTimeout, clearTimeout, setInterval: () => 0,
+  });
+  for (const code of scripts(read('admin.html'))) new Script(code).runInContext(context);
+  const results = new Script(`JSON.stringify({
+    archived: matchesCompletionFilter('archived', 'archived'),
+    archivedInActive: matchesCompletionFilter('archived', 'active'),
+    completed: matchesCompletionFilter('completed', 'completed'),
+    newInActive: matchesCompletionFilter('new', 'active')
+  })`).runInContext(context);
+  assert.deepEqual(JSON.parse(results), { archived: true, archivedInActive: false, completed: true, newInActive: true });
+  assert.doesNotThrow(() => new Script("scrollToHighlightedOrder('missing')").runInContext(context));
 });
 
 const edgeCode = stripTypeScriptTypes(read('supabase/functions/submit-order/index.ts'));

@@ -7,6 +7,8 @@
 
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://iezjojbuyzugfguhizyw.supabase.co wss://iezjojbuyzugfguhizyw.supabase.co; base-uri 'none'; form-action 'self'; object-src 'none'">
 
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
 <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
@@ -3643,15 +3645,6 @@ async function showAdmin() {
 
     if (hasAdminAccess !== true) {
 
-        if (accessError) {
-
-            console.error(
-                accessError
-            );
-
-        }
-
-
         await supabaseClient.auth.signOut();
 
         loginSection.style.display =
@@ -4030,23 +4023,10 @@ function renderOrders(
 
 
                 const matchesCompletion =
-                    selectedCompletion === "all"
-                    ||
-                    (
-                        selectedCompletion ===
-                            "active"
-                        &&
-                        !["completed", "archived"].includes(order.status)
-                    )
-                    ||
-                    (
-                        selectedCompletion ===
-                            "completed"
-                        &&
-                        order.status ===
-                            "completed"
-                    )
-                    ;
+                    matchesCompletionFilter(
+                        order.status,
+                        selectedCompletion
+                    );
 
 
                 return (
@@ -4244,27 +4224,60 @@ function renderOrders(
         requestAnimationFrame(
             function() {
 
-                const highlighted =
-                    document.querySelector(
-                        `.order-card[data-order-id="${CSS.escape(String(highlightId))}"]`
-                    )
-                    || (
-                        selectedCompletion === "archived"
-                        && order.status === "archived"
-                    );
-
-
-                if (highlighted) {
-
-                    highlighted.scrollIntoView({
-                        behavior: "smooth",
-                        block: "center"
-                    });
-
-                }
+                scrollToHighlightedOrder(highlightId);
 
             }
         );
+
+    }
+
+}
+
+
+function matchesCompletionFilter(
+    status,
+    selectedCompletion
+) {
+
+    return (
+        selectedCompletion === "all"
+        ||
+        (
+            selectedCompletion === "active"
+            &&
+            !["completed", "archived"].includes(status)
+        )
+        ||
+        (
+            selectedCompletion === "completed"
+            &&
+            status === "completed"
+        )
+        ||
+        (
+            selectedCompletion === "archived"
+            &&
+            status === "archived"
+        )
+    );
+
+}
+
+
+function scrollToHighlightedOrder(highlightId) {
+
+    const highlighted =
+        document.querySelector(
+            `.order-card[data-order-id="${CSS.escape(String(highlightId))}"]`
+        );
+
+
+    if (highlighted) {
+
+        highlighted.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
 
     }
 
