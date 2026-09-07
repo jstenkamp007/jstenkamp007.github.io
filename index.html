@@ -1467,13 +1467,7 @@ header { background: rgba(255,255,255,0.86); border-bottom-color: rgba(16,42,67,
 .service-notes { margin-top: 30px; padding: 22px; border-radius: 16px; background: #fff; box-shadow: 0 12px 30px rgba(16,42,67,.08); }
 .service-notes h3 { color: var(--blue); margin-bottom: 8px; }
 .service-notes p + p { margin-top: 9px; }
-.cookie-banner { position: fixed; z-index: 1200; inset: auto 18px 18px auto; max-width: 460px; padding: 20px; border-radius: 16px; background: var(--blue); color: #fff; box-shadow: 0 24px 65px rgba(16,42,67,.28); }
-.cookie-banner p { margin: 8px 0 15px; color: #e4eff4; font-size: .94rem; }
-.cookie-banner a { text-decoration: underline; text-underline-offset: 3px; }
-.cookie-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-.cookie-actions button { border: 1px solid rgba(255,255,255,.65); border-radius: 999px; padding: 10px 14px; background: transparent; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
-.cookie-actions button:first-child { background: var(--adler-accent); border-color: var(--adler-accent); color: var(--blue); }
-@media (max-width: 600px) { .cookie-banner { inset: auto 12px 12px; max-width: none; } .hero-service-links { gap: 12px 16px; } }
+@media (max-width: 600px) { .hero-service-links { gap: 12px 16px; } }
 @media (max-width: 850px) { .hero { min-height: 780px; } .hero::after { width: 88%; height: 38%; right: 6%; top: auto; bottom: 6%; } .hero-content { max-width: 100%; } }
 
 </style>
@@ -2318,13 +2312,13 @@ Rechtliches
 </h4>
 
 <p>
-<a href="https://adler-krefeld.de/impressum/" target="_blank" rel="noopener noreferrer">
+<a href="impressum.html">
 Impressum
 </a>
 </p>
 
 <p>
-<a href="https://adler-krefeld.de/datenschutzerklaerung/" target="_blank" rel="noopener noreferrer">
+<a href="datenschutz.html">
 Datenschutz
 </a>
 </p>
@@ -2343,16 +2337,6 @@ Datenschutz
 </div>
 
 </footer>
-
-<aside class="cookie-banner" id="cookieBanner" aria-labelledby="cookieTitle" hidden>
-<strong id="cookieTitle">Ihre Privatsphäre</strong>
-<p>Diese Website setzt keine Analyse- oder Marketing-Cookies ein. Externe Dienste wie IhreApotheken.de, Google Maps und Aponet öffnen erst nach Ihrem Klick und gelten dort nach deren Datenschutzhinweisen.</p>
-<div class="cookie-actions">
-<button type="button" id="cookieAcknowledge">Verstanden</button>
-<a href="https://adler-krefeld.de/datenschutzerklaerung/" target="_blank" rel="noopener noreferrer">Datenschutz</a>
-</div>
-</aside>
-
 
 <!-- =====================================================
      E-REZEPT POPUP
@@ -2770,15 +2754,6 @@ setInterval(
 updateOpeningStatus,
 60000
 );
-
-const cookieBanner = document.getElementById("cookieBanner");
-const cookieAcknowledged = "adler-cookie-notice-acknowledged";
-if (!localStorage.getItem(cookieAcknowledged)) cookieBanner.hidden = false;
-document.getElementById("cookieAcknowledge").addEventListener("click", () => {
-    localStorage.setItem(cookieAcknowledged, "true");
-    cookieBanner.hidden = true;
-});
-
 
 </script>
 
