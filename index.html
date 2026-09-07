@@ -1418,13 +1418,38 @@ details p {
 
 @media (prefers-reduced-motion: reduce) {
 
-    * {
+    html {
 
-        scroll-behavior: auto !important;
+        scroll-behavior: auto;
 
-        animation: none !important;
+    }
 
-        transition: none !important;
+    .mobile-menu,
+    .mobile-menu a,
+    .nav-links a,
+    .nav-cta,
+    .button,
+    .quick-item,
+    .service-card,
+    .contact-card {
+
+        transition: none;
+
+    }
+
+    .modal-content {
+
+        animation: none;
+
+    }
+
+    .reveal {
+
+        opacity: 1;
+
+        transform: none;
+
+        transition: none;
 
     }
 
