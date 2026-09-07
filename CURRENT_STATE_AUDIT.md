@@ -114,6 +114,7 @@ Abgeschlossen und lokal getestet am 7. September 2026:
 - Der Realtime-Highlight-Pfad sucht ausschließlich nach einer gerenderten Karte. Die fehlerhafte Referenz auf die außerhalb des Gültigkeitsbereichs liegende Variable `order` sowie der mögliche Boolean-Fallback wurden entfernt.
 - Beide Fälle sind als Regressionstest abgedeckt. `index.html` und `admin.html` setzen zusätzlich eine Referrer-Policy als Meta-Angabe.
 - Nicht eigenmächtig umgesetzt: automatische Löschung oder Anonymisierung nach 90 Tagen (fachliche Entscheidung und potenziell destruktiver Datenbankvorgang), Betrieb hinter HTTP-Header-fähigem Hosting sowie die Aktivierung des Supabase-Schutzes für kompromittierte Passwörter.
+- Veröffentlicht nach `main` mit Commit `cced8d5` und live geprüft: Archivfilter-Code, der bereinigte Highlight-Pfad und beide Referrer-Metadaten werden von GitHub Pages ausgeliefert.
 
 ## Sicherheitsstand
 
