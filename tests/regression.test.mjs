@@ -16,6 +16,16 @@ for (const page of ['index.html', 'admin.html']) {
   });
 }
 
+test('Static pages declare a restrictive content security policy', () => {
+  const publicPage = read('index.html');
+  const adminPage = read('admin.html');
+  assert.match(publicPage, /http-equiv="Content-Security-Policy"/);
+  assert.match(publicPage, /object-src 'none'/);
+  assert.match(adminPage, /http-equiv="Content-Security-Policy"/);
+  assert.match(adminPage, /https:\/\/cdn\.jsdelivr\.net/);
+  assert.match(adminPage, /wss:\/\/iezjojbuyzugfguhizyw\.supabase\.co/);
+});
+
 test('Public website uses Adler data and directs sensitive digital services externally', () => {
   const html = read('index.html');
   assert.match(html, /Adler Apotheke Krefeld/);
