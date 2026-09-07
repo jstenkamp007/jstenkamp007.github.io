@@ -9,6 +9,8 @@ const pages = new Map([
   ["/", "index.html"],
   ["/index.html", "index.html"],
   ["/admin.html", "admin.html"],
+  ["/impressum.html", "impressum.html"],
+  ["/datenschutz.html", "datenschutz.html"],
 ]);
 
 const securityHeaders = {
