@@ -113,7 +113,7 @@ test('Admin requires TOTP MFA after a successful password login', async () => {
       mfa: {
         getAuthenticatorAssuranceLevel: async () => ({ data: { currentLevel: 'aal1' }, error: null }),
         listFactors: async () => ({ data: { totp: [] }, error: null }),
-        enroll: async () => { enrollmentCalls++; return { data: { id: 'factor-1', totp: { qr_code: '<svg></svg>' } }, error: null }; },
+        enroll: async () => { enrollmentCalls++; return { data: { id: 'factor-1', totp: { qr_code: 'data:image/svg+xml;utf-8,%3Csvg%3E%3C%2Fsvg%3E', secret: 'JBSWY3DPEHPK3PXP' } }, error: null }; },
         challenge: async () => ({ data: { id: 'challenge-1' }, error: null }),
         verify: async () => ({ error: null }),
       },
@@ -123,7 +123,9 @@ test('Admin requires TOTP MFA after a successful password login', async () => {
   await new Script('continueAfterPasswordLogin()').runInContext(context);
   assert.equal(enrollmentCalls, 1);
   assert.equal(get('mfaSection').style.display, 'block');
-  assert.match(get('mfaQrCode').src, /^data:image\/svg\+xml/);
+  assert.equal(get('mfaQrCode').src, 'data:image/svg+xml;utf-8,%3Csvg%3E%3C%2Fsvg%3E');
+  assert.equal(get('mfaManualSetup').style.display, 'block');
+  assert.equal(get('mfaSecret').textContent, 'JBSWY3DPEHPK3PXP');
 });
 
 test('Admin prompts for a code when a verified TOTP factor already exists', async () => {
@@ -156,6 +158,7 @@ test('Admin manages neutral enquiries with categories and the Phase-6 status flo
   assert.match(html, /request_category/);
   assert.match(html, /id="loginError"[\s\S]*?role="alert"[\s\S]*?aria-live="assertive"/);
   assert.match(html, /id="mfaSection"/);
+  assert.match(html, /id="mfaManualSetup"/);
   assert.match(html, /autocomplete="one-time-code"/);
   assert.match(html, /getAuthenticatorAssuranceLevel/);
   assert.match(html, /:focus-visible/);

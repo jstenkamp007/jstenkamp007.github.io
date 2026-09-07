@@ -126,6 +126,7 @@ Abgeschlossen und lokal getestet am 7. September 2026:
 - Im Browser wird kein Service-Role-Key verwendet.
 - Die frühere öffentliche Edge Function ist stillgelegt; über die öffentliche Website werden keine Anfragen oder Gesundheitsdaten an Supabase übermittelt.
 - Der kostenfreie TOTP-MFA-Ablauf ist im Admin-Frontend umgesetzt. Nach der Passwortprüfung muss das Admin-Konto einen Authenticator-Faktor einrichten oder einen aktuellen Authenticator-Code bestätigen. Die mitgelieferte Datenbank-Policy verlangt für `public.orders` zusätzlich `aal2`, wird aber erst mit der ausstehenden Live-Migration aktiv. Der Schutz vor bereits kompromittierten Passwörtern bleibt als nicht im Free-Plan verfügbare Plattformfunktion offen.
+- Die TOTP-Einrichtung übergibt den von Supabase gelieferten QR-Wert unverändert an das Bild. Falls ein QR-Code nicht angezeigt oder nicht gescannt werden kann, erscheint ausschließlich während der laufenden Einrichtung ein aufklappbarer manueller Einrichtungsschlüssel; er wird beim Verlassen der MFA-Ansicht wieder aus dem DOM-Inhalt entfernt.
 
 ## Externe Verbindungen
 
@@ -145,6 +146,6 @@ Abgeschlossen und lokal getestet am 7. September 2026:
 ## Offene Entscheidungen vor dem Livegang
 
 - Freigegebene Fotos der Apotheke und des Teams sowie Markenmaterial bereitstellen.
-- In Supabase Auth den Schutz gegen bekannte kompromittierte Passwörter aktivieren.
+- Den kostenpflichtigen Schutz gegen bekannte kompromittierte Passwörter bei einem späteren Planwechsel erneut bewerten; bis dahin TOTP-MFA und ein einzigartiges Passwort für das einzige Admin-Konto beibehalten.
 - Die veröffentlichende GitHub-Pages-Quelle anbinden; dieses Arbeitsverzeichnis enthält kein `.git`-Repository.
 

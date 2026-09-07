@@ -594,7 +594,7 @@ button.secondary {
 
     background: transparent;
 
-    color: var(--text);
+    color: var(--blue);
 
     font: inherit;
 
@@ -607,7 +607,46 @@ button.secondary {
 
 button.secondary:hover {
 
-    background: var(--background);
+    background: var(--light);
+
+}
+
+
+.mfa-manual-setup {
+
+    margin: 1.25rem 0;
+
+    text-align: left;
+
+}
+
+
+.mfa-manual-setup p {
+
+    color: var(--muted);
+
+    font-size: 0.9rem;
+
+}
+
+
+.mfa-secret {
+
+    display: block;
+
+    margin-top: 0.65rem;
+
+    padding: 0.75rem;
+
+    border: 1px solid var(--border);
+
+    border-radius: 10px;
+
+    background: var(--light);
+
+    overflow-wrap: anywhere;
+
+    user-select: all;
 
 }
 
@@ -2372,6 +2411,22 @@ button.secondary:hover {
         style="display:none; width:220px; max-width:100%; margin:0 auto 1.25rem;"
     >
 
+    <details
+        id="mfaManualSetup"
+        class="mfa-manual-setup"
+        style="display:none;"
+    >
+        <summary>
+            QR-Code nicht sichtbar? Manuell einrichten
+        </summary>
+
+        <p>
+            Geben Sie diesen Einrichtungsschlüssel in Ihrer Authenticator-App ein. Behandeln Sie ihn wie ein Passwort.
+        </p>
+
+        <code id="mfaSecret" class="mfa-secret"></code>
+    </details>
+
     <form id="mfaForm">
 
         <div class="form-group">
@@ -2924,6 +2979,12 @@ const mfaInstructions =
 
 const mfaQrCode =
     document.getElementById("mfaQrCode");
+
+const mfaManualSetup =
+    document.getElementById("mfaManualSetup");
+
+const mfaSecret =
+    document.getElementById("mfaSecret");
 
 const mfaCode =
     document.getElementById("mfaCode");
@@ -3638,6 +3699,11 @@ function resetMfaScreen() {
     mfaQrCode.style.display =
         "none";
 
+    mfaSecret.textContent = "";
+
+    mfaManualSetup.style.display =
+        "none";
+
     mfaSection.style.display =
         "none";
 
@@ -3674,11 +3740,16 @@ async function beginMfaEnrollment() {
         "Scannen Sie diesen QR-Code mit Ihrer Authenticator-App und geben Sie anschließend den sechsstelligen Code ein.";
 
     mfaQrCode.src =
-        "data:image/svg+xml;charset=utf-8," +
-        encodeURIComponent(data.totp.qr_code);
+        data.totp.qr_code;
 
     mfaQrCode.style.display =
         "block";
+
+    mfaSecret.textContent =
+        data.totp.secret || "";
+
+    mfaManualSetup.style.display =
+        data.totp.secret ? "block" : "none";
 
     showMfaScreen();
 
@@ -3695,6 +3766,11 @@ function beginMfaChallenge(factorId) {
     mfaQrCode.removeAttribute("src");
 
     mfaQrCode.style.display =
+        "none";
+
+    mfaSecret.textContent = "";
+
+    mfaManualSetup.style.display =
         "none";
 
     showMfaScreen();
