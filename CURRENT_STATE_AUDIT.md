@@ -87,7 +87,7 @@ Weitgehend abgeschlossen und live geprüft am 7. September 2026:
 - `impressum.html` enthält die verifizierten Angaben zu Betreiberin, USt-IdNr., Apothekerkammer, Berufsrecht und Aufsicht; `datenschutz.html` beschreibt die konkrete Bereitstellung über GitHub Pages, die externe Klick-Weiterleitung und den geschützten Supabase-Altbestand.
 - Die Footer-Links verweisen auf die eigenen Rechtsseiten. Die frühere Verlinkung auf die für ALL-INKL formulierten Rechtsseiten von adler-krefeld.de wurde entfernt.
 - Es gibt weder Analyse- noch Marketing-Cookies, eingebettete Drittinhalte noch Browser-Speicher auf der öffentlichen Seite. Externe Dienste öffnen ausschließlich nach aktivem Klick.
-- Die Datenschutzerklärung sieht für historische Anfragen höchstens 90 Tage nach Abschluss vor. Im versionierten Datenbankstand existiert derzeit keine automatische Lösch- oder Anonymisierungsroutine; die Umsetzung und Dokumentation des betrieblichen Löschprozesses bleibt vor produktivem Admin-Betrieb erforderlich.
+- Die Datenschutzerklärung sieht für historische Anfragen höchstens 90 Tage nach Abschluss vor. Die versionierte Migration `20260907143000_admin_retention_and_mfa.sql` richtet bei ihrer Ausführung einen täglichen Datenbank-Job ein: Er löscht ausschließlich Datensätze mit `status = 'completed'` und `completed_at` älter als 90 Tage. Offene, bearbeitete und archivierte Anfragen werden nicht automatisch gelöscht. Die Live-Ausführung der Migration steht noch aus.
 - Die öffentliche Edge-Function `submit-order` wurde live stillgelegt und antwortet auch bei direktem Zugriff ausschließlich mit HTTP 410 und `Cache-Control: no-store`.
 - Die öffentlichen Seiten und der Adminbereich enthalten eine restriktive Meta-CSP; der Admin erlaubt nur die notwendige Supabase- und jsDelivr-Verbindung. GitHub Pages liefert diese Website ohne projektdefinierte HTTP-Sicherheitsheader aus; deshalb wird kein HTTP-Schutz gegen Framing oder MIME-Sniffing behauptet. Für erzwingbare HTTP-Header wäre ein vorgeschalteter Hosting-/Proxy-Dienst erforderlich.
 - Getestet: lokaler Regressionstest (10 von 10), lokale HTTP-Abrufe aller vier Seiten (200), veröffentlichte Pages-Inhalte (200) und direkter Live-Abruf des stillgelegten Endpunkts (410 ohne Rückgabe übermittelter Daten).
@@ -125,7 +125,7 @@ Abgeschlossen und lokal getestet am 7. September 2026:
 - Live geprüft: `private.is_admin` und `reserve_order_submission` sind `SECURITY DEFINER`, aber weder für `anon` noch für `PUBLIC` ausführbar. Der öffentliche Wrapper `is_order_admin` ist ausschließlich für `authenticated` ausführbar.
 - Im Browser wird kein Service-Role-Key verwendet.
 - Die frühere öffentliche Edge Function ist stillgelegt; über die öffentliche Website werden keine Anfragen oder Gesundheitsdaten an Supabase übermittelt.
-- Offener Plattformhinweis: Supabase Auth meldet weiterhin deaktivierten Schutz vor bereits kompromittierten Passwörtern. Dieser muss vor dem produktiven Admin-Einsatz in den Auth-Einstellungen aktiviert werden.
+- Der kostenfreie TOTP-MFA-Ablauf ist im Admin-Frontend umgesetzt. Nach der Passwortprüfung muss das Admin-Konto einen Authenticator-Faktor einrichten oder einen aktuellen Authenticator-Code bestätigen. Die mitgelieferte Datenbank-Policy verlangt für `public.orders` zusätzlich `aal2`, wird aber erst mit der ausstehenden Live-Migration aktiv. Der Schutz vor bereits kompromittierten Passwörtern bleibt als nicht im Free-Plan verfügbare Plattformfunktion offen.
 
 ## Externe Verbindungen
 
