@@ -11,6 +11,9 @@ const pages = new Map([
   ["/admin.html", "admin.html"],
   ["/impressum.html", "impressum.html"],
   ["/datenschutz.html", "datenschutz.html"],
+  ["/assets/images/altersheim.jpg", "assets/images/altersheim.jpg"],
+  ["/assets/images/arztbedarf.jpg", "assets/images/arztbedarf.jpg"],
+  ["/assets/images/reiseimpfung.jpg", "assets/images/reiseimpfung.jpg"],
 ]);
 
 const securityHeaders = {
@@ -52,7 +55,7 @@ createServer(async (request, response) => {
     const body = await readFile(join(projectDirectory, fileName));
     response.writeHead(200, {
       ...securityHeaders,
-      "Content-Type": "text/html; charset=utf-8",
+      "Content-Type": fileName.endsWith(".jpg") ? "image/jpeg" : "text/html; charset=utf-8",
       "Content-Length": body.length,
     });
 

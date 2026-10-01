@@ -1,6 +1,6 @@
 # Bestandsaufnahme – Adler Apotheke Krefeld
 
-Stand: 7. September 2026
+Stand: 1. Oktober 2026
 
 ## Struktur
 
@@ -10,6 +10,44 @@ Stand: 7. September 2026
 - `supabase/functions/submit-order`: stillgelegter Alt-Endpunkt (HTTP 410, keine Datenverarbeitung)
 - `supabase/functions/send-order-notification`: geschützte Benachrichtigung
 - `tests/regression.test.mjs`: lokale Regressionstests
+- `assets/images/`: lokal gespeicherte Service-Fotos mit Quellenverzeichnis
+
+## Ergänzung – Service-Fotos und responsive Bildintegration
+
+Auf ausdrücklichen Wunsch des Projektinhabers am 1. Oktober 2026 testweise
+mit Originalbildern von https://adler-krefeld.de/service/ umgesetzt:
+
+- Das Betreuungsmotiv steht als Symbolbild in einer eigenen Hero-Spalte;
+  Bildunterschrift und alle Aktionen stehen außerhalb des Fotos. Auf kleinen
+  Bildschirmen folgt das Foto dem Text. Der Abstand beträgt 64 px nebeneinander
+  und 40 px im gestapelten Layout.
+- Reiseimpfberatung und Sprechstundenbedarf erhalten passende Bilder in einer
+  gemeinsamen Bildreihe mit Text darunter. Sprechstundenbedarf und
+  Heimbelieferung wurden gegen die bestehende Service-Seite abgeglichen.
+- Die abstrakten Hero-, E-Rezept-, Über-uns- und Team-Bildplatzhalter sind
+  entfernt. Die zuletzt genannten Bereiche verwenden informative Textlayouts;
+  Service-Symbolbilder werden nicht als Fotos des tatsächlichen Teams ausgegeben.
+- Die drei unveränderten JPEG-Originale (1200 × 800 px, zusammen ca. 251 KiB)
+  liegen im Repository. `assets/images/README.md` dokumentiert Quelle und
+  Zuordnung. Es gibt keine zusätzlichen Drittanbieter-Aufrufe. Der lokale
+  Server liefert die drei ausdrücklich freigegebenen Bildpfade als JPEG aus.
+- Bildgrößen werden vor dem Laden reserviert, unterhalb des Einstiegs liegende
+  Bilder laden verzögert. Runde Kanten und kontrollierte Seitenverhältnisse
+  erhalten Gesicht, helfende Hände und die wesentlichen Bildmotive.
+- Sekundäre Texte und die kleine E-Rezept-Beschriftung haben verbesserten
+  Kontrast. Ein Überbreitenproblem der Leistungskarten wurde behoben.
+- Zwei unabhängige spezialisierte Reviews (Komposition/responsive Typografie
+  und Visual QA/Bildintegration) haben die endgültigen gerenderten Ansichten
+  geprüft und ohne blockierende Befunde freigegeben. Im ersten Durchgang
+  erkannte feste Bildhöhen wurden vor der endgültigen Prüfung korrigiert.
+- Chromium/Playwright-Prüfung bei 320, 375, 640, 768, 850, 851, 1000, 1001,
+  1024, 1280 und 1536 CSS-Pixeln: alle Bilder geladen, vorgesehene
+  Seitenverhältnisse eingehalten, keine horizontale Überbreite und keine
+  Text-Bild-Kollision. Mobiles Menü, Team-Dialog, Escape und FAQ bestanden.
+  Gerenderte Desktop- und Mobilansichten wurden zusätzlich visuell geprüft.
+- Gemessener Textkontrast: Sekundärtext auf der hellsten/dunkelsten relevanten
+  grauen Fläche mindestens 4,66:1; E-Rezept-Button 7,80:1. Die Prüfung ist
+  keine vollständige browserübergreifende Barrierefreiheitszertifizierung.
 
 ## Umstellung
 
