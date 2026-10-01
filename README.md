@@ -50,6 +50,11 @@ und dass der stillgelegte Alt-Endpunkt keine gesundheitsbezogenen Daten annimmt.
   `private.admin_users`.
 - Das Benachrichtigungsgeheimnis liegt verschlüsselt im Supabase Vault unter
   `order_notification_webhook_secret` und darf nie in Git gespeichert werden.
+- Die Edge Function erwartet die geheimen Umgebungsvariablen `RESEND_API_KEY`,
+  `ORDER_NOTIFICATION_WEBHOOK_VERIFIER` und `NOTIFICATION_RECIPIENT`. Der
+  Empfänger darf nicht im Quellcode stehen. Vor dem nächsten Deployment muss
+  `NOTIFICATION_RECIPIENT` im Supabase-Dashboard mit der gewünschten Adresse
+  gesetzt werden, sonst versendet die Funktion bewusst keine E-Mails.
 - Neue Administratoren müssen bewusst in `private.admin_users` aufgenommen
   werden.
 

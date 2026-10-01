@@ -73,9 +73,10 @@ Deno.serve(async (request) => {
   }
 
   const resendApiKey = Deno.env.get("RESEND_API_KEY");
+  const notificationRecipient = Deno.env.get("NOTIFICATION_RECIPIENT");
 
-  if (!resendApiKey) {
-    console.error("RESEND_API_KEY is not configured");
+  if (!resendApiKey || !notificationRecipient) {
+    console.error("Notification service is not fully configured");
     return jsonResponse({ error: "Notification service unavailable" }, 500);
   }
 
@@ -88,7 +89,7 @@ Deno.serve(async (request) => {
       },
       body: JSON.stringify({
         from: "Adler Apotheke Krefeld <onboarding@resend.dev>",
-        notification-recipient@example.invalid,
+        to: [notificationRecipient],
         subject: "Neue geschützte Anfrage - Adler Apotheke Krefeld",
         html: `
 <!doctype html>

@@ -205,3 +205,9 @@ test('Retired public order endpoint cannot accept health-related enquiry data', 
   assert.doesNotMatch(await response.text(), /Sensitive data/);
 });
 
+test('Notification configuration keeps the recipient address out of the repository', () => {
+  const notificationCode = read('supabase/functions/send-order-notification/index.ts');
+  assert.match(notificationCode, /Deno\.env\.get\("NOTIFICATION_RECIPIENT"\)/);
+  assert.doesNotMatch(notificationCode, /@icloud\.com/i);
+});
+
