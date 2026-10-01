@@ -11,7 +11,8 @@ const pages = new Map([
   ["/admin.html", "admin.html"],
   ["/impressum.html", "impressum.html"],
   ["/datenschutz.html", "datenschutz.html"],
-  ["/assets/images/altersheim.jpg", "assets/images/altersheim.jpg"],
+  ["/assets/images/adler-pharmacy-hero.jpg", "assets/images/adler-pharmacy-hero.jpg"],
+  ["/assets/images/adler-team.jpg", "assets/images/adler-team.jpg"],
   ["/assets/images/arztbedarf.jpg", "assets/images/arztbedarf.jpg"],
   ["/assets/images/reiseimpfung.jpg", "assets/images/reiseimpfung.jpg"],
 ]);

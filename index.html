@@ -412,7 +412,7 @@ nav {
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 7 / 4;
     object-fit: cover;
     object-position: 55% 48%;
     border-radius: var(--radius);
@@ -979,7 +979,8 @@ section {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     align-items: center;
-    gap: 80px;
+    column-gap: 80px;
+    row-gap: 40px;
 }
 
 .team-description {
@@ -998,6 +999,27 @@ section {
 
 .team-description p {
     color: var(--muted);
+}
+
+.team-photo {
+    grid-column: 1 / -1;
+}
+
+.team-photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    object-position: center;
+    border-radius: var(--radius);
+    box-shadow: 0 24px 60px rgba(16,42,67,0.12);
+}
+
+.team-photo figcaption {
+    padding-top: 14px;
+    color: var(--muted);
+    font-size: 14px;
 }
 
 
@@ -1456,7 +1478,9 @@ header { background: rgba(255,255,255,0.86); border-bottom-color: rgba(16,42,67,
 @media (max-width: 1000px) {
     .hero { min-height: 0; padding-top: 130px; padding-bottom: 80px; }
     .hero-grid { grid-template-columns: 1fr; gap: 40px; }
-    .hero-photo img { aspect-ratio: 3 / 2; }
+}
+@media (min-width: 1400px) {
+    .hero h1 { font-size: 4.55rem; }
 }
 @media (max-width: 600px) {
     .service-photo-grid { grid-template-columns: 1fr; gap: 36px; }
@@ -1635,8 +1659,8 @@ Persönlich, kompetent und mit einem Service, auf den Sie sich verlassen können
 </div>
 
 <figure class="hero-photo">
-<img src="assets/images/altersheim.jpg" width="1200" height="800" alt="Symbolbild: Eine ältere Frau im Gespräch mit einer Betreuungsperson." fetchpriority="high" decoding="async">
-<figcaption>Persönliche Betreuung in jeder Lebensphase.</figcaption>
+<img src="assets/images/adler-pharmacy-hero.jpg" width="1400" height="800" alt="Das Team der Adler-Apotheke steht gemeinsam im Eingang der Apotheke." fetchpriority="high" decoding="async">
+<figcaption>Das Team der Adler-Apotheke.</figcaption>
 </figure>
 
 </div>
@@ -2076,6 +2100,11 @@ Inhaberin Gaby Claßen und ihr Team sind gerne für Ihre Fragen da.
 </p>
 
 </div>
+
+<figure class="team-photo reveal">
+<img src="assets/images/adler-team.jpg" width="1200" height="800" alt="Das Team der Adler-Apotheke in den Räumen der Apotheke." loading="lazy" decoding="async">
+<figcaption>Das Team in seiner Apotheke.</figcaption>
+</figure>
 
 </div>
 
